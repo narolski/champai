@@ -1,0 +1,6 @@
+DECLARE
+    array(5:100);
+IN
+    READ array(5);
+    WRITE array(5);
+END
