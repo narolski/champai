@@ -108,7 +108,8 @@ class Condition:
             '<': operator.lt,
             '>=': operator.ge,
             '<=': operator.le,
-            '=': operator.eq
+            '=': operator.eq,
+            '!=': operator.ne
             }[self.relate]
 
     def return_condition(self):

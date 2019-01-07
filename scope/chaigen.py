@@ -3,18 +3,18 @@ import operator
 import logging
 
 
-def gen_const(value, registry):
+def gen_const(value, to_registry):
     """
     Generates constant of given value.
     Used for generating index of variable to access in memory or constant for assignment operations.
     :param self:
     :param value:
-    :param registry:
+    :param to_registry:
     :return:
     """
-    # Clean the registry
-    code = ['SUB {} {}'.format(registry, registry)]
-    code.extend(gen_const_val(value, registry))
+    # Clean the to_registry
+    code = ['SUB {} {}'.format(to_registry, to_registry)]
+    code.extend(gen_const_val(value, to_registry))
     return code
 
 
@@ -63,9 +63,7 @@ def gen_arithmetic_operation(operand, pcval):
         case_odd_index = start_index + 4  # 6 - 1 - index of
         case_odd_finished_index = start_index + 2
 
-        logging.debug("STARTING INDEX IS: {}".format(start_index))
-
-        code.append('JZERO D {}'.format(end_index))  # 2 - while b > 0
+        code.append('JZERO D {} # BEGIN MUL'.format(end_index))  # 2 - while b > 0
         code.append('JODD D {}'.format(case_odd_index))  # 3 - if b is odd jump to 6
         code.append('ADD C C')  # 4 - a = a * 2
         code.append('HALF D')  # 5 - d = d / 2
@@ -73,9 +71,9 @@ def gen_arithmetic_operation(operand, pcval):
         code.append('ADD B C')  # 7 - result += a
         code.append('ADD C C')  # 8
         code.append('HALF D')  # 9
-        code.append('JUMP {}'.format(start_index - 1))  # 10
+        code.append('JUMP {} # END MUL'.format(start_index - 1))  # 10
         return code
-    elif operand == operator.floordiv or operand==operator.mod:
+    elif operand == operator.floordiv or operand == operator.mod:
         # Prepare registers for operations (uses all 8 available registers)
         code = []
         start_index = pcval
@@ -83,21 +81,21 @@ def gen_arithmetic_operation(operand, pcval):
         end_less_condition = start_index + 10
         cond_alt = start_index + 13
 
-        code.append('SUB D D')                                  # D - result of division
-        code.append('SUB E E')                                  # E - multiplier
+        code.append('SUB D D # BEGIN MOD/DIV')  # D - result of division
+        code.append('SUB E E')  # E - multiplier
         code.append('INC E')
-        code.append('COPY F B')                                 # F - remainder
-        code.append('JZERO C {}'.format(if_divisor_zero))       # if divisor == 0
+        code.append('COPY F B')  # F - remainder
+        code.append('JZERO C {}'.format(if_divisor_zero))  # if divisor == 0
 
-        code.append('COPY H C')                                 # WHILE LOOP
+        code.append('COPY H C')  # WHILE LOOP
         code.append('INC H')
         code.append('SUB H B')
-        code.append('JZERO H {}'.format(end_less_condition))    # while divisor < divident
+        code.append('JZERO H {}'.format(end_less_condition))  # while divisor < divident
         code.append('JUMP {}'.format(cond_alt))
-        code.append('ADD C C')                                  # divisor * 2
-        code.append('ADD E E')                                  # multiplier * 2
+        code.append('ADD C C')  # divisor * 2
+        code.append('ADD E E')  # multiplier * 2
         code.append('JUMP {}'.format(start_index + 5))
-        code.append('COPY H C') # reminder >= divisor
+        code.append('COPY H C')  # reminder >= divisor
         code.append('SUB H F')
         code.append('JZERO H {}'.format(start_index + 17))
         code.append('JUMP {}'.format(start_index + 19))
@@ -118,9 +116,9 @@ def gen_arithmetic_operation(operand, pcval):
 
         code.append('SUB F F')
         if operand == operator.floordiv:
-            code.append('COPY H D')
+            code.append('COPY H D # END MOD/DIV')
         elif operator == operator.mod:
-            code.append('COPY H F')
+            code.append('COPY H F # END MOD/DIV')
 
         return code
 
@@ -134,7 +132,7 @@ def gen_getval(var_mem_index, to_registry):
     :return: machine code
     """
     code = []
-    code.extend(gen_const(value=var_mem_index, registry="A"))
+    code.extend(gen_const(value=var_mem_index, to_registry="A"))
     code.append('LOAD {}'.format(to_registry))
 
     # H always stores the value of previously loaded variable, so for the convention-sake do it here
@@ -152,8 +150,8 @@ def gen_storeval(var_mem_index, from_registry):
     :return:
     """
     code = []
-    code.extend(gen_const(value=var_mem_index, registry='A'))
-    code.append('STORE {}'.format(from_registry))
+    code.extend(gen_const(value=var_mem_index, to_registry='A'))
+    code.append('STORE {} # STORE_VAL'.format(from_registry))
     return code
 
 
@@ -165,8 +163,8 @@ def gen_assign_var_to_const(index, value):
     :return:
     """
     code = []
-    code.extend(gen_const(value=index, registry="A"))
-    code.extend(gen_const(value=value, registry="H"))
+    code.extend(gen_const(value=index, to_registry="A"))
+    code.extend(gen_const(value=value, to_registry="H"))
     code.append('STORE H')
 
     return code
@@ -207,7 +205,7 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
 
     if a_const:
         # If a is a constant, store value of constant in first_reg
-        code.extend(gen_const(value=a_vid, registry=first_reg))
+        code.extend(gen_const(value=a_vid, to_registry=first_reg))
     elif a_array:
         logging.debug("a given for operand is an array element")
 
@@ -224,7 +222,7 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
 
     if b_const:
         # If b is a constant, store value of constant in first_reg
-        code.extend(gen_const(value=b_vid, registry=second_reg))
+        code.extend(gen_const(value=b_vid, to_registry=second_reg))
     elif b_array:
         logging.debug("b given for operand is an array element")
 
@@ -284,7 +282,7 @@ def gen_assign_var_to_expr(assign_to_var_index, a_vid, b_vid, a_const, b_const, 
 
 def gen_assign_array_var_to_expr(var_mem_index, array_mem_index, array_offset, a_vid, b_vid, a_const, b_const,
                                  a_array, a_array_offset,
-                           a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand, pc_val):
+                                 a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand, pc_val):
     """
     Assigns array variable to expression
     array(var) := a OPERAND b
@@ -309,6 +307,7 @@ def gen_assign_array_var_to_expr(var_mem_index, array_mem_index, array_offset, a
     # Store new value in array(var)
     code.append('STORE A')
     return code
+
 
 def gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset):
     """
@@ -347,7 +346,7 @@ def gen_assign_array_var_const(const_value, var_mem_index, array_mem_index, arra
     code.extend(gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset))
 
     # Now generate the constant
-    code.extend(gen_const(value=const_value, registry='H'))
+    code.extend(gen_const(value=const_value, to_registry='H'))
 
     # Finally, store the value of constant at array(var)
     code.append('STORE H')
@@ -501,8 +500,7 @@ def gen_read_to_var(var_index):
     :return:
     """
     code = []
-    code.append('SUB A A')
-    code.extend(gen_const(value=var_index, registry='A'))
+    code.extend(gen_const(value=var_index, to_registry='A'))
     code.append('GET H')
     code.append('STORE H')
     return code
@@ -518,7 +516,139 @@ def gen_read_to_array_var(address_index, array_index, array_offset):
     """
     code = []
     code.extend(gen_getval(var_mem_index=address_index, to_registry='A'))
-    code.extend(gen_const_val(value=array_index-array_offset+1, registry='A'))
+    code.extend(gen_const_val(value=array_index - array_offset + 1, registry='A'))
     code.append('GET H')
     code.append('STORE H')
+
+
+# CONTROL FLOW OPERATIONS
+# 1. Conditional statements
+
+
+def gen_compare(first_reg, compareop, second_reg, pcval, commands_length):
+    """
+    Generates assembly code responsible for comparing given registers' values
+    :param first_reg: first reg
+    :param compareop: comparision operator (<, >, <=, >=, =, !=)
+    :param second_reg: second reg
+    :return:
+    """
+    code = []
+
+    if compareop == operator.gt or compareop == operator.lt:
+        # is a > b -> (is a - b > 0 <-> is a - b < 0)
+        # (because we work only with positive numbers)
+        # TODO: Make sure all is clear here (run over this code again tommorow)
+
+        offset = 0
+        condition_length = 2
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('SUB {} {} # BEGIN GT/LT COND'.format(first_reg, second_reg))
+        code.append('JZERO {} {} # END GT/LT COND'.format(first_reg, jump_end))
+
+    elif compareop == operator.ge or compareop == operator.le:
+        # is a >= b
+        offset = 0
+        condition_length = 3
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('INC {}'.format(first_reg))
+        code.append('SUB {} {}'.format(first_reg, second_reg))
+        code.append('JZERO {} {}'.format(first_reg, jump_end))
+
+    elif compareop == operator.eq:
+        # is a == b
+        offset = 0
+        condition_length = 6
+        jump_to_commands = pcval + condition_length + offset
+        jump_end = pcval + condition_length + commands_length + offset
+
+        logging.debug("Jump after commands: {}, jump to commands: {}".format(jump_end, jump_to_commands))
+
+        code.append('INC {}'.format(second_reg))
+        code.append('SUB {} {}'.format(second_reg, first_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_end))
+        code.append('DEC {}'.format(second_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_to_commands))
+        code.append('JUMP {}'.format(jump_end))
+
+    elif compareop == operator.ne:
+        # is a != b
+        offset = 0
+        condition_length = 5
+        jump_to_commands = pcval + condition_length + offset
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('INC {} # BEGIN NEQ'.format(second_reg))
+        code.append('SUB {} {}'.format(second_reg, first_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_to_commands))
+        code.append('DEC {}'.format(second_reg))
+        code.append('JZERO {} {} # FINISH NEQ COND'.format(second_reg, jump_end))
+        # code.append('JUMP {}'.format(jump_to_commands))
+
+    return code
+
+
+def gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar, b_is_arrvar, a_arr_offset,
+                               a_arr_mem, b_arr_offset, b_arr_mem, first_reg, second_reg):
+    """
+    Loads variables from memory necessary to perform given conditional statement
+    :return:
+    """
+    code = []
+
+    if a_is_const:
+        code.extend(gen_const(value=a_vid, to_registry=first_reg))
+    elif a_is_arrvar:
+        code.extend(gen_getarr_element(var_mem_index=a_vid, array_offset=a_arr_offset, array_mem_index=a_arr_mem))
+    else:
+        code.extend(gen_getval(var_mem_index=a_vid, to_registry=first_reg))
+
+    if b_is_const:
+        code.extend(gen_const(value=b_vid, to_registry=second_reg))
+    elif b_is_arrvar:
+        code.extend(gen_getarr_element(var_mem_index=b_vid, array_offset=b_arr_offset, array_mem_index=b_arr_mem))
+    else:
+        code.extend(gen_getval(var_mem_index=b_vid, to_registry=second_reg))
+
+    return code
+
+
+def gen_cond_statement(a_vid, b_vid, commands, compareop, pcval, a_is_const=False, b_is_const=False, a_is_arrvar=False,
+                       a_arr_mem=None, a_arr_offset=None, b_is_arrvar=False, b_arr_mem=None, b_arr_offset=None):
+    """
+    Generates assembly code of is statement
+    :param a_vid: a value or index in mem
+    :param b_vid: b value or index in mem
+    :param a_is_const: True/False
+    :param b_is_const: True/False
+    :param a_is_arrvar: True/False
+    :param b_is_arrvar: True/False
+    :param compareop: comparision operator (<, >, <=, >=, =, !=)
+    :param pcval: value of program counter before code execution
+    :param commands: translated contents of conditional statement
+    :param b_arr_offset:
+    :param b_arr_mem:
+    :param a_arr_offset:
+    :param a_arr_mem:
+    :return:
+    """
+    code = []
+    first_reg, second_reg = 'B', 'C'
+
+    code.extend(gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar, b_is_arrvar, a_arr_offset,
+                                           a_arr_mem, b_arr_offset, b_arr_mem, first_reg, second_reg))
+
+    pcval += len(code)
+
+    logging.debug("Control flow statement handler invoked conditional statements handler with parameters: commands "
+                  "length: {}, "
+                  "pcval: {}".format(len(commands), pcval))
+
+    code.extend(gen_compare(first_reg=first_reg, second_reg=second_reg, compareop=compareop, pcval=pcval,
+                            commands_length=len(commands)))
+
+    return code
+
 

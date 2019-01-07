@@ -7,7 +7,7 @@ from chaimaker import ChaiMaker
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-file = open('tests/program3.imp', 'r').read()
+file = open('tests/program4.imp', 'r').read()
 
 tree = parser.parse(lexer.tokenize(file))
 

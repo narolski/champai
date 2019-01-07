@@ -22,12 +22,12 @@ Rule 18    expression -> value TIMES value  [precedence=left, level=2]
 Rule 19    expression -> value MINUS value  [precedence=left, level=1]
 Rule 20    expression -> value PLUS value  [precedence=left, level=1]
 Rule 21    expression -> value
-Rule 22    condition -> value GREATER_EQUALS value
-Rule 23    condition -> value LESSER_EQUALS value
-Rule 24    condition -> value GREATER_THAN value
-Rule 25    condition -> value LESSER_THAN value
-Rule 26    condition -> value NOT_EQUALS value
-Rule 27    condition -> value EQUALS value
+Rule 22    condition -> value GREATER_THAN value
+Rule 23    condition -> value LESSER_THAN value
+Rule 24    condition -> value NOT_EQUALS value
+Rule 25    condition -> value EQUALS value
+Rule 26    condition -> value GREATER_EQUALS value
+Rule 27    condition -> value LESSER_EQUALS value
 Rule 28    value -> identifier
 Rule 29    value -> NUMBER
 Rule 30    identifier -> PIDENTIFIER LPAREN NUMBER RPAREN
@@ -49,19 +49,19 @@ ENDDO                : 11
 ENDFOR               : 9 10
 ENDIF                : 13 14
 ENDWHILE             : 12
-EQUALS               : 27
+EQUALS               : 25
 FOR                  : 9 10
 FROM                 : 9 10
-GREATER_EQUALS       : 22
-GREATER_THAN         : 24
+GREATER_EQUALS       : 26
+GREATER_THAN         : 22
 IF                   : 13 14
 IN                   : 1
-LESSER_EQUALS        : 23
-LESSER_THAN          : 25
+LESSER_EQUALS        : 27
+LESSER_THAN          : 23
 LPAREN               : 3 30 31
 MINUS                : 19
 MODULO               : 16
-NOT_EQUALS           : 26
+NOT_EQUALS           : 24
 NUMBER               : 3 3 29 30
 PIDENTIFIER          : 3 4 9 10 30 31 31 32
 PLUS                 : 20
@@ -257,12 +257,12 @@ state 13
     LPAREN          shift and go to state 27
     ASSIGN          reduce using rule 32 (identifier -> PIDENTIFIER .)
     SEMICOLON       reduce using rule 32 (identifier -> PIDENTIFIER .)
-    GREATER_EQUALS  reduce using rule 32 (identifier -> PIDENTIFIER .)
-    LESSER_EQUALS   reduce using rule 32 (identifier -> PIDENTIFIER .)
     GREATER_THAN    reduce using rule 32 (identifier -> PIDENTIFIER .)
     LESSER_THAN     reduce using rule 32 (identifier -> PIDENTIFIER .)
     NOT_EQUALS      reduce using rule 32 (identifier -> PIDENTIFIER .)
     EQUALS          reduce using rule 32 (identifier -> PIDENTIFIER .)
+    GREATER_EQUALS  reduce using rule 32 (identifier -> PIDENTIFIER .)
+    LESSER_EQUALS   reduce using rule 32 (identifier -> PIDENTIFIER .)
     MODULO          reduce using rule 32 (identifier -> PIDENTIFIER .)
     DIVIDE          reduce using rule 32 (identifier -> PIDENTIFIER .)
     TIMES           reduce using rule 32 (identifier -> PIDENTIFIER .)
@@ -307,12 +307,12 @@ state 14
 state 15
 
     (12) command -> WHILE . condition DO commands ENDWHILE
-    (22) condition -> . value GREATER_EQUALS value
-    (23) condition -> . value LESSER_EQUALS value
-    (24) condition -> . value GREATER_THAN value
-    (25) condition -> . value LESSER_THAN value
-    (26) condition -> . value NOT_EQUALS value
-    (27) condition -> . value EQUALS value
+    (22) condition -> . value GREATER_THAN value
+    (23) condition -> . value LESSER_THAN value
+    (24) condition -> . value NOT_EQUALS value
+    (25) condition -> . value EQUALS value
+    (26) condition -> . value GREATER_EQUALS value
+    (27) condition -> . value LESSER_EQUALS value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -329,12 +329,12 @@ state 16
 
     (13) command -> IF . condition THEN commands ELSE commands ENDIF
     (14) command -> IF . condition THEN commands ENDIF
-    (22) condition -> . value GREATER_EQUALS value
-    (23) condition -> . value LESSER_EQUALS value
-    (24) condition -> . value GREATER_THAN value
-    (25) condition -> . value LESSER_THAN value
-    (26) condition -> . value NOT_EQUALS value
-    (27) condition -> . value EQUALS value
+    (22) condition -> . value GREATER_THAN value
+    (23) condition -> . value LESSER_THAN value
+    (24) condition -> . value NOT_EQUALS value
+    (25) condition -> . value EQUALS value
+    (26) condition -> . value GREATER_EQUALS value
+    (27) condition -> . value LESSER_EQUALS value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -393,12 +393,12 @@ state 22
 
     (28) value -> identifier .
     SEMICOLON       reduce using rule 28 (value -> identifier .)
-    GREATER_EQUALS  reduce using rule 28 (value -> identifier .)
-    LESSER_EQUALS   reduce using rule 28 (value -> identifier .)
     GREATER_THAN    reduce using rule 28 (value -> identifier .)
     LESSER_THAN     reduce using rule 28 (value -> identifier .)
     NOT_EQUALS      reduce using rule 28 (value -> identifier .)
     EQUALS          reduce using rule 28 (value -> identifier .)
+    GREATER_EQUALS  reduce using rule 28 (value -> identifier .)
+    LESSER_EQUALS   reduce using rule 28 (value -> identifier .)
     MODULO          reduce using rule 28 (value -> identifier .)
     DIVIDE          reduce using rule 28 (value -> identifier .)
     TIMES           reduce using rule 28 (value -> identifier .)
@@ -415,12 +415,12 @@ state 23
 
     (29) value -> NUMBER .
     SEMICOLON       reduce using rule 29 (value -> NUMBER .)
-    GREATER_EQUALS  reduce using rule 29 (value -> NUMBER .)
-    LESSER_EQUALS   reduce using rule 29 (value -> NUMBER .)
     GREATER_THAN    reduce using rule 29 (value -> NUMBER .)
     LESSER_THAN     reduce using rule 29 (value -> NUMBER .)
     NOT_EQUALS      reduce using rule 29 (value -> NUMBER .)
     EQUALS          reduce using rule 29 (value -> NUMBER .)
+    GREATER_EQUALS  reduce using rule 29 (value -> NUMBER .)
+    LESSER_EQUALS   reduce using rule 29 (value -> NUMBER .)
     MODULO          reduce using rule 29 (value -> NUMBER .)
     DIVIDE          reduce using rule 29 (value -> NUMBER .)
     TIMES           reduce using rule 29 (value -> NUMBER .)
@@ -510,18 +510,18 @@ state 29
 
 state 30
 
-    (22) condition -> value . GREATER_EQUALS value
-    (23) condition -> value . LESSER_EQUALS value
-    (24) condition -> value . GREATER_THAN value
-    (25) condition -> value . LESSER_THAN value
-    (26) condition -> value . NOT_EQUALS value
-    (27) condition -> value . EQUALS value
-    GREATER_EQUALS  shift and go to state 42
-    LESSER_EQUALS   shift and go to state 43
-    GREATER_THAN    shift and go to state 44
-    LESSER_THAN     shift and go to state 45
-    NOT_EQUALS      shift and go to state 46
-    EQUALS          shift and go to state 47
+    (22) condition -> value . GREATER_THAN value
+    (23) condition -> value . LESSER_THAN value
+    (24) condition -> value . NOT_EQUALS value
+    (25) condition -> value . EQUALS value
+    (26) condition -> value . GREATER_EQUALS value
+    (27) condition -> value . LESSER_EQUALS value
+    GREATER_THAN    shift and go to state 42
+    LESSER_THAN     shift and go to state 43
+    NOT_EQUALS      shift and go to state 44
+    EQUALS          shift and go to state 45
+    GREATER_EQUALS  shift and go to state 46
+    LESSER_EQUALS   shift and go to state 47
 
 
 state 31
@@ -624,12 +624,12 @@ state 40
 
     (11) command -> DO commands WHILE . condition ENDDO
     (12) command -> WHILE . condition DO commands ENDWHILE
-    (22) condition -> . value GREATER_EQUALS value
-    (23) condition -> . value LESSER_EQUALS value
-    (24) condition -> . value GREATER_THAN value
-    (25) condition -> . value LESSER_THAN value
-    (26) condition -> . value NOT_EQUALS value
-    (27) condition -> . value EQUALS value
+    (22) condition -> . value GREATER_THAN value
+    (23) condition -> . value LESSER_THAN value
+    (24) condition -> . value NOT_EQUALS value
+    (25) condition -> . value EQUALS value
+    (26) condition -> . value GREATER_EQUALS value
+    (27) condition -> . value LESSER_EQUALS value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -673,7 +673,7 @@ state 41
 
 state 42
 
-    (22) condition -> value GREATER_EQUALS . value
+    (22) condition -> value GREATER_THAN . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -687,7 +687,7 @@ state 42
 
 state 43
 
-    (23) condition -> value LESSER_EQUALS . value
+    (23) condition -> value LESSER_THAN . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -701,7 +701,7 @@ state 43
 
 state 44
 
-    (24) condition -> value GREATER_THAN . value
+    (24) condition -> value NOT_EQUALS . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -715,7 +715,7 @@ state 44
 
 state 45
 
-    (25) condition -> value LESSER_THAN . value
+    (25) condition -> value EQUALS . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -729,7 +729,7 @@ state 45
 
 state 46
 
-    (26) condition -> value NOT_EQUALS . value
+    (26) condition -> value GREATER_EQUALS . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -743,7 +743,7 @@ state 46
 
 state 47
 
-    (27) condition -> value EQUALS . value
+    (27) condition -> value LESSER_EQUALS . value
     (28) value -> . identifier
     (29) value -> . NUMBER
     (30) identifier -> . PIDENTIFIER LPAREN NUMBER RPAREN
@@ -891,12 +891,12 @@ state 57
     (31) identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .
     ASSIGN          reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     SEMICOLON       reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
-    GREATER_EQUALS  reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
-    LESSER_EQUALS   reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     GREATER_THAN    reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     LESSER_THAN     reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     NOT_EQUALS      reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     EQUALS          reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
+    GREATER_EQUALS  reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
+    LESSER_EQUALS   reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     MODULO          reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     DIVIDE          reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
     TIMES           reduce using rule 31 (identifier -> PIDENTIFIER LPAREN PIDENTIFIER RPAREN .)
@@ -914,12 +914,12 @@ state 58
     (30) identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .
     ASSIGN          reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     SEMICOLON       reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
-    GREATER_EQUALS  reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
-    LESSER_EQUALS   reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     GREATER_THAN    reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     LESSER_THAN     reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     NOT_EQUALS      reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     EQUALS          reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
+    GREATER_EQUALS  reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
+    LESSER_EQUALS   reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     MODULO          reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     DIVIDE          reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
     TIMES           reduce using rule 30 (identifier -> PIDENTIFIER LPAREN NUMBER RPAREN .)
@@ -970,50 +970,50 @@ state 60
 
 state 61
 
-    (22) condition -> value GREATER_EQUALS value .
-    DO              reduce using rule 22 (condition -> value GREATER_EQUALS value .)
-    THEN            reduce using rule 22 (condition -> value GREATER_EQUALS value .)
-    ENDDO           reduce using rule 22 (condition -> value GREATER_EQUALS value .)
+    (22) condition -> value GREATER_THAN value .
+    DO              reduce using rule 22 (condition -> value GREATER_THAN value .)
+    THEN            reduce using rule 22 (condition -> value GREATER_THAN value .)
+    ENDDO           reduce using rule 22 (condition -> value GREATER_THAN value .)
 
 
 state 62
 
-    (23) condition -> value LESSER_EQUALS value .
-    DO              reduce using rule 23 (condition -> value LESSER_EQUALS value .)
-    THEN            reduce using rule 23 (condition -> value LESSER_EQUALS value .)
-    ENDDO           reduce using rule 23 (condition -> value LESSER_EQUALS value .)
+    (23) condition -> value LESSER_THAN value .
+    DO              reduce using rule 23 (condition -> value LESSER_THAN value .)
+    THEN            reduce using rule 23 (condition -> value LESSER_THAN value .)
+    ENDDO           reduce using rule 23 (condition -> value LESSER_THAN value .)
 
 
 state 63
 
-    (24) condition -> value GREATER_THAN value .
-    DO              reduce using rule 24 (condition -> value GREATER_THAN value .)
-    THEN            reduce using rule 24 (condition -> value GREATER_THAN value .)
-    ENDDO           reduce using rule 24 (condition -> value GREATER_THAN value .)
+    (24) condition -> value NOT_EQUALS value .
+    DO              reduce using rule 24 (condition -> value NOT_EQUALS value .)
+    THEN            reduce using rule 24 (condition -> value NOT_EQUALS value .)
+    ENDDO           reduce using rule 24 (condition -> value NOT_EQUALS value .)
 
 
 state 64
 
-    (25) condition -> value LESSER_THAN value .
-    DO              reduce using rule 25 (condition -> value LESSER_THAN value .)
-    THEN            reduce using rule 25 (condition -> value LESSER_THAN value .)
-    ENDDO           reduce using rule 25 (condition -> value LESSER_THAN value .)
+    (25) condition -> value EQUALS value .
+    DO              reduce using rule 25 (condition -> value EQUALS value .)
+    THEN            reduce using rule 25 (condition -> value EQUALS value .)
+    ENDDO           reduce using rule 25 (condition -> value EQUALS value .)
 
 
 state 65
 
-    (26) condition -> value NOT_EQUALS value .
-    DO              reduce using rule 26 (condition -> value NOT_EQUALS value .)
-    THEN            reduce using rule 26 (condition -> value NOT_EQUALS value .)
-    ENDDO           reduce using rule 26 (condition -> value NOT_EQUALS value .)
+    (26) condition -> value GREATER_EQUALS value .
+    DO              reduce using rule 26 (condition -> value GREATER_EQUALS value .)
+    THEN            reduce using rule 26 (condition -> value GREATER_EQUALS value .)
+    ENDDO           reduce using rule 26 (condition -> value GREATER_EQUALS value .)
 
 
 state 66
 
-    (27) condition -> value EQUALS value .
-    DO              reduce using rule 27 (condition -> value EQUALS value .)
-    THEN            reduce using rule 27 (condition -> value EQUALS value .)
-    ENDDO           reduce using rule 27 (condition -> value EQUALS value .)
+    (27) condition -> value LESSER_EQUALS value .
+    DO              reduce using rule 27 (condition -> value LESSER_EQUALS value .)
+    THEN            reduce using rule 27 (condition -> value LESSER_EQUALS value .)
+    ENDDO           reduce using rule 27 (condition -> value LESSER_EQUALS value .)
 
 
 state 67

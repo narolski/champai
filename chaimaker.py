@@ -125,7 +125,9 @@ class ChaiMaker():
             # If we're assigning variable to variable, get the value of asignee
             npid = assignee.pidentifier
 
-            if self.global_vars[npid].updated_after_comp:
+            logging.debug("Assignee: {} pid: {}".format(assignee, npid))
+
+            if self.is_updated_after_comp(assignee):
                 raise Exception("Cannot obtain the value because it will be updated after compilation")
             else:
                 if npid in self.global_vars.keys():
@@ -416,6 +418,7 @@ class ChaiMaker():
                 value = self.get_value_of_assignee(assignee)
                 if is_storing_values:
                     self.global_vars[pid].value = value  # Update value in global dict
+                    # self.global_vars[pid].updated_after_compilation = False
 
                 logging.debug("Assignee is string or integer we know at compilation time")
                 return gen_assign_var_to_const(index, value)
@@ -473,11 +476,8 @@ class ChaiMaker():
             # Perform numerical operation (+, -, *, /, %) assignment (x := a + b)
             a, operand, b = expression
 
-            if (isinstance(a, str) and isinstance(b, str)) \
-                    or (isinstance(a, str) and isinstance(b, Int) and self.is_updated_after_comp(b) == False) \
-                    or (isinstance(a, Int) and self.is_updated_after_comp(a) == False and isinstance(b, str) \
-                        or (isinstance(a, Int) and self.is_updated_after_comp(a) == False and isinstance(b, Int) \
-                            and self.is_updated_after_comp(b) == False)):
+            if (isinstance(a, str) or (isinstance(a, Int) and not self.is_updated_after_comp(a))) \
+                    and (isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b))):
 
                 # Values of a and b are both known at compilation time
                 # Get numerical values of a, b
@@ -497,10 +497,10 @@ class ChaiMaker():
                 return gen_assign_var_to_const(index, value)
             else:
                 # Handle case when we don't know the variable's value at compilation time
-                # a_vid = None
-                # b_vid = None
-                # a_const = None
-                # b_const = None
+                a_vid = None
+                b_vid = None
+                a_const = None
+                b_const = None
                 a_array = None
                 b_array = None
                 a_array_mem_index = 0
@@ -508,7 +508,7 @@ class ChaiMaker():
                 a_array_offset = 0
                 b_array_offset = 0
 
-                if isinstance(a, str):
+                if isinstance(a, str) or (isinstance(a, Int) and not self.is_updated_after_comp(a)):
                     a_vid = self.get_value_of_assignee(a)
                     a_const = True
 
@@ -542,13 +542,15 @@ class ChaiMaker():
                             a_vid = self.get_mem_index(a_contents) - a_array_offset
                             a_array = True
 
-                if isinstance(b, str):
+                if isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b)):
                     b_vid = self.get_value_of_assignee(b)
                     b_const = True
+                    logging.debug("b is str : {}".format(b))
 
                 if isinstance(b, Int) and self.is_updated_after_comp(b):
                     b_vid = self.get_mem_index(b)
                     b_const = False
+                    logging.debug("b is int : {}".format(b))
 
                 if isinstance(b, IntArrayElement):
                     # Get value from array at given index
@@ -557,24 +559,31 @@ class ChaiMaker():
                     b_array_object = self.get_object_from_mem(b_array_pid)
                     b_array_mem_index = self.get_mem_index_for_pid(b_array_pid)
                     b_array_offset = b_array_object.offset
+                    logging.debug("b is array element : {}".format(b))
 
                     if isinstance(b_contents, str):
                         # If we're given an integer, read the value of array at index
                         b_vid = self.get_value_of_assignee(b_contents) + b_array_mem_index - b_array_offset + 1
                         # Set to false because we need to load value from mem index given above
                         b_const = False
-
+                        logging.debug("b contents is str : {}".format(b))
 
                     elif isinstance(b_contents, Int):
                         b_const = False
+                        logging.debug("b contents is int : {}".format(b))
 
                         if not self.is_updated_after_comp(b_contents):
                             b_vid = self.get_value_of_assignee(b_contents) + b_array_mem_index - b_array_offset + 1
                             b_array = True
+                            logging.debug("b heree is int : {}".format(b))
+
                         else:
                             # Handle case where we have to get the value of var in array(var) from assembly
                             b_vid = self.get_mem_index(b_contents) - b_array_offset + 1
                             b_array = True
+                            logging.debug("b contherents is int : {}".format(b))
+
+                logging.debug("OUR VALUE B is : {}".format(b))
 
                 logging.debug("WE'RE DOING THIS is_a_array: {}, is_b_array: {}".format(a_array, b_array))
 
@@ -593,7 +602,7 @@ class ChaiMaker():
 
             if isinstance(variable, Int):
                 # Mark variable value as unknown during compilation
-                self.global_vars[variable].updated_after_compilation = True
+                self.global_vars[variable.pidentifier].updated_after_compilation = True
 
                 # Get memory index assigned for variable
                 index = self.get_mem_index(variable)
@@ -603,7 +612,7 @@ class ChaiMaker():
                 array = self.get_object_from_mem(variable.array_pid)
 
                 if isinstance(variable.element, str) or (isinstance(variable.element, Int) and not
-                                                         self.is_updated_after_comp(variable.element)):
+                self.is_updated_after_comp(variable.element)):
                     # If index to which to read is known
                     index = self.get_value_of_assignee(variable.element)
 
@@ -612,8 +621,8 @@ class ChaiMaker():
                         return gen_read_to_var(var_index=index)
                     else:
                         raise Exception("Array index {} out of declared bounds: ({}, {}".format(index,
-                                                                                            array.from_val,
-                                                                                            array.to_val))
+                                                                                                array.from_val,
+                                                                                                array.to_val))
 
                 elif isinstance(variable.element, Int) and self.is_updated_after_comp(variable.element):
                     # Get memory index of array index's value
@@ -622,7 +631,8 @@ class ChaiMaker():
                     return gen_read_to_array_var(address_index=address_index, array_index=self.get_mem_index(array),
                                                  array_offset=array.offset)
                 else:
-                    raise Exception("Invalid variable type assignment during read operation for pidentifier {}".format(variable))
+                    raise Exception(
+                        "Invalid variable type assignment during read operation for pidentifier {}".format(variable))
         else:
             raise Exception("Variable {} assignment during READ operation before declaration".format(variable))
 
@@ -671,45 +681,245 @@ class ChaiMaker():
                 return gen_write_array_var(var_index=index_adress, array_index=self.get_mem_index(var_array),
                                            array_offset=var_array.offset)
 
+    def update_generated_jump_indexes(self, translated_commands, pcval_before_translation):
+        """
+        WARNING: Doesn't work properly!
+        Updates generated jump indexes in given translated commands list to new values
+        :param pcval_before_translation: value of program counter before invoking translation
+        :param translated_commands: list of translated commands in assembl code
+        :return:
+        """
+        pc_offset = self.program_counter - pcval_before_translation
+        offset_commands = []
+
+        for command in translated_commands:
+            comm = command.split()
+            try:
+                jump_index = int(comm.pop()) + pc_offset
+                comm.append(str(jump_index))
+                offset_commands.append(' '.join(comm))
+            except ValueError:
+                offset_commands.append(command)
+
+        return offset_commands
+
+    def return_condcheck_preparations(self, a, b):
+        """
+        Prepares necessary check-up of condition parameters in order to prepare code generation
+        :param a:
+        :param b:
+        :param operand:
+        :return:
+        """
+        a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = None, None, None, None
+        a_vid, b_vid = None, None
+
+        if isinstance(a, str) or (isinstance(a, Int) and not self.is_updated_after_comp(a)):
+            a_vid = self.get_value_of_assignee(a)
+
+        elif isinstance(a, Int) and self.is_updated_after_comp(a):
+            # If a's value is not known during compilation
+            a_vid = self.get_mem_index(a)
+
+        elif isinstance(a, IntArrayElement):
+            a_array = self.get_object_from_mem(a.array_pid)
+
+            if isinstance(a.element, str):
+                a_vid = self.get_value_of_assignee(a) - a_array.offset + self.get_mem_index(a_array) + 1
+
+            elif isinstance(a.element, Int):
+                a_vid = self.get_mem_index(a)
+                a_arr_mem = self.get_mem_index(a_array)
+                a_arr_offset = a_array.offset
+
+        if isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b)):
+            b_vid = self.get_value_of_assignee(b)
+
+        elif isinstance(b, Int) and self.is_updated_after_comp(b):
+            b_vid = self.get_mem_index(b)
+
+        elif isinstance(b, IntArrayElement):
+            b_array = self.get_object_from_mem(b.array_pid)
+
+            if isinstance(b.element, str):
+                b_vid = self.get_value_of_assignee(b) - b_array.offset + self.get_mem_index(b_array) + 1
+
+            elif isinstance(b.element, Int):
+                b_vid = self.get_mem_index(b)
+                b_arr_mem = self.get_mem_index(b_array)
+                b_arr_offset = b_array.offset
+
+        return a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset
+
     def handle_if_statement(self, statement):
         """
-        Handles translation of if statement into assembly code
+        Handles translation of if and if-else statement into assembly code
         :param statement:
         :return:
         """
-
-        a, operand, b = statement.condition.return_condition()
+        a, compareop, b = statement.condition.return_condition()
         commands = statement.commands
-        code = []
+        alt_commands = None
 
-        logging.debug("Handle if statement for condition: ({} {} {}), commands: {}".format(a, operand, b, commands))
+        if isinstance(statement, IfElse):
+            # If dealing with if-else statement
+            alt_commands = statement.alt_commands
 
-        jump_count = None
+        logging.debug("Handle if statement for condition: ({} {} {}), commands: {}".format(a, compareop, b, commands))
 
-        a_pid, b_pid = a.pidentifier, b.pidentifier
-        a_val, b_val = self.get_value_of_assignee(a), self.get_value_of_assignee(b)
+        if (isinstance(a, str) or (isinstance(a, Int) and not self.is_updated_after_comp(a))) \
+                and (isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b))):
+            # If both a and b are numbers
 
-        # Handle conditions
-        if operand == operator.gt:
-            # if (a > b) -> if (a - b) > 0 -> JZERO
+            logging.debug("a: {}, b: {}".format(a, b))
 
-            # Store value of a in B registry, b in C registry
-            code += gen_getval(var_mem_index=self.var_index[a_pid], to_registry='B')
-            code += gen_getval(var_mem_index=self.var_index[b_pid], to_registry='C')
+            a_value = self.get_value_of_assignee(a)
+            b_value = self.get_value_of_assignee(b)
 
-            # Perform subtraction (a - b)
-            code.append('SUB B C')
-            code.append('JZERO B {}'.format(jump_count))
+            comparision_result = compareop(a_value, b_value)
 
-    def translate_commands(self, commands):
+            if comparision_result:
+                # If condition is true, execute commands
+                return self.translate_commands(commands)
+            else:
+                if isinstance(statement, IfElse):
+                    # Execute alternative set of statements
+                    return self.translate_commands(alt_commands)
+                else:
+                    # If condition is false, no commands will be executed
+                    return []
+        else:
+            # Prepare values for code generation
+            a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(a, b)
+
+            # Translate contents of if statement (commands)
+            translated_commands = self.delegate_translation(commands)
+            if isinstance(statement, IfElse):
+                # Include necessary jump to ELSE condition details
+                translated_commands.append('JUMP X')
+
+            # Generate resulting code of if statement
+            result = gen_cond_statement(a_vid=a_vid, b_vid=b_vid, commands=translated_commands, compareop=compareop,
+                                        pcval=self.program_counter,
+                                        a_is_const=isinstance(a, str),
+                                        b_is_const=isinstance(b, str),
+                                        a_is_arrvar=isinstance(a, IntArrayElement),
+                                        a_arr_mem=a_arr_mem, a_arr_offset=a_arr_offset,
+                                        b_is_arrvar=isinstance(b, IntArrayElement),
+                                        b_arr_mem=b_arr_mem,
+                                        b_arr_offset=b_arr_offset)
+
+            # Increment program counter
+            self.program_counter += len(result)
+
+            # Update program counter values in translated statement to correct ones
+            result.extend(self.translate_commands(commands))
+
+            if isinstance(statement, IfElse):
+                # If normal part of statement is performed, add jump afterwards so that else is not performed
+                alt_commands_translated = self.delegate_translation(alt_commands)
+
+                self.program_counter += 1
+                result.append('JUMP {}'.format(len(alt_commands_translated) + 1))
+                result.extend(self.translate_commands(alt_commands))
+
+            return result
+
+    def handle_while_statement(self, statement):
         """
-        Translates given commands into assembly code
+        Prepares the translation of while/do-while statement code
+        :param statement:
+        :return:
+        """
+        # TODO: Add known values condition handler just like for if statement
+        a, compareop, b = statement.condition.return_condition()
+        commands = statement.commands
+
+        logging.debug("Handle while statement for condition: ({} {} {}), commands: {}".format(a, compareop, b,
+                                                                                              commands))
+
+        # Prepare values for code generation
+        a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(a, b)
+
+        # Translate contents of if while statement (commands)
+        translated_commands = self.delegate_translation(commands)
+        translated_commands.append('JUMP X')
+
+        # Generate resulting code of if statement
+        result = gen_cond_statement(a_vid=a_vid, b_vid=b_vid, commands=translated_commands,
+                                    compareop=compareop,
+                                    pcval=self.program_counter,
+                                    a_is_const=isinstance(a, str),
+                                    b_is_const=isinstance(b, str),
+                                    a_is_arrvar=isinstance(a, IntArrayElement),
+                                    a_arr_mem=a_arr_mem, a_arr_offset=a_arr_offset,
+                                    b_is_arrvar=isinstance(b, IntArrayElement),
+                                    b_arr_mem=b_arr_mem,
+                                    b_arr_offset=b_arr_offset)
+
+        # Increment program counter
+        jump_to = self.program_counter
+        self.program_counter += len(result)
+
+        # Update program counter values in translated statement to correct ones
+        result.extend(self.translate_commands(commands))
+
+        # Add jump after commands so that condition check will be performed (and while loop will work)
+        result.append('JUMP {} # WHILE_LOOP_COND_CHECK'.format(jump_to))
+        return result
+
+    def handle_do_while_statement(self, statement):
+        """
+        Prepares the translation of do-while condition flow statement
+        :param statement:
+        :return:
+        """
+        # TODO: Add known values condition handler just like for if statement
+        a, compareop, b = statement.condition.return_condition()
+        commands = statement.commands
+
+        logging.debug("Handle do-while statement for condition: ({} {} {}), commands: {}".format(a, compareop, b,
+                                                                                              commands))
+
+        # Prepare values for code generation
+        a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(a, b)
+
+        # Translate contents of if while statement (commands)
+        translated_commands = self.delegate_translation(commands)
+        translated_commands.append('JUMP X')
+
+        # Generate resulting code of if statement
+        result = gen_cond_statement(a_vid=a_vid, b_vid=b_vid, commands=translated_commands,
+                                    compareop=compareop,
+                                    pcval=self.program_counter,
+                                    a_is_const=isinstance(a, str),
+                                    b_is_const=isinstance(b, str),
+                                    a_is_arrvar=isinstance(a, IntArrayElement),
+                                    a_arr_mem=a_arr_mem, a_arr_offset=a_arr_offset,
+                                    b_is_arrvar=isinstance(b, IntArrayElement),
+                                    b_arr_mem=b_arr_mem,
+                                    b_arr_offset=b_arr_offset)
+
+        # Increment program counter
+        jump_to = self.program_counter
+        self.program_counter += len(result)
+
+        # Update program counter values in translated statement to correct ones
+        result.extend(self.translate_commands(commands))
+
+        # Add jump after commands so that condition check will be performed (and while loop will work)
+        result.append('JUMP {} # WHILE_LOOP_COND_CHECK'.format(jump_to))
+        return result
+
+
+    def delegate_translation(self, commands):
+        """
+        Returns translated commands without performing additional operations
+        (program counter incrementations, etc.)
         :param commands: list of commands
         :return: assembly code
         """
         code = []
-
-        # NOTE: It might be beneficial to use code.append() (and store lists of generated code for each output)?
 
         for command in commands:
             if isinstance(command, Assign):
@@ -723,6 +933,43 @@ class ChaiMaker():
 
             elif isinstance(command, If):
                 translated_code = self.handle_if_statement(command)
+
+            elif isinstance(command, While):
+                translated_code = self.handle_while_statement(command)
+
+            else:
+                raise Exception("Unsupported command given for translation: {}".format(command))
+
+            code.extend(translated_code)
+
+        return code
+
+    def translate_commands(self, commands):
+        """
+        Translates given commands into assembly code
+        :param commands: list of commands
+        :return: assembly code
+        """
+        code = []
+
+        for command in commands:
+            if isinstance(command, Assign):
+                translated_code = self.handle_assignment(command)
+
+            elif isinstance(command, Write):
+                translated_code = self.handle_write(command)
+
+            elif isinstance(command, Read):
+                translated_code = self.handle_read(command)
+
+            elif isinstance(command, If):
+                translated_code = self.handle_if_statement(command)
+
+            elif isinstance(command, While):
+                translated_code = self.handle_while_statement(command)
+
+            else:
+                raise Exception("Unsupported command given for translation: {}".format(command))
 
             self.program_counter += len(translated_code)
             code.extend(translated_code)
@@ -745,6 +992,8 @@ class ChaiMaker():
         logging.debug("Code header: {}".format(header))
         logging.debug("Code body: {}".format(body))
 
+        print(body)
+
         self.alloc_global_vars(header)
         logging.debug("Global variables: {}".format(self.global_vars))
         logging.debug("Assigned indexes: {}".format(self.var_index))
@@ -758,4 +1007,4 @@ class ChaiMaker():
 
         print(output)
 
-        outf = open('tests/program3.out', 'w').write('\n'.join(output))
+        outf = open('tests/program4.out', 'w').write('\n'.join(output))

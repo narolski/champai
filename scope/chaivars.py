@@ -9,7 +9,7 @@ class Variable:
         self.pidentifier = pidentifier
         self.lineno = lineno
         self.value = None
-        self.updated_after_compilation = False
+        self.updated_after_compilation = True
         super().__init__()
 
     def set_updated_after_compilation(self):
@@ -24,11 +24,8 @@ class Int(Variable):
     def __init__(self, pidentifier, lineno):
         super().__init__(pidentifier=pidentifier, lineno=lineno)
 
-    def __str__(self):
-        return str("<{}>".format(('int', self.pidentifier, self.lineno)))
-
     def __repr__(self):
-        return str("<{}>".format(('int', self.pidentifier, self.lineno)))
+        return str("[Integer {}, line {}]".format(self.pidentifier, self.lineno))
 
 class IntArray(Variable):
     def __init__(self, pidentifier, lineno, from_val, to_val):

@@ -130,12 +130,12 @@ class ChaiParser(Parser):
 
     # condition:
     # Handles conditional statements
-    @_('value EQUALS value',
+    @_('value LESSER_EQUALS value',
+       'value GREATER_EQUALS value',
+       'value EQUALS value',
        'value NOT_EQUALS value',
        'value LESSER_THAN value',
-       'value GREATER_THAN value',
-       'value LESSER_EQUALS value',
-       'value GREATER_EQUALS value')
+       'value GREATER_THAN value',)
     def condition(self, p):
         # return ('condition', p[1], p[0], p[2])
         return Condition(p[0], p[1], p[2])
@@ -172,8 +172,8 @@ class ChaiParser(Parser):
 
     # Error handling
     def error(self, p):
-        logging.error("Line {}, unknown input {}".format(p.lineno, p.value))
-        raise Exception("Line {}, unknown input {}".format(p.lineno, p.value))
+        # logging.error("Line {}, unknown input {}".format(p.lineno, p.value))
+        raise Exception("Unknown input '{}' in line {}".format(p.value, p.lineno))
 
 
 

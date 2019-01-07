@@ -17,13 +17,14 @@ class ChaiLexer(Lexer):
 
         READ, WRITE,
         LPAREN, RPAREN,
-        ASSIGN, SEMICOLON, COLON,
+        SEMICOLON, COLON,
 
         PIDENTIFIER, NUMBER,
 
         PLUS, MINUS, TIMES, DIVIDE, MODULO,
-        EQUALS, NOT_EQUALS, LESSER_THAN, GREATER_THAN, LESSER_EQUALS, GREATER_EQUALS,
-        DO, END
+        EQUALS, NOT_EQUALS, LESSER_THAN, GREATER_THAN,
+        LESSER_EQUALS, GREATER_EQUALS,
+        ASSIGN, DO, END
     }
 
     DECLARE = r'DECLARE'
@@ -61,12 +62,12 @@ class ChaiLexer(Lexer):
     DIVIDE = r'/'
     MODULO = r'%'
 
+    LESSER_EQUALS = r'<='
+    GREATER_EQUALS = r'>='
     EQUALS = r'='
     NOT_EQUALS = r'!='
     LESSER_THAN = r'<'
     GREATER_THAN = r'>'
-    LESSER_EQUALS = r'<='
-    GREATER_EQUALS = r'>='
 
     LPAREN = r'\('
     RPAREN = r'\)'
@@ -84,5 +85,5 @@ class ChaiLexer(Lexer):
 
     # Implements error handling
     def error(self, t):
-        print('[LEXER] Line %d: Bad character %r' % (self.lineno, t.value[0]))
+        print('Line %d: Bad character %r' % (self.lineno, t.value[0]))
         self.index += 1
