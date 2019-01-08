@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="Added support for if/if-else/while control flow statements">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chailexer.py" beforeDir="false" afterPath="$PROJECT_DIR$/chailexer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaimaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaimaker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaiparser.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiparser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scope/chaigen.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaigen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scope/chaivars.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaivars.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/program4.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/program4.imp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/program4.out" beforeDir="false" afterPath="$PROJECT_DIR$/tests/program4.out" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/champai$Run_chaimaker.coverage" NAME="Run chaimaker Coverage Results" MODIFIED="1546936674092" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/champai$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1546634238658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="417995623">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.5" value="2" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="imp" value="7" />
+          <entry key="out" value="9" />
+          <entry key="pai" value="1" />
+          <entry key="pie" value="2" />
+          <entry key="pstat" value="1" />
+          <entry key="py" value="34" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="PLAIN_TEXT" value="19" />
+          <entry key="Profiler Session" value="1" />
+          <entry key="Python" value="32" />
+          <entry key="Scratch" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="dummy" value="63" />
+          <entry key="imp" value="3200" />
+          <entry key="out" value="1181" />
+          <entry key="pai" value="21" />
+          <entry key="pie" value="12" />
+          <entry key="py" value="84732" />
+          <entry key="txt" value="76" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="4553" />
+          <entry key="Python" value="84598" />
+          <entry key="Scratch" value="134" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/champai.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+              <folding>
+                <element signature="e#14#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chaiparser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1868">
+              <caret line="175" selection-start-line="175" selection-end-line="175" />
+              <folding>
+                <element signature="e#16#38#0" expanded="true" />
+                <marker date="1546887402696" expanded="true" signature="255:259" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="525:530" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="598:607" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="1613:1619" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="1726:1735" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="1892:1901" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="2061:2070" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="2254:2263" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="2416:2425" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="2604:2613" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="3169:3178" ph="..." />
+                <marker date="1546887402696" expanded="true" signature="3298:3307" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chailexer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+              <folding>
+                <marker date="1546933907492" expanded="true" signature="62:67" ph="..." />
+                <marker date="1546933907492" expanded="true" signature="62:132" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="395">
+              <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+              <folding>
+                <marker date="1546893565495" expanded="true" signature="820:823" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="84" column="32" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
+              <folding>
+                <marker date="1546843991604" expanded="true" signature="173:245" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="276:508" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="537:542" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="764:945" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="970:975" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="1616:1627" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="1892:1903" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="2410:2544" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="2560:2565" ph="..." />
+                <marker date="1546843991604" expanded="true" signature="3130:3135" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chaimaker.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="448">
+              <caret line="732" column="52" selection-start-line="732" selection-start-column="52" selection-end-line="732" selection-end-column="52" />
+              <folding>
+                <element signature="e#15#29#0" expanded="true" />
+                <marker date="1546936823681" expanded="true" signature="160:165" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="325:334" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="552:558" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="2218:2561" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="3615:3896" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="3890:3896" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="6525:6526" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="18628:18633" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="18628:19052" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="28638:28647" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="33753:33758" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="35677:35683" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="43899:50032" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="50073:51443" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="51439:51443" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="51482:52837" ph="..." />
+                <marker date="1546936823681" expanded="true" signature="52852:52861" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scope/chaigen.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="756" column="30" lean-forward="true" selection-start-line="756" selection-start-column="30" selection-end-line="756" selection-end-column="30" />
+              <folding>
+                <element signature="e#13#28#0" expanded="true" />
+                <marker date="1546936736177" expanded="true" signature="6461:8666" ph="..." />
+                <marker date="1546936736177" expanded="true" signature="10366:11169" ph="..." />
+                <marker date="1546936736177" expanded="true" signature="18472:18977" ph="..." />
+                <marker date="1546936736177" expanded="true" signature="24439:25330" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/program4.imp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="10" column="10" lean-forward="true" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/program4.out">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1243">
+              <caret line="72" column="6" lean-forward="true" selection-start-line="72" selection-start-column="6" selection-end-line="72" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>is_updated_after_comp</find>
+      <find>set_updated_after_compilation()</find>
+      <find>gen_arr_index_from_var</find>
+      <find>is_storing_values</find>
+      <find>gen_assign_array_var_array_var</find>
+      <find>gen_assign_var_to_array_el</find>
+      <find>assign_array_var_to_const</find>
+      <find>B</find>
+      <find>assign_array_var_const</find>
+      <find>updated_after</find>
+      <find>gen_read</find>
+      <find>gen_assign</find>
+      <find>is_array_index_in_bounds</find>
+      <find>&quot;Invalid ar</find>
+      <find>get_value_of_assignee</find>
+      <find>gen_assign_var_to_expr</find>
+      <find>read</find>
+      <find>int[]</find>
+      <find>condition</find>
+      <find>return_condition</find>
+      <find>DoWhile</find>
+      <find>False</find>
+      <find>header</find>
+      <find>GEN_STO</find>
+      <find>gen_getv</find>
+      <find>GEN_CONST</find>
+      <find>gen_const</find>
+      <find>gen_getva</find>
+      <find>gen_getarr</find>
+      <find>gen_getarr_element</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>info</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Paweł Narolski &lt;pawelnarolski@macbook-pro-pawa.local&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/lexer.py" />
+        <option value="$PROJECT_DIR$/parser.py" />
+        <option value="$PROJECT_DIR$/tests/parse.pai" />
+        <option value="$PROJECT_DIR$/bobparse.py" />
+        <option value="$PROJECT_DIR$/tests/out.pie" />
+        <option value="$PROJECT_DIR$/chaiscope.py" />
+        <option value="$PROJECT_DIR$/scope/chaiscope.py" />
+        <option value="$PROJECT_DIR$/scope/chaimachine.py" />
+        <option value="$PROJECT_DIR$/scope/chaicode.py" />
+        <option value="$PROJECT_DIR$/tests/parse.imp" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
+        <option value="$PROJECT_DIR$/tests/program1.imp" />
+        <option value="$PROJECT_DIR$/tests/program2.out" />
+        <option value="$PROJECT_DIR$/tests/program2.imp" />
+        <option value="$PROJECT_DIR$/tests/program3.out" />
+        <option value="$PROJECT_DIR$/tests/program3.imp" />
+        <option value="$PROJECT_DIR$/champai.py" />
+        <option value="$PROJECT_DIR$/chaiparser.py" />
+        <option value="$PROJECT_DIR$/scope/chaiflow.py" />
+        <option value="$PROJECT_DIR$/scope/chaivars.py" />
+        <option value="$PROJECT_DIR$/chailexer.py" />
+        <option value="$PROJECT_DIR$/tests/program4.out" />
+        <option value="$PROJECT_DIR$/tests/program4.imp" />
+        <option value="$PROJECT_DIR$/scope/chaigen.py" />
+        <option value="$PROJECT_DIR$/chaimaker.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>General</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="champai" type="b2602c69:ProjectViewProjectNode" />
+              <item name="champai" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="champai" type="b2602c69:ProjectViewProjectNode" />
+              <item name="champai" type="462c0819:PsiDirectoryNode" />
+              <item name="scope" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="champai" type="b2602c69:ProjectViewProjectNode" />
+              <item name="champai" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="champai" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="champai" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/scope" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.Run chaimaker">
+    <configuration name="Run chaimaker" type="PythonConfigurationType" factoryName="Python">
+      <module name="champai" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/champai.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="champai" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chaimaker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="scratch" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="champai" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Run chaimaker" />
+      <item itemvalue="Python.scratch" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.scratch" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="" />
+      <created>1546421667963</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1546421667963</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added support for if/if-else/while control flow statements">
+      <created>1546884298264</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1546884298264</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added support for if/if-else/while control flow statements">
+      <created>1546884369314</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1546884369314</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15665236" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23955774" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3992629" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32923833" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32923833" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.25429976" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.22850123" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32923833" />
+      <window_info anchor="right" id="Coverage" order="0" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="4" weight="0.3297568" />
+      <window_info anchor="right" id="Database" order="5" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added support for if/if-else/while control flow statements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for if/if-else/while control flow statements" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/sly/lex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="185" column="4" selection-start-line="185" selection-start-column="4" selection-end-line="185" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/sly/yacc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="1801" column="8" selection-start-line="1801" selection-start-column="8" selection-end-line="1801" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bobparse.py" />
+    <entry file="file://$PROJECT_DIR$/parser.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-24778">
+          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaitypes/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/scope/chaiscope.py" />
+    <entry file="file://$PROJECT_DIR$/scope/chaicode.py" />
+    <entry file="file://$PROJECT_DIR$/tests/out.pie" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program1.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="10479" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program1.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="12" lean-forward="true" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program2.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="157" column="8" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program2.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" lean-forward="true" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program3.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-724">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program3.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" column="3" lean-forward="true" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/champai.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding>
+            <element signature="e#14#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaiparser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1868">
+          <caret line="175" selection-start-line="175" selection-end-line="175" />
+          <folding>
+            <element signature="e#16#38#0" expanded="true" />
+            <marker date="1546887402696" expanded="true" signature="255:259" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="525:530" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="598:607" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="1613:1619" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="1726:1735" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="1892:1901" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="2061:2070" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="2254:2263" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="2416:2425" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="2604:2613" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="3169:3178" ph="..." />
+            <marker date="1546887402696" expanded="true" signature="3298:3307" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chailexer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <marker date="1546933907492" expanded="true" signature="62:67" ph="..." />
+            <marker date="1546933907492" expanded="true" signature="62:132" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="84" column="32" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
+          <folding>
+            <marker date="1546843991604" expanded="true" signature="173:245" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="276:508" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="537:542" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="764:945" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="970:975" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="1616:1627" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="1892:1903" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="2410:2544" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="2560:2565" ph="..." />
+            <marker date="1546843991604" expanded="true" signature="3130:3135" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+          <folding>
+            <marker date="1546893565495" expanded="true" signature="820:823" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program4.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1243">
+          <caret line="72" column="6" lean-forward="true" selection-start-line="72" selection-start-column="6" selection-end-line="72" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaigen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="756" column="30" lean-forward="true" selection-start-line="756" selection-start-column="30" selection-end-line="756" selection-end-column="30" />
+          <folding>
+            <element signature="e#13#28#0" expanded="true" />
+            <marker date="1546936736177" expanded="true" signature="6461:8666" ph="..." />
+            <marker date="1546936736177" expanded="true" signature="10366:11169" ph="..." />
+            <marker date="1546936736177" expanded="true" signature="18472:18977" ph="..." />
+            <marker date="1546936736177" expanded="true" signature="24439:25330" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/program4.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="10" lean-forward="true" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaimaker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="732" column="52" selection-start-line="732" selection-start-column="52" selection-end-line="732" selection-end-column="52" />
+          <folding>
+            <element signature="e#15#29#0" expanded="true" />
+            <marker date="1546936823681" expanded="true" signature="160:165" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="325:334" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="552:558" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="2218:2561" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="3615:3896" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="3890:3896" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="6525:6526" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="18628:18633" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="18628:19052" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="28638:28647" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="33753:33758" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="35677:35683" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="43899:50032" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="50073:51443" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="51439:51443" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="51482:52837" ph="..." />
+            <marker date="1546936823681" expanded="true" signature="52852:52861" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

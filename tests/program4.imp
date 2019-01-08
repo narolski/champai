@@ -1,12 +1,12 @@
 DECLARE
     a;
-    b;
+    sito(2:5);
 IN
-    READ a;
-    READ b;
+    a := 10;
+    sito(2) := 5;
 
-    WHILE a > b DO
-        WRITE a;
-        a := a - 1;
-    ENDWHILE
+    FOR i FROM 15 DOWNTO 5
+    DO
+        WRITE i;
+    ENDFOR
 END

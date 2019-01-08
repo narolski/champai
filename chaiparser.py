@@ -88,7 +88,7 @@ class ChaiParser(Parser):
     @_('DO commands WHILE condition ENDDO')
     def command(self, p):
         # return ('do_while', p[1], p[3])
-        return DoWhile(condition=p[1], commands=p[3])
+        return DoWhile(condition=p[3], commands=p[1])
 
     @_('FOR PIDENTIFIER FROM value TO value DO commands ENDFOR')
     def command(self, p):

@@ -133,7 +133,7 @@ def gen_getval(var_mem_index, to_registry):
     """
     code = []
     code.extend(gen_const(value=var_mem_index, to_registry="A"))
-    code.append('LOAD {}'.format(to_registry))
+    code.append('LOAD {} # GETVAL'.format(to_registry))
 
     # H always stores the value of previously loaded variable, so for the convention-sake do it here
     if to_registry != "H":
@@ -420,6 +420,21 @@ def gen_getarr_element(var_mem_index, array_offset, array_mem_index):
     return code
 
 
+def gen_getarr_element(var_mem_index, array_offset, array_mem_index, to_registry):
+    """
+    Generates code for returning element of array at given index
+    :param var_mem_index:
+    :param array_offset:
+    :param array_mem_index:
+    :return:
+    """
+    code = []
+    absolute_mem_index = var_mem_index - array_offset + array_mem_index + 1
+    code.extend(gen_getval(var_mem_index=absolute_mem_index, to_registry=to_registry))
+
+    return code
+
+
 def gen_assign_var_to_array_el(var_index, array_mem_index, element_vid, element_const, array_offset):
     """
     Generates the assembly code assigning variable to contents of array element at given index
@@ -590,6 +605,71 @@ def gen_compare(first_reg, compareop, second_reg, pcval, commands_length):
     return code
 
 
+def gen_compare(first_reg, compareop, second_reg, pcval, commands_length):
+    """
+    Generates assembly code responsible for comparing given registers' values
+    :param first_reg: first reg
+    :param compareop: comparision operator (<, >, <=, >=, =, !=)
+    :param second_reg: second reg
+    :return:
+    """
+    code = []
+
+    if compareop == operator.gt or compareop == operator.lt:
+        # is a > b -> (is a - b > 0 <-> is a - b < 0)
+        # (because we work only with positive numbers)
+        # TODO: Make sure all is clear here (run over this code again tommorow)
+
+        offset = 0
+        condition_length = 2
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('SUB {} {} # BEGIN GT/LT COND'.format(first_reg, second_reg))
+        code.append('JZERO {} {} # END GT/LT COND'.format(first_reg, jump_end))
+
+    elif compareop == operator.ge or compareop == operator.le:
+        # is a >= b
+        offset = 0
+        condition_length = 3
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('INC {} # BEGIN GE/LE COND'.format(first_reg))
+        code.append('SUB {} {}'.format(first_reg, second_reg))
+        code.append('JZERO {} {} # END GE/LE COND'.format(first_reg, jump_end))
+
+    elif compareop == operator.eq:
+        # is a == b
+        offset = 0
+        condition_length = 6
+        jump_to_commands = pcval + condition_length + offset
+        jump_end = pcval + condition_length + commands_length + offset
+
+        logging.debug("Jump after commands: {}, jump to commands: {}".format(jump_end, jump_to_commands))
+
+        code.append('INC {} # BEGIN EQ COND'.format(second_reg))
+        code.append('SUB {} {}'.format(second_reg, first_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_end))
+        code.append('DEC {}'.format(second_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_to_commands))
+        code.append('JUMP {} # END EQ COND'.format(jump_end))
+
+    elif compareop == operator.ne:
+        # is a != b
+        offset = 0
+        condition_length = 5
+        jump_to_commands = pcval + condition_length + offset
+        jump_end = pcval + condition_length + commands_length + offset
+
+        code.append('INC {} # BEGIN NEQ COND'.format(second_reg))
+        code.append('SUB {} {}'.format(second_reg, first_reg))
+        code.append('JZERO {} {}'.format(second_reg, jump_to_commands))
+        code.append('DEC {}'.format(second_reg))
+        code.append('JZERO {} {} # END NEQ COND'.format(second_reg, jump_end))
+        # code.append('JUMP {}'.format(jump_to_commands))
+
+    return code
+
+
 def gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar, b_is_arrvar, a_arr_offset,
                                a_arr_mem, b_arr_offset, b_arr_mem, first_reg, second_reg):
     """
@@ -601,14 +681,16 @@ def gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar
     if a_is_const:
         code.extend(gen_const(value=a_vid, to_registry=first_reg))
     elif a_is_arrvar:
-        code.extend(gen_getarr_element(var_mem_index=a_vid, array_offset=a_arr_offset, array_mem_index=a_arr_mem))
+        code.extend(gen_getarr_element(var_mem_index=a_vid, array_offset=a_arr_offset, array_mem_index=a_arr_mem,
+                                       to_registry=first_reg))
     else:
         code.extend(gen_getval(var_mem_index=a_vid, to_registry=first_reg))
 
     if b_is_const:
         code.extend(gen_const(value=b_vid, to_registry=second_reg))
     elif b_is_arrvar:
-        code.extend(gen_getarr_element(var_mem_index=b_vid, array_offset=b_arr_offset, array_mem_index=b_arr_mem))
+        code.extend(gen_getarr_element(var_mem_index=b_vid, array_offset=b_arr_offset, array_mem_index=b_arr_mem,
+                                       to_registry=second_reg))
     else:
         code.extend(gen_getval(var_mem_index=b_vid, to_registry=second_reg))
 
@@ -635,7 +717,8 @@ def gen_cond_statement(a_vid, b_vid, commands, compareop, pcval, a_is_const=Fals
     :return:
     """
     code = []
-    first_reg, second_reg = 'B', 'C'
+    # TODO: Check if the change from B, C does not affect code performance!
+    first_reg, second_reg = 'F', 'G'
 
     code.extend(gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar, b_is_arrvar, a_arr_offset,
                                            a_arr_mem, b_arr_offset, b_arr_mem, first_reg, second_reg))
@@ -650,5 +733,59 @@ def gen_cond_statement(a_vid, b_vid, commands, compareop, pcval, a_is_const=Fals
                             commands_length=len(commands)))
 
     return code
+
+
+def gen_for_loop(iter_mem_index, from_value, to_value, compareop, commands, pcval):
+    """
+    Generates assembly code of is statement
+    :return:
+    """
+    code = []
+    first_reg, second_reg = 'F', 'G'
+
+    # Set the beginning value of i (iterator)
+    code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_value))
+
+    begin_concheck_jump_pcval = pcval + len(code)
+
+    # Load value of i from memory
+    code.extend(gen_getval(var_mem_index=iter_mem_index, to_registry=first_reg))
+
+    # Load value of to_value
+    code.extend(gen_const(value=to_value, to_registry=second_reg))
+
+    # Generate condition check
+    pcval += len(code)
+    code.extend(gen_compare(first_reg=second_reg, second_reg=first_reg, compareop=compareop, pcval=pcval,
+                            commands_length=len(commands)))
+
+    return code, begin_concheck_jump_pcval
+
+
+def gen_fordownto_loop(iter_mem_index, from_value, to_value, compareop, commands, pcval):
+    """
+    Generates assembly code of is statement
+    :return:
+    """
+    code = []
+    first_reg, second_reg = 'F', 'G'
+
+    # Set the beginning value of i (iterator)
+    code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_value))
+
+    begin_concheck_jump_pcval = pcval + len(code)
+
+    # Load value of i from memory
+    code.extend(gen_getval(var_mem_index=iter_mem_index, to_registry=first_reg))
+
+    # Load value of to_value
+    code.extend(gen_const(value=to_value, to_registry=second_reg))
+
+    # Generate condition check
+    pcval += len(code)
+    code.extend(gen_compare(first_reg=first_reg, second_reg=second_reg, compareop=compareop, pcval=pcval,
+                            commands_length=len(commands)))
+
+    return code, begin_concheck_jump_pcval
 
 

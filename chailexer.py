@@ -35,6 +35,11 @@ class ChaiLexer(Lexer):
     ELSE = r'ELSE'
     ENDIF = r'ENDIF'
 
+    TO = r'TO'
+
+    DOWNTO = r'DOWNTO'
+    ENDFOR = r'ENDFOR'
+
     DO = r'DO'
     WHILE = r'WHILE'
     ENDWHILE = r'ENDWHILE'
@@ -42,9 +47,6 @@ class ChaiLexer(Lexer):
 
     FOR = r'FOR'
     FROM = r'FROM'
-    TO = r'TO'
-    DOWNTO = r'DOWNTO'
-    ENDFOR = r'ENDFOR'
 
     READ = r'READ'
     WRITE = r'WRITE'

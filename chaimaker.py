@@ -723,14 +723,14 @@ class ChaiMaker():
 
         elif isinstance(a, IntArrayElement):
             a_array = self.get_object_from_mem(a.array_pid)
+            a_arr_mem = self.get_mem_index(a_array)
+            a_arr_offset = a_array.offset
 
             if isinstance(a.element, str):
-                a_vid = self.get_value_of_assignee(a) - a_array.offset + self.get_mem_index(a_array) + 1
+                a_vid = self.get_value_of_assignee(a.element) - a_array.offset + self.get_mem_index(a_array) + 1
 
             elif isinstance(a.element, Int):
-                a_vid = self.get_mem_index(a)
-                a_arr_mem = self.get_mem_index(a_array)
-                a_arr_offset = a_array.offset
+                a_vid = self.get_mem_index(a.element)
 
         if isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b)):
             b_vid = self.get_value_of_assignee(b)
@@ -740,14 +740,14 @@ class ChaiMaker():
 
         elif isinstance(b, IntArrayElement):
             b_array = self.get_object_from_mem(b.array_pid)
+            b_arr_mem = self.get_mem_index(b_array)
+            b_arr_offset = b_array.offset
 
             if isinstance(b.element, str):
-                b_vid = self.get_value_of_assignee(b) - b_array.offset + self.get_mem_index(b_array) + 1
+                b_vid = self.get_value_of_assignee(b.element) - b_array.offset + self.get_mem_index(b_array) + 1
 
             elif isinstance(b.element, Int):
-                b_vid = self.get_mem_index(b)
-                b_arr_mem = self.get_mem_index(b_array)
-                b_arr_offset = b_array.offset
+                b_vid = self.get_mem_index(b.element)
 
         return a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset
 
@@ -879,7 +879,7 @@ class ChaiMaker():
         commands = statement.commands
 
         logging.debug("Handle do-while statement for condition: ({} {} {}), commands: {}".format(a, compareop, b,
-                                                                                              commands))
+                                                                                                 commands))
 
         # Prepare values for code generation
         a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(a, b)
@@ -887,30 +887,164 @@ class ChaiMaker():
         # Translate contents of if while statement (commands)
         translated_commands = self.delegate_translation(commands)
         translated_commands.append('JUMP X')
+        translated_commands.append('JUMP X')
 
-        # Generate resulting code of if statement
-        result = gen_cond_statement(a_vid=a_vid, b_vid=b_vid, commands=translated_commands,
-                                    compareop=compareop,
-                                    pcval=self.program_counter,
-                                    a_is_const=isinstance(a, str),
-                                    b_is_const=isinstance(b, str),
-                                    a_is_arrvar=isinstance(a, IntArrayElement),
-                                    a_arr_mem=a_arr_mem, a_arr_offset=a_arr_offset,
-                                    b_is_arrvar=isinstance(b, IntArrayElement),
-                                    b_arr_mem=b_arr_mem,
-                                    b_arr_offset=b_arr_offset)
+        # Generate condition statement
+        cond_statement = gen_cond_statement(a_vid=a_vid, b_vid=b_vid, commands=translated_commands,
+                                            compareop=compareop,
+                                            pcval=self.program_counter,
+                                            a_is_const=isinstance(a, str),
+                                            b_is_const=isinstance(b, str),
+                                            a_is_arrvar=isinstance(a, IntArrayElement),
+                                            a_arr_mem=a_arr_mem, a_arr_offset=a_arr_offset,
+                                            b_is_arrvar=isinstance(b, IntArrayElement),
+                                            b_arr_mem=b_arr_mem,
+                                            b_arr_offset=b_arr_offset)
+
+        # Omit first condition check
+        result = []
+
+        # Omit first condition check
+        # Add jump condition to jump to code execution first
+        result.append('JUMP {} # DO_WHILE_OMIT_FIRST_CHECK'.format(self.program_counter + len(cond_statement) + 1))
+        result.extend(cond_statement)
 
         # Increment program counter
-        jump_to = self.program_counter
+        jump_to = self.program_counter + 1
+        self.program_counter += len(cond_statement)
+
+        # Update program counter values in translated statement to correct ones
+        result.extend(self.translate_commands(commands))
+
+        # Add jump after commands so that condition check will be performed (and do-while loop will work)
+        result.append('JUMP {} # DO_WHILE_COND_CHECK'.format(jump_to))
+        return result
+
+    def handle_for_statement(self, statement):
+        # TODO: Add known values condition handler just like for if statement
+        """
+        Prepares the translation of for loop statement code
+        :param statement:
+        :return:
+        """
+        pid = statement.pidentifier.pidentifier  # Variable pidentifier
+        from_val = statement.from_val  # Starting value
+        to_val = statement.to_val  # Ending value ( <= )
+        commands = statement.commands
+
+        # Perform iterator check in global_vars
+        if pid not in self.global_vars.keys():
+            iterator = Int(pidentifier=pid, lineno=None)
+            iterator.set_as_iterator()
+
+            self.global_vars[pid] = Int(pidentifier=pid, lineno=None)
+            self.var_index[pid] = self.next_free_mem_index
+            self.next_free_mem_index += 1
+        elif pid in self.global_vars.keys():
+            iter_candidate = self.get_object_from_mem(pid)
+
+            if not iter_candidate.is_iterator:
+                raise Exception("Iterator pidentifier '{}' already declared".format(pid))
+
+        logging.debug("global_vars after update: {}, mem_indexes: {}".format(self.global_vars, self.var_index))
+        logging.debug("Handle for loop from {} := {} to {}, commands: {}".format(pid, from_val, to_val, commands))
+
+        # Get index of iterator in memory
+        iterator_mem_index = self.get_mem_index_for_pid(pid)
+
+        # Translate contents of if while statement (commands)
+        translated_commands = self.delegate_translation(commands)
+        # translated_commands.append('INC X')
+        translated_commands.append('INC F')
+        translated_commands.extend(gen_storeval(var_mem_index=self.get_mem_index(self.global_vars[pid]),
+                                                from_registry='F'))
+        translated_commands.append('JUMP X')
+
+        # Handle different variable cases
+        # a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(from_val,
+        #                                                                                                     to_val)
+
+        # Generate resulting code of if statement
+        result, begin_jump = gen_for_loop(iter_mem_index=iterator_mem_index, from_value=from_val, to_value=to_val,
+                                          compareop=operator.le, commands=translated_commands,
+                                          pcval=self.program_counter)
+
+        # Increment program counter
         self.program_counter += len(result)
 
         # Update program counter values in translated statement to correct ones
         result.extend(self.translate_commands(commands))
 
         # Add jump after commands so that condition check will be performed (and while loop will work)
-        result.append('JUMP {} # WHILE_LOOP_COND_CHECK'.format(jump_to))
+        result.append('INC F # FOR_LOOP_ITER++')
+        result.extend(gen_storeval(var_mem_index=iterator_mem_index, from_registry='F'))
+        result.append('JUMP {} # FOR_LOOP_COND_CHECK'.format(begin_jump))
         return result
 
+    def handle_for_downto_statement(self, statement):
+        # TODO: Add known values condition handler just like for if statement
+        """
+        Prepares the translation of for loop statement code
+        :param statement:
+        :return:
+        """
+
+        pid = statement.pidentifier.pidentifier  # Variable pidentifier
+        from_val = int(statement.from_val)  # Starting value
+        to_val = int(statement.to_val)  # Ending value ( <= )
+        commands = statement.commands
+
+        # TODO: WARNING!!!
+        # HANDLE CASE WHEN FROM_VAL, TO VAL IS PASSED VARIABLE!!!!!!!!!!!!!!
+
+        logging.debug("!!!! FROM VAL: {} !!!!! TO_VAL: {} !!!!!".format(from_val, to_val))
+
+        # Perform iterator check in global_vars
+        if pid not in self.global_vars.keys():
+            iterator = Int(pidentifier=pid, lineno=None)
+            iterator.set_as_iterator()
+
+            self.global_vars[pid] = Int(pidentifier=pid, lineno=None)
+            self.var_index[pid] = self.next_free_mem_index
+            self.next_free_mem_index += 1
+        elif pid in self.global_vars.keys():
+            iter_candidate = self.get_object_from_mem(pid)
+
+            if not iter_candidate.is_iterator:
+                raise Exception("Iterator pidentifier '{}' already declared".format(pid))
+
+        logging.debug("global_vars after update: {}, mem_indexes: {}".format(self.global_vars, self.var_index))
+        logging.debug("Handle for loop from {} := {} to {}, commands: {}".format(pid, from_val, to_val, commands))
+
+        # Get index of iterator in memory
+        iterator_mem_index = self.get_mem_index_for_pid(pid)
+
+        # Translate contents of if while statement (commands)
+        translated_commands = self.delegate_translation(commands)
+        # translated_commands.append('INC X')
+        translated_commands.extend(gen_getval(var_mem_index=iterator_mem_index, to_registry='F'))
+        translated_commands.append('DEC F')
+        translated_commands.extend(gen_storeval(var_mem_index=self.get_mem_index(self.global_vars[pid]),
+                                                from_registry='F'))
+        translated_commands.append('JUMP X')
+
+        # Generate resulting code of if statement
+        result, begin_jump = gen_fordownto_loop(iter_mem_index=iterator_mem_index, from_value=from_val, to_value=to_val,
+                                                compareop=operator.le, commands=translated_commands,
+                                                pcval=self.program_counter)
+
+        # Increment program counter
+        self.program_counter += len(result)
+
+        # Update program counter values in translated statement to correct ones
+        result.extend(self.translate_commands(commands))
+
+        # Add jump after commands so that condition check will be performed (and while loop will work)
+        result.extend(gen_getval(var_mem_index=iterator_mem_index, to_registry='F'))
+        result.append('DEC F # FOR_LOOP_ITER++')
+        result.extend(gen_storeval(var_mem_index=iterator_mem_index, from_registry='F'))
+        result.append('JUMP {} # FOR_LOOP_COND_CHECK'.format(begin_jump))
+        return result
 
     def delegate_translation(self, commands):
         """
@@ -936,6 +1070,15 @@ class ChaiMaker():
 
             elif isinstance(command, While):
                 translated_code = self.handle_while_statement(command)
+
+            elif isinstance(command, DoWhile):
+                translated_code = self.handle_do_while_statement(command)
+
+            elif isinstance(command, ForDownTo):
+                translated_code = self.handle_for_downto_statement(command)
+
+            elif isinstance(command, For):
+                translated_code = self.handle_for_statement(command)
 
             else:
                 raise Exception("Unsupported command given for translation: {}".format(command))
@@ -967,6 +1110,15 @@ class ChaiMaker():
 
             elif isinstance(command, While):
                 translated_code = self.handle_while_statement(command)
+
+            elif isinstance(command, DoWhile):
+                translated_code = self.handle_do_while_statement(command)
+
+            elif isinstance(command, ForDownTo):
+                translated_code = self.handle_for_downto_statement(command)
+
+            elif isinstance(command, For):
+                translated_code = self.handle_for_statement(command)
 
             else:
                 raise Exception("Unsupported command given for translation: {}".format(command))
