@@ -420,7 +420,7 @@ def gen_getarr_element(var_mem_index, array_offset, array_mem_index):
     return code
 
 
-def gen_getarr_element(var_mem_index, array_offset, array_mem_index, to_registry):
+def gen_getarr_element_to_reg(var_mem_index, array_offset, array_mem_index, to_registry):
     """
     Generates code for returning element of array at given index
     :param var_mem_index:
@@ -461,7 +461,7 @@ def gen_assign_var_to_array_el(var_index, array_mem_index, element_vid, element_
         code.extend(gen_const_val(value=array_mem_index - array_offset + 1, registry='A'))
 
         # Now get the value stored at calculated index from memory
-        code.append('LOAD H')
+        code.append('LOAD H # GEN_ASSIGN_VAR_TO_ARRAY_ELEMENT')
 
     # Store new value of variable
     code.extend(gen_storeval(var_mem_index=var_index, from_registry='H'))
@@ -681,7 +681,7 @@ def gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar
     if a_is_const:
         code.extend(gen_const(value=a_vid, to_registry=first_reg))
     elif a_is_arrvar:
-        code.extend(gen_getarr_element(var_mem_index=a_vid, array_offset=a_arr_offset, array_mem_index=a_arr_mem,
+        code.extend(gen_getarr_element_to_reg(var_mem_index=a_vid, array_offset=a_arr_offset, array_mem_index=a_arr_mem,
                                        to_registry=first_reg))
     else:
         code.extend(gen_getval(var_mem_index=a_vid, to_registry=first_reg))
@@ -689,7 +689,7 @@ def gen_prepare_cond_statement(a_vid, b_vid, a_is_const, b_is_const, a_is_arrvar
     if b_is_const:
         code.extend(gen_const(value=b_vid, to_registry=second_reg))
     elif b_is_arrvar:
-        code.extend(gen_getarr_element(var_mem_index=b_vid, array_offset=b_arr_offset, array_mem_index=b_arr_mem,
+        code.extend(gen_getarr_element_to_reg(var_mem_index=b_vid, array_offset=b_arr_offset, array_mem_index=b_arr_mem,
                                        to_registry=second_reg))
     else:
         code.extend(gen_getval(var_mem_index=b_vid, to_registry=second_reg))
@@ -735,7 +735,8 @@ def gen_cond_statement(a_vid, b_vid, commands, compareop, pcval, a_is_const=Fals
     return code
 
 
-def gen_for_loop(iter_mem_index, from_value, to_value, compareop, commands, pcval):
+def gen_for_loop(iter_mem_index, from_vid, from_is_const, from_is_arrvar, from_arr_mem, from_arr_offset,
+                 to_vid, to_is_const, to_is_arrvar, to_arr_mem, to_arr_offset, compareop, commands, pcval):
     """
     Generates assembly code of is statement
     :return:
@@ -744,7 +745,16 @@ def gen_for_loop(iter_mem_index, from_value, to_value, compareop, commands, pcva
     first_reg, second_reg = 'F', 'G'
 
     # Set the beginning value of i (iterator)
-    code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_value))
+    if from_is_const:
+        code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_vid))
+    elif from_is_arrvar:
+        code.extend(gen_assign_var_to_array_el(var_index=iter_mem_index, array_mem_index=from_arr_mem,
+                                               element_vid=from_vid,
+                                               element_const=True,
+                                               array_offset=from_arr_offset))
+    else:
+        # code.extend(gen_getval(var_mem_index=from_vid, to_registry='H'))
+        code.extend(gen_assign_var_to_var(var1_index=iter_mem_index, var2_index=from_vid))
 
     begin_concheck_jump_pcval = pcval + len(code)
 
@@ -752,7 +762,15 @@ def gen_for_loop(iter_mem_index, from_value, to_value, compareop, commands, pcva
     code.extend(gen_getval(var_mem_index=iter_mem_index, to_registry=first_reg))
 
     # Load value of to_value
-    code.extend(gen_const(value=to_value, to_registry=second_reg))
+    if to_is_const:
+        code.extend(gen_const(value=to_vid, to_registry=second_reg))
+    elif to_is_arrvar:
+        code.extend(gen_getarr_element_to_reg(var_mem_index=to_vid, array_offset=to_arr_offset,
+                                              array_mem_index=to_arr_mem, to_registry=second_reg))
+    else:
+        code.extend(gen_getval(var_mem_index=to_vid, to_registry=second_reg))
+
+    # code.extend(gen_const(value=to_value, to_registry=second_reg))
 
     # Generate condition check
     pcval += len(code)
@@ -762,7 +780,8 @@ def gen_for_loop(iter_mem_index, from_value, to_value, compareop, commands, pcva
     return code, begin_concheck_jump_pcval
 
 
-def gen_fordownto_loop(iter_mem_index, from_value, to_value, compareop, commands, pcval):
+def gen_fordownto_loop(iter_mem_index, from_vid, from_is_const, from_is_arrvar, from_arr_mem, from_arr_offset,
+                 to_vid, to_is_const, to_is_arrvar, to_arr_mem, to_arr_offset, compareop, commands, pcval):
     """
     Generates assembly code of is statement
     :return:
@@ -771,7 +790,16 @@ def gen_fordownto_loop(iter_mem_index, from_value, to_value, compareop, commands
     first_reg, second_reg = 'F', 'G'
 
     # Set the beginning value of i (iterator)
-    code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_value))
+    if from_is_const:
+        code.extend(gen_assign_var_to_const(index=iter_mem_index, value=from_vid))
+    elif from_is_arrvar:
+        code.extend(gen_assign_var_to_array_el(var_index=iter_mem_index, array_mem_index=from_arr_mem,
+                                               element_vid=from_vid,
+                                               element_const=True,
+                                               array_offset=from_arr_offset))
+    else:
+        # code.extend(gen_getval(var_mem_index=from_vid, to_registry='H'))
+        code.extend(gen_assign_var_to_var(var1_index=iter_mem_index, var2_index=from_vid))
 
     begin_concheck_jump_pcval = pcval + len(code)
 
@@ -779,7 +807,13 @@ def gen_fordownto_loop(iter_mem_index, from_value, to_value, compareop, commands
     code.extend(gen_getval(var_mem_index=iter_mem_index, to_registry=first_reg))
 
     # Load value of to_value
-    code.extend(gen_const(value=to_value, to_registry=second_reg))
+    if to_is_const:
+        code.extend(gen_const(value=to_vid, to_registry=second_reg))
+    elif to_is_arrvar:
+        code.extend(gen_getarr_element_to_reg(var_mem_index=to_vid, array_offset=to_arr_offset,
+                                              array_mem_index=to_arr_mem, to_registry=second_reg))
+    else:
+        code.extend(gen_getval(var_mem_index=to_vid, to_registry=second_reg))
 
     # Generate condition check
     pcval += len(code)
@@ -787,5 +821,3 @@ def gen_fordownto_loop(iter_mem_index, from_value, to_value, compareop, commands
                             commands_length=len(commands)))
 
     return code, begin_concheck_jump_pcval
-
-

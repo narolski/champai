@@ -961,13 +961,25 @@ class ChaiMaker():
         translated_commands.append('JUMP X')
 
         # Handle different variable cases
-        # a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(from_val,
-        #                                                                                                     to_val)
+        a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(from_val,
+                                                                                                            to_val)
 
         # Generate resulting code of if statement
-        result, begin_jump = gen_for_loop(iter_mem_index=iterator_mem_index, from_value=from_val, to_value=to_val,
+        result, begin_jump = gen_for_loop(iter_mem_index=iterator_mem_index,
+                                          from_vid=a_vid, from_is_const=isinstance(from_val, str),
+                                          from_is_arrvar=isinstance(from_val, IntArrayElement),
+                                          from_arr_mem=a_arr_mem,
+                                          from_arr_offset=a_arr_offset,
+                                          to_vid=b_vid, to_is_const=isinstance(to_val, str),
+                                          to_is_arrvar=isinstance(to_val, IntArrayElement),
+                                          to_arr_mem=b_arr_mem,
+                                          to_arr_offset=b_arr_offset,
                                           compareop=operator.le, commands=translated_commands,
                                           pcval=self.program_counter)
+
+        # result, begin_jump = gen_for_loop(iter_mem_index=iterator_mem_index, from_value=from_val, to_value=to_val,
+        #                                   compareop=operator.le, commands=translated_commands,
+        #                                   pcval=self.program_counter)
 
         # Increment program counter
         self.program_counter += len(result)
@@ -990,8 +1002,8 @@ class ChaiMaker():
         """
 
         pid = statement.pidentifier.pidentifier  # Variable pidentifier
-        from_val = int(statement.from_val)  # Starting value
-        to_val = int(statement.to_val)  # Ending value ( <= )
+        from_val = statement.from_val  # Starting value
+        to_val = statement.to_val  # Ending value ( <= )
         commands = statement.commands
 
         # TODO: WARNING!!!
@@ -1028,9 +1040,20 @@ class ChaiMaker():
                                                 from_registry='F'))
         translated_commands.append('JUMP X')
 
+        a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset = self.return_condcheck_preparations(from_val,
+                                                                                                            to_val)
+
         # Generate resulting code of if statement
-        result, begin_jump = gen_fordownto_loop(iter_mem_index=iterator_mem_index, from_value=from_val, to_value=to_val,
-                                                compareop=operator.le, commands=translated_commands,
+        result, begin_jump = gen_fordownto_loop(iter_mem_index=iterator_mem_index,
+                                                from_vid=a_vid, from_is_const=isinstance(from_val, str),
+                                                from_is_arrvar=isinstance(from_val, IntArrayElement),
+                                                from_arr_mem=a_arr_mem,
+                                                from_arr_offset=a_arr_offset,
+                                                to_vid=b_vid, to_is_const=isinstance(to_val, str),
+                                                to_is_arrvar=isinstance(to_val, IntArrayElement),
+                                                to_arr_mem=b_arr_mem,
+                                                to_arr_offset=b_arr_offset,
+                                                compareop=operator.ge, commands=translated_commands,
                                                 pcval=self.program_counter)
 
         # Increment program counter
