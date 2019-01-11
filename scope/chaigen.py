@@ -203,7 +203,7 @@ def gen_assign_var_to_var(var1_index, var2_index):
 def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_offset,
                              a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand, pc_val):
     """
-    Assigns given memory index to expression
+    Assigns given memory index to unwrap_expression
     """
     # Generate constant a and store in first_reg registry
     code = []
@@ -223,7 +223,7 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
         # If a is a constant, store value of constant in first_reg
         code.extend(gen_const(value=a_vid, to_registry=first_reg))
     elif a_array:
-        logging.debug("a given for operand is an array element")
+        logging.debug("a given for operand is an array value_holder")
 
         # Store the memory address of a in A registry
         code.extend(
@@ -240,7 +240,7 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
         # If b is a constant, store value of constant in first_reg
         code.extend(gen_const(value=b_vid, to_registry=second_reg))
     elif b_array:
-        logging.debug("b given for operand is an array element")
+        logging.debug("b given for operand is an array value_holder")
 
         # Store the memory address of b in A registry
         code.extend(gen_arr_index_from_var(var_mem_index=b_vid, array_mem_index=b_array_mem_index,
@@ -264,7 +264,7 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
 def gen_assign_var_to_expr(assign_to_var_index, a_vid, b_vid, a_const, b_const, is_a_arra, a_array_offset,
                            a_array_mem_index, is_b_array, b_array_offset, b_array_mem_index, operand, pc_val):
     """
-    Generates code used for assigning variable to result of expression
+    Generates code used for assigning variable to result of unwrap_expression
     (x := a OPERAND b where a - const, b - variable)
     :param is_b_array: BOOL
     :param is_a_arra: BOOL
@@ -300,7 +300,7 @@ def gen_assign_array_var_to_expr(var_mem_index, array_mem_index, array_offset, a
                                  a_array, a_array_offset,
                                  a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand, pc_val):
     """
-    Assigns array variable to expression
+    Assigns array variable to unwrap_expression
     array(var) := a OPERAND b
     """
     code = []
@@ -317,7 +317,7 @@ def gen_assign_array_var_to_expr(var_mem_index, array_mem_index, array_offset, a
                                          pc_val))
 
     # Save results of calculations in array(var)
-    # Get array index to which we want to assign the expression
+    # Get array index to which we want to assign the unwrap_expression
     code.extend(gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset))
 
     # Store new value in array(var)
@@ -441,7 +441,7 @@ def gen_assign_array_var_array_var(to_array_offset, to_array_mem_index, to_var_v
 
 def gen_getarr_element(var_mem_index, array_offset, array_mem_index):
     """
-    Generates code for returning element of array at given index
+    Generates code for returning value_holder of array at given index
     :param var_mem_index:
     :param array_offset:
     :param array_mem_index:
@@ -458,7 +458,7 @@ def gen_getarr_element(var_mem_index, array_offset, array_mem_index):
 
 def gen_getarr_element_to_reg(var_mem_index, array_offset, array_mem_index, to_registry):
     """
-    Generates code for returning element of array at given index
+    Generates code for returning value_holder of array at given index
     :param var_mem_index:
     :param array_offset:
     :param array_mem_index:
@@ -479,7 +479,7 @@ def gen_getarr_element_to_reg(var_mem_index, array_offset, array_mem_index, to_r
 
 def gen_assign_var_to_array_el(var_index, array_mem_index, element_vid, element_const, array_offset):
     """
-    Generates the assembly code assigning variable to contents of array element at given index
+    Generates the assembly code assigning variable to contents of array value_holder at given index
     x := array(element_vid)
     :param element_const:
     :param element_vid:
@@ -490,12 +490,12 @@ def gen_assign_var_to_array_el(var_index, array_mem_index, element_vid, element_
     code = []
 
     if element_const:
-        # If element is a constant, we have a index of array we want to access.
+        # If value_holder is a constant, we have a index of array we want to access.
         # Generate a constant, taking into account the array offset
         code.extend(gen_getarr_element(var_mem_index=element_vid, array_offset=array_offset,
                                        array_mem_index=array_mem_index))
     else:
-        # If element is a variable, we have to get its' contents from memory first
+        # If value_holder is a variable, we have to get its' contents from memory first
         code.extend(gen_getval(var_mem_index=element_vid, to_registry='A'))
 
         # In registry A we have the index of var we want to access
@@ -565,7 +565,7 @@ def gen_read_to_var(var_index):
 
 def gen_read_to_array_var(address_index, array_index, array_offset):
     """
-    Generates assembly code responsible for reading array element's value from stdin
+    Generates assembly code responsible for reading array value_holder's value from stdin
     :param address_index: index in memory where array index value is stored
     :param array_index: memory index of array
     :param array_offset: array offset value

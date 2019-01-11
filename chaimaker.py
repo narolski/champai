@@ -105,7 +105,7 @@ class ChaiMaker:
 
     def is_array_index_in_bounds(self, array, index):
         """
-        Checks whether given element index is inside array's bounds
+        Checks whether given value_holder index is inside array's bounds
         :param array:
         :param index:
         :return:
@@ -181,24 +181,24 @@ class ChaiMaker:
 
     def handle_arrayvar_assignment(self, assignment):
         """
-        Handles the assignment of array element to value or expression.
+        Handles the assignment of array value_holder to value or unwrap_expression.
         More spaghetti-code!
         :param assignment:
         :return:
         """
         variable = assignment.identifier
-        expression = assignment.expression.return_expression()
+        expression = assignment.unwrap_expression.return_expression()
 
         # Get array we want to access
         array_pid = variable.array_pid
         array = self.get_object_from_mem(array_pid)
         logging.debug("Getting array {}: {}".format(array_pid, array))
 
-        # Get the object representing the element of array we want to access
+        # Get the object representing the value_holder of array we want to access
         element = variable.element
 
-        # logging.debug("Handling assignment of {}({}) to expression: {}".format(array_pid, element.pidentifier,
-        #                                                                        expression))
+        # logging.debug("Handling assignment of {}({}) to unwrap_expression: {}".format(array_pidentifier, value_holder.pidentifier,
+        #                                                                        unwrap_expression))
         # Get details about array
         var_array_index_in_mem = self.get_mem_index(array)
         var_array_offset = array.offset
@@ -209,10 +209,10 @@ class ChaiMaker:
             # (we know that array(var) converts to something like array(16))
             var_array_element_index = self.get_value_of_assignee(element)
 
-            logging.debug("Assigning to known array index {}({}) expression: {}".format(array_pid,
+            logging.debug("Assigning to known array index {}({}) unwrap_expression: {}".format(array_pid,
                                                                                         var_array_element_index, expression))
 
-            # Calculate the absolute index of array element in memory
+            # Calculate the absolute index of array value_holder in memory
             index = var_array_element_index - var_array_offset + var_array_index_in_mem + 1
 
             # Assign new value to the calculated index
@@ -229,7 +229,7 @@ class ChaiMaker:
             logging.debug("Assigning to unknown array '{}(index)' with offset '{}', where index value '{}' is stored at "
                           "memory "
                           "index: '{}' "
-                          "expression: {}"
+                          "unwrap_expression: {}"
                           .format(array_pid, var_array_offset, element.pidentifier, variable_mem_index, expression))
 
             if len(expression) == 1:
@@ -256,9 +256,9 @@ class ChaiMaker:
                 elif isinstance(assignee, IntArrayElement):
                     # If we assign array(var) := another_array(another_var)
                     # Get value from anpther_array at given index
-                    contents = assignee.element
+                    contents = assignee.value_holder
 
-                    to_array_pid = assignee.array_pid
+                    to_array_pid = assignee.array_pidentifier
                     to_array_object = self.get_object_from_mem(to_array_pid)
 
                     to_array_mem_index, to_array_offset = self.get_mem_index_for_pid(to_array_pid), \
@@ -337,8 +337,8 @@ class ChaiMaker:
 
                     if isinstance(a, IntArrayElement):
                         # Get value from array at given index
-                        a_contents = a.element
-                        a_array_pid = a.array_pid
+                        a_contents = a.value_holder
+                        a_array_pid = a.array_pidentifier
                         a_array_object = self.get_object_from_mem(a_array_pid)
                         a_array_mem_index = self.get_mem_index_for_pid(a_array_pid)
                         a_array_offset = a_array_object.offset
@@ -371,8 +371,8 @@ class ChaiMaker:
 
                     if isinstance(b, IntArrayElement):
                         # Get value from array at given index
-                        b_contents = b.element
-                        b_array_pid = b.array_pid
+                        b_contents = b.value_holder
+                        b_array_pid = b.array_pidentifier
                         b_array_object = self.get_object_from_mem(b_array_pid)
                         b_array_mem_index = self.get_mem_index_for_pid(b_array_pid)
                         b_array_offset = b_array_object.offset
@@ -415,14 +415,14 @@ class ChaiMaker:
         :return:
         """
         variable = assignment.identifier
-        expression = assignment.expression.return_expression()
+        expression = assignment.unwrap_expression.return_expression()
         pid = variable.pidentifier
         index = self.get_mem_index(variable)
         return self.handle_index_expression_assignment(expression, index, pid, is_storing_values=True)
 
     def handle_index_expression_assignment(self, expression, index, pid, is_storing_values):
         """
-        Stores the value of an expression at given index.
+        Stores the value of an unwrap_expression at given index.
         :return:
         """
         if len(expression) == 1:
@@ -451,9 +451,9 @@ class ChaiMaker:
 
             elif isinstance(assignee, IntArrayElement):
                 # Get value from array at given index
-                contents = assignee.element
+                contents = assignee.value_holder
 
-                array_pid = assignee.array_pid
+                array_pid = assignee.array_pidentifier
                 array_object = self.get_object_from_mem(array_pid)
 
                 array_mem_index = self.get_mem_index(array_object)
@@ -536,8 +536,8 @@ class ChaiMaker:
 
                 if isinstance(a, IntArrayElement):
                     # Get value from array at given index
-                    a_contents = a.element
-                    a_array_pid = a.array_pid
+                    a_contents = a.value_holder
+                    a_array_pid = a.array_pidentifier
                     a_array_object = self.get_object_from_mem(a_array_pid)
                     a_array_mem_index = self.get_mem_index_for_pid(a_array_pid)
                     a_array_offset = a_array_object.offset
@@ -572,12 +572,12 @@ class ChaiMaker:
 
                 if isinstance(b, IntArrayElement):
                     # Get value from array at given index
-                    b_contents = b.element
-                    b_array_pid = b.array_pid
+                    b_contents = b.value_holder
+                    b_array_pid = b.array_pidentifier
                     b_array_object = self.get_object_from_mem(b_array_pid)
                     b_array_mem_index = self.get_mem_index_for_pid(b_array_pid)
                     b_array_offset = b_array_object.offset
-                    logging.debug("b is array element : {}".format(b))
+                    logging.debug("b is array value_holder : {}".format(b))
 
                     if isinstance(b_contents, str):
                         # If we're given an integer, read the value of array at index
@@ -640,15 +640,15 @@ class ChaiMaker:
             a_vid = self.get_mem_index(a)
 
         elif isinstance(a, IntArrayElement):
-            a_array = self.get_object_from_mem(a.array_pid)
+            a_array = self.get_object_from_mem(a.array_pidentifier)
             a_arr_mem = self.get_mem_index(a_array)
             a_arr_offset = a_array.offset
 
-            if isinstance(a.element, str):
-                a_vid = self.get_value_of_assignee(a.element) - a_array.offset + self.get_mem_index(a_array) + 1
+            if isinstance(a.value_holder, str):
+                a_vid = self.get_value_of_assignee(a.value_holder) - a_array.offset + self.get_mem_index(a_array) + 1
 
-            elif isinstance(a.element, Int):
-                a_vid = self.get_mem_index(a.element)
+            elif isinstance(a.value_holder, Int):
+                a_vid = self.get_mem_index(a.value_holder)
 
         if isinstance(b, str) or (isinstance(b, Int) and not self.is_updated_after_comp(b)):
             b_vid = self.get_value_of_assignee(b)
@@ -657,15 +657,15 @@ class ChaiMaker:
             b_vid = self.get_mem_index(b)
 
         elif isinstance(b, IntArrayElement):
-            b_array = self.get_object_from_mem(b.array_pid)
+            b_array = self.get_object_from_mem(b.array_pidentifier)
             b_arr_mem = self.get_mem_index(b_array)
             b_arr_offset = b_array.offset
 
-            if isinstance(b.element, str):
-                b_vid = self.get_value_of_assignee(b.element) - b_array.offset + self.get_mem_index(b_array) + 1
+            if isinstance(b.value_holder, str):
+                b_vid = self.get_value_of_assignee(b.value_holder) - b_array.offset + self.get_mem_index(b_array) + 1
 
-            elif isinstance(b.element, Int):
-                b_vid = self.get_mem_index(b.element)
+            elif isinstance(b.value_holder, Int):
+                b_vid = self.get_mem_index(b.value_holder)
 
         return a_vid, b_vid, a_arr_mem, a_arr_offset, b_arr_mem, b_arr_offset
 
@@ -685,12 +685,12 @@ class ChaiMaker:
                 return gen_read_to_var(var_index=index)
 
             elif isinstance(variable, IntArrayElement):
-                array = self.get_object_from_mem(variable.array_pid)
+                array = self.get_object_from_mem(variable.array_pidentifier)
 
-                if isinstance(variable.element, str) or (isinstance(variable.element, Int) and not
-                self.is_updated_after_comp(variable.element)):
+                if isinstance(variable.value_holder, str) or (isinstance(variable.value_holder, Int) and not
+                self.is_updated_after_comp(variable.value_holder)):
                     # If index to which to read is known
-                    index = self.get_value_of_assignee(variable.element)
+                    index = self.get_value_of_assignee(variable.value_holder)
 
                     if self.is_array_index_in_bounds(array=array, index=index):
                         index += self.get_mem_index(array) + 1 - array.offset
@@ -700,9 +700,9 @@ class ChaiMaker:
                                                                                                 array.from_val,
                                                                                                 array.to_val))
 
-                elif isinstance(variable.element, Int) and self.is_updated_after_comp(variable.element):
+                elif isinstance(variable.value_holder, Int) and self.is_updated_after_comp(variable.value_holder):
                     # Get memory index of array index's value
-                    address_index = self.get_mem_index(variable.element)
+                    address_index = self.get_mem_index(variable.value_holder)
 
                     return gen_read_to_array_var(address_index=address_index, array_index=self.get_mem_index(array),
                                                  array_offset=array.offset)
@@ -738,8 +738,8 @@ class ChaiMaker:
                 return gen_write_const(value)
 
         elif isinstance(from_var, IntArrayElement):
-            index_var = from_var.element
-            var_array = self.get_object_from_mem(from_var.array_pid)
+            index_var = from_var.value_holder
+            var_array = self.get_object_from_mem(from_var.array_pidentifier)
 
             if isinstance(index_var, str) or isinstance(index_var, Int) and not self.is_updated_after_comp(index_var):
                 # Get the array index that we want to access

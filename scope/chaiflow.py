@@ -23,7 +23,7 @@ class Assign(ControlOperation):
         self.expression = expression
 
     # def __repr__(self):
-    #     return str("\n\t<{} := {}>".format(self.identifier, self.expression))
+    #     return str("\n\t<{} := {}>".format(self.identifier, self.unwrap_expression))
 
 
 class Read(ControlOperation):
@@ -80,8 +80,8 @@ class IfElse(If):
 
 
 class For(ControlFlow):
-    def __init__(self, pidentifier, from_val, to_val, commands):
-        self.pidentifier = pidentifier
+    def __init__(self, iterator, from_val, to_val, commands):
+        self.pidentifier = iterator
         self.from_val = from_val
         self.to_val = to_val
         self.commands = commands
@@ -91,8 +91,8 @@ class For(ControlFlow):
 
 
 class ForDownTo(For):
-    def __init__(self, pidentifier, from_val, to_val, commands):
-        super().__init__(pidentifier, from_val, to_val, commands)
+    def __init__(self, iterator, from_val, to_val, commands):
+        super().__init__(iterator, from_val, to_val, commands)
 
 
 class Condition:
@@ -115,12 +115,20 @@ class Condition:
             }[self.relate]
 
     def return_condition(self):
-        return (self.p, self.get_relation(), self.q)
+        return self.p, self.get_relation(), self.q
 
 
-class Expression:
-    def __init__(self, a, operand, b):
+class Value:
+    def __init__(self, a):
         self.a = a
+
+    def return_value(self):
+        return self.a
+
+
+class Operation(Value):
+    def __init__(self, a, operand, b):
+        super().__init__(a)
         self.operand = operand
         self.b = b
 
@@ -134,15 +142,7 @@ class Expression:
         }[self.operand]
 
     def return_expression(self):
-        return (self.a, self.get_operand(), self.b)
-
-
-class ValueAssignment(Expression):
-    def __init__(self, a):
-        super().__init__(a, None, None)
-
-    def return_expression(self):
-        return (self.a, )
+        return self.a, self.get_operand(), self.b
 
 
 
