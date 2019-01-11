@@ -8,6 +8,8 @@ class ControlFlow:
     Defines common interface for control flow methods.
     """
     # def __init__(self):
+    #     self.condition = condition
+    #     self.commands = commands
 
 class ControlOperation:
     """

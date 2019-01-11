@@ -22,14 +22,10 @@ class Int(Variable):
     Defines integer representation in Champai.
     """
     def __init__(self, pidentifier, lineno):
-        self.is_iterator = False
         super().__init__(pidentifier=pidentifier, lineno=lineno)
 
     def __repr__(self):
         return str("[Integer {}, line {}]".format(self.pidentifier, self.lineno))
-
-    def set_as_iterator(self):
-        self.is_iterator = True
 
 
 class IntArray(Variable):

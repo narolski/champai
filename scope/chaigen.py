@@ -13,7 +13,7 @@ def gen_const(value, to_registry):
     :return:
     """
     # Clean the to_registry
-    code = ['SUB {} {}'.format(to_registry, to_registry)]
+    code = ['SUB {} {} # BEGIN_CONST_GEN'.format(to_registry, to_registry)]
     code.extend(gen_const_val(value, to_registry))
     return code
 
@@ -27,9 +27,25 @@ def gen_const_val(value, registry):
     """
     code = []
 
-    # TODO: Replace this with something a bit better!
-    for i in range(value):
-        code.append('INC {}'.format(registry))
+    # # TODO: Replace this with something a bit better!
+    # for i in range(value):
+    #     code.append('INC {}'.format(registry))
+
+    if value < 10:
+        for i in range(value):
+            code.append('INC {}'.format(registry))
+    else:
+        bin_repr = str(bin(value)[2:])
+
+        # print("Binary representation: {}".format(bin_repr))
+
+        size = len(bin_repr)
+
+        for i in range(0, size):
+            if bin_repr[i] == '1':
+                code.append('INC {}'.format(registry))
+            if i < (size - 1):
+                code.append('ADD {} {}'.format(registry, registry))
 
     return code
 
@@ -239,19 +255,19 @@ def gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_of
     # Perform the arithmetic operation
     pc_val += len(code)
 
-    logging.debug("Program counter val before operation: {}, len_code: {}".format(pc_val, len(code)))
+    # logging.debug("Program counter val before operation: {}, len_code: {}".format(pc_val, len(code)))
     code.extend(gen_arithmetic_operation(operand, pc_val))
 
     return code
 
 
-def gen_assign_var_to_expr(assign_to_var_index, a_vid, b_vid, a_const, b_const, a_array, a_array_offset,
-                           a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand, pc_val):
+def gen_assign_var_to_expr(assign_to_var_index, a_vid, b_vid, a_const, b_const, is_a_arra, a_array_offset,
+                           a_array_mem_index, is_b_array, b_array_offset, b_array_mem_index, operand, pc_val):
     """
     Generates code used for assigning variable to result of expression
     (x := a OPERAND b where a - const, b - variable)
-    :param b_array: BOOL
-    :param a_array: BOOL
+    :param is_b_array: BOOL
+    :param is_a_arra: BOOL
     :param assign_to_var_index: index of variable to assign to new values in memory
     :param b_vid: index of variable in mem or value of constant
     :param a_vid: index of variable in mem or value of constant
@@ -271,8 +287,8 @@ def gen_assign_var_to_expr(assign_to_var_index, a_vid, b_vid, a_const, b_const, 
     else:
         result_reg = 'B'
 
-    code.extend(gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, a_array, a_array_offset,
-                                         a_array_mem_index, b_array, b_array_offset, b_array_mem_index, operand,
+    code.extend(gen_assign_index_to_expr(a_vid, b_vid, a_const, b_const, is_a_arra, a_array_offset,
+                                         a_array_mem_index, is_b_array, b_array_offset, b_array_mem_index, operand,
                                          pc_val))
 
     # Save result of calculations in variable x
@@ -317,18 +333,26 @@ def gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset):
     """
     code = []
 
-    logging.debug("Getting value of variable from memory index: {}".format(var_mem_index - array_offset +
-                                                                           array_mem_index + 1))
+    logging.debug("Using updated method of calculating array indexes")
 
     # Get the value from VARIABLE at given memory index
     code.extend(gen_getval(var_mem_index=var_mem_index, to_registry='H'))
 
     # Calculate almost absolute memory index
-    almost_absolute_memory_index = array_mem_index - array_offset + 1
+    # 1. subtract array offset
+    code.extend(gen_const(value=array_offset, to_registry='G'))
+    code.append('SUB H G')
 
-    # Add almost_absolute_memory_index to value of VARIABLE to get absolute_memory_index stored in registry A
-    code.extend(gen_const_val(value=almost_absolute_memory_index, registry='H'))
+    # 2. add array mem index + 1
+    code.extend(gen_const(value=array_mem_index+1, to_registry='G'))
+    code.append('ADD H G')
+
+    # H now stores memory index which we want to access
+
+    # # Add almost_absolute_memory_index to value of VARIABLE to get absolute_memory_index stored in registry A
+    # code.extend(gen_const_val(value=almost_absolute_memory_index, registry='H'))
     code.append('COPY A H')
+    # code.append('PUT A')
 
     return code
 
@@ -341,6 +365,8 @@ def gen_assign_array_var_const(const_value, var_mem_index, array_mem_index, arra
     - Finally, assigns array(var) := const_value.
     :return:
     """
+    logging.debug("Assigning to array_var at memory index {} constant := {}".format(var_mem_index, const_value))
+
     code = []
     # Get the array index from value of var and store it in A
     code.extend(gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset))
@@ -362,6 +388,9 @@ def gen_assign_array_var_var(to_var_index, var_mem_index, array_mem_index, array
     :type to_var_index: index of another_var
     :return:
     """
+    logging.debug("Assigning to array_var at memory index {} value of variable at memory index {}".format(
+        var_mem_index, to_var_index))
+
     code = []
     # Get the array index from value of var and store it in A
     code.extend(gen_arr_index_from_var(var_mem_index, array_mem_index, array_offset))
@@ -387,9 +416,14 @@ def gen_assign_array_var_array_var(to_array_offset, to_array_mem_index, to_var_v
     :param from_array_offset:
     :return:
     """
+    logging.debug("Assigning to array_var at memory index {} value of array_var at memory index {}".format(
+        to_array_mem_index, from_var_mem_index))
+
     code = []
     # Get value of the to_var from memory
     code.extend(gen_getval(var_mem_index=to_var_vid, to_registry='A'))
+
+    absolute_mem_index = mem_f
 
     # In registry A we have the index of var we want to access
     # Increment A, which will hold absolute_mem_index = array_mem_index + array_offset + element_index
@@ -414,9 +448,11 @@ def gen_getarr_element(var_mem_index, array_offset, array_mem_index):
     :return:
     """
     code = []
-    absolute_mem_index = var_mem_index - array_offset + array_mem_index + 1
-    code.extend(gen_getval(var_mem_index=absolute_mem_index, to_registry='H'))
-
+    code.extend(gen_const(value=var_mem_index, to_registry='H'))
+    code.extend(gen_const(value=array_offset, to_registry='G'))
+    code.append('SUB H G')
+    code.extend(gen_const(value=array_mem_index + 1, to_registry='G'))
+    code.append('ADD H G')
     return code
 
 
@@ -429,8 +465,14 @@ def gen_getarr_element_to_reg(var_mem_index, array_offset, array_mem_index, to_r
     :return:
     """
     code = []
-    absolute_mem_index = var_mem_index - array_offset + array_mem_index + 1
-    code.extend(gen_getval(var_mem_index=absolute_mem_index, to_registry=to_registry))
+    # absolute_mem_index = var_mem_index - array_offset + array_mem_index + 1
+    # code.extend(gen_getval(var_mem_index=absolute_mem_index, to_registry=to_registry))
+
+    code.extend(gen_const(value=var_mem_index, to_registry=to_registry))
+    code.extend(gen_const(value=array_offset, to_registry='G'))
+    code.append('SUB {} G'.format(to_registry))
+    code.extend(gen_const(value=array_mem_index + 1, to_registry='G'))
+    code.append('ADD {} G'.format(to_registry))
 
     return code
 
