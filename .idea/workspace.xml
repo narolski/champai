@@ -2,32 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test1.imp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaiasm.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiasm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaimaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaimaker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaiman.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaiparser.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiparser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chairegs.py" beforeDir="false" afterPath="$PROJECT_DIR$/chairegs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaistat.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaistat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/champai.py" beforeDir="false" afterPath="$PROJECT_DIR$/champai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser.out" beforeDir="false" afterPath="$PROJECT_DIR$/parser.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scope/chaigen.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaigen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scope/chaivars.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaivars.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/0-div-mod.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/0-div-mod.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/1-numbers.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/1-numbers.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/10-lab.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/10-lab.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/2-fib.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/2-fib.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/3-fib-factorial.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/3-fib-factorial.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/4-factorial.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/4-factorial.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/5-tab.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/5-tab.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/6-mod-mult.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/6-mod-mult.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/7-loopiii.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/7-loopiii.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/8-for.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/8-for.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/9-sort.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/9-sort.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/program0.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/program0.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/program1.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/program1.imp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/program2.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gebala/program2.imp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test1.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test1.imp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/champai$Run_chaimaker.coverage" NAME="Run chaimaker Coverage Results" MODIFIED="1547312532531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/champai$Run_chaimaker.coverage" NAME="Run chaimaker Coverage Results" MODIFIED="1547313638606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/champai$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1546634238658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
@@ -86,19 +63,19 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="86" />
-          <entry key="imp" value="3619" />
+          <entry key="imp" value="3691" />
           <entry key="o" value="26" />
           <entry key="out" value="1224" />
           <entry key="pai" value="21" />
           <entry key="pie" value="12" />
-          <entry key="py" value="103212" />
-          <entry key="txt" value="321" />
+          <entry key="py" value="104398" />
+          <entry key="txt" value="437" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="5309" />
-          <entry key="Python" value="103078" />
+          <entry key="PLAIN_TEXT" value="5497" />
+          <entry key="Python" value="104264" />
           <entry key="Scratch" value="134" />
         </counts>
       </usages-collector>
@@ -173,16 +150,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chaiasm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+            <state relative-caret-position="98">
+              <caret line="271" column="37" selection-start-line="271" selection-start-column="37" selection-end-line="271" selection-end-column="37" />
               <folding>
                 <element signature="e#13#44#0" expanded="true" />
-                <marker date="1547312531579" expanded="true" signature="130:133" ph="..." />
-                <marker date="1547312531579" expanded="true" signature="156:161" ph="..." />
-                <marker date="1547312531579" expanded="true" signature="1775:1781" ph="..." />
-                <marker date="1547312531579" expanded="true" signature="1853:2159" ph="..." />
-                <marker date="1547312531579" expanded="true" signature="4382:4719" ph="..." />
-                <marker date="1547312531579" expanded="true" signature="4804:6542" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="130:133" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="156:161" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="463:557" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="1899:1905" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="1977:2283" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="4506:4843" ph="..." />
+                <marker date="1547313637567" expanded="true" signature="4928:6666" ph="..." />
               </folding>
             </state>
           </provider>
@@ -191,8 +169,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chaistat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="97" column="33" lean-forward="true" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
+            <state relative-caret-position="267">
+              <caret line="107" column="42" selection-start-line="107" selection-start-column="42" selection-end-line="107" selection-end-column="42" />
               <folding>
                 <element signature="e#14#28#0" expanded="true" />
                 <marker date="1547311025717" expanded="true" signature="99:104" ph="..." />
@@ -207,8 +185,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test1.o">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
+            <state relative-caret-position="180">
+              <caret line="114" column="7" lean-forward="true" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -217,7 +195,7 @@
         <entry file="file://$PROJECT_DIR$/tests/test1.imp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="294">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+              <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -225,8 +203,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chairegs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+            <state relative-caret-position="396">
+              <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -270,8 +248,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>with absolute</find>
-      <find>using updat</find>
       <find>with abso</find>
       <find>gen_getarr</find>
       <find>477</find>
@@ -298,6 +274,8 @@
       <find>STORE</find>
       <find>handle_write</find>
       <find>Registries.Value</find>
+      <find>end_</find>
+      <find>$end_</find>
       <find>SUB B C</find>
       <find>program_counter</find>
     </findStrings>
@@ -382,9 +360,9 @@
         <option value="$PROJECT_DIR$/chaiparser.py" />
         <option value="$PROJECT_DIR$/chaiman.py" />
         <option value="$PROJECT_DIR$/chaistat.py" />
-        <option value="$PROJECT_DIR$/tests/test1.imp" />
         <option value="$PROJECT_DIR$/tests/test1.o" />
         <option value="$PROJECT_DIR$/chairegs.py" />
+        <option value="$PROJECT_DIR$/tests/test1.imp" />
         <option value="$PROJECT_DIR$/chaiasm.py" />
       </list>
     </option>
@@ -615,7 +593,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547224549651</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Assignment with addition, subtraction, multiplication working. New version of jump indexes calculator">
+      <created>1547312603685</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1547312603685</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -691,7 +676,8 @@
     <MESSAGE value="Added for/downto support for variable parameters" />
     <MESSAGE value="New code structure bootstrap" />
     <MESSAGE value="Started implementation of assignment handling with minor reworkings of previous code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started implementation of assignment handling with minor reworkings of previous code" />
+    <MESSAGE value="Assignment with addition, subtraction, multiplication working. New version of jump indexes calculator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assignment with addition, subtraction, multiplication working. New version of jump indexes calculator" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/sly/yacc.py">
@@ -1033,29 +1019,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chairegs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        <state relative-caret-position="396">
+          <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test1.imp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test1.o">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
+        <state relative-caret-position="180">
+          <caret line="114" column="7" lean-forward="true" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chaistat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="97" column="33" lean-forward="true" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
+        <state relative-caret-position="267">
+          <caret line="107" column="42" selection-start-line="107" selection-start-column="42" selection-end-line="107" selection-end-column="42" />
           <folding>
             <element signature="e#14#28#0" expanded="true" />
             <marker date="1547311025717" expanded="true" signature="99:104" ph="..." />
@@ -1068,16 +1054,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chaiasm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+        <state relative-caret-position="98">
+          <caret line="271" column="37" selection-start-line="271" selection-start-column="37" selection-end-line="271" selection-end-column="37" />
           <folding>
             <element signature="e#13#44#0" expanded="true" />
-            <marker date="1547312531579" expanded="true" signature="130:133" ph="..." />
-            <marker date="1547312531579" expanded="true" signature="156:161" ph="..." />
-            <marker date="1547312531579" expanded="true" signature="1775:1781" ph="..." />
-            <marker date="1547312531579" expanded="true" signature="1853:2159" ph="..." />
-            <marker date="1547312531579" expanded="true" signature="4382:4719" ph="..." />
-            <marker date="1547312531579" expanded="true" signature="4804:6542" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="130:133" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="156:161" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="463:557" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="1899:1905" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="1977:2283" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="4506:4843" ph="..." />
+            <marker date="1547313637567" expanded="true" signature="4928:6666" ph="..." />
           </folding>
         </state>
       </provider>

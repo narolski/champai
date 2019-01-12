@@ -8,7 +8,16 @@ IN
     WRITE a;
     WRITE b;
 
+    c := a + b;
+    WRITE c;
+
+    c := a - b;
+    WRITE c;
+
     c := a * b;
+    WRITE c;
+
+    c := a / b;
     WRITE c;
 
 END

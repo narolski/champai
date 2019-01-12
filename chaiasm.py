@@ -14,6 +14,11 @@ class ChaiAsm(ChaiMan):
         self.program_counter = 0
         self.jump_identifier = 0
 
+    def get_jump_identifier(self):
+        jid = self.jump_identifier
+        self.jump_identifier += 1
+        return jid
+
     def generate_constant(self, constant_value, target_registry=Registries.Constant.value):
         """
         Generates the constant in given target registry
@@ -206,7 +211,7 @@ class ChaiAsm(ChaiMan):
 
         elif oper == operator.mul:
             # TODO: Improve
-            identifier = self.jump_identifier
+            identifier = self.get_jump_identifier()
 
             code.append('SUB D D'.format(identifier)) # 1 - Clean B for use later
 
@@ -229,49 +234,47 @@ class ChaiAsm(ChaiMan):
 
         elif oper == operator.floordiv or oper == operator.mod:
             # TODO: Improve
-            start_index = self.program_counter
-            if_divisor_zero = start_index + 31
-            end_less_condition = start_index + 10
-            cond_alt = start_index + 13
+            identifier = self.get_jump_identifier()
 
-            code.append('SUB D D # BEGIN MOD/DIV')  # D - result of division
-            code.append('SUB E E')  # E - multiplier
-            code.append('INC E')
-            code.append('COPY F B')  # F - remainder
-            code.append('JZERO C {}'.format(if_divisor_zero))  # if divisor == 0
+            # regD = regA / regB
 
-            code.append('COPY H C')  # WHILE LOOP
-            code.append('INC H')
-            code.append('SUB H B')
-            code.append('JZERO H {}'.format(end_less_condition))  # while divisor < divident
-            code.append('JUMP {}'.format(cond_alt))
-            code.append('ADD C C')  # divisor * 2
-            code.append('ADD E E')  # multiplier * 2
-            code.append('JUMP {}'.format(start_index + 5))
-            code.append('COPY H C')  # reminder >= divisor
-            code.append('SUB H F')
-            code.append('JZERO H {}'.format(start_index + 17))
-            code.append('JUMP {}'.format(start_index + 19))
-            code.append('SUB F C')
-            code.append('ADD D E')
-            code.append('HALF C')
+            code.append('COPY A B')
+            code.append('COPY B C')
+
+            code.append('JZERO B $dzero_{}'.format(identifier))
+            code.append('COPY E B')
+            code.append('$l1_{} COPY D E'.format(identifier))
+            code.append('SUB D A')
+            code.append('JZERO D $shle_{}'.format(identifier))
+            code.append('JUMP $div_{}'.format(identifier))
+
+            code.append('$shle_{} ADD E E'.format(identifier))
+            code.append('JUMP $l1_{}'.format(identifier))
+            code.append('$div_{} SUB D D'.format(identifier))
+
+            code.append('$l2_{} COPY C E'.format(identifier))
+            code.append('SUB C A')
+            code.append('JZERO C $one_{}'.format(identifier))
+            code.append('ADD D D')
             code.append('HALF E')
-            code.append('JZERO E {}'.format(start_index + 32))
-            code.append('COPY H C')
-            code.append('SUB H F')
-            code.append('JZERO H {}'.format(start_index + 26))
-            code.append('JUMP {}'.format(start_index + 28))
-            code.append('SUB F C')
-            code.append('ADD D E')
-            code.append('HALF C')
+            code.append('JUMP $check_{}'.format(identifier))
+
+            code.append('$one_{} ADD D D'.format(identifier))
+            code.append('INC D')
+            code.append('SUB A E')
             code.append('HALF E')
-            code.append('JUMP {}'.format(start_index + 21))
 
-            code.append('SUB F F')
+            code.append('$check_{} COPY C B'.format(identifier))
+            code.append('SUB C E')
+            code.append('JZERO C $l2_{}'.format(identifier))
+            code.append('JUMP $end_{}'.format(identifier))
 
-        if oper == operator.mod:
-            result_reg = Registries.ExpressionModResult.value
-        else:
+            code.append('$dzero_{} SUB A A'.format(identifier))
+            code.append('SUB D D'.format(identifier))
+
+            # This can be improved, too!
+            code.append('$end_{} INC H'.format(identifier))
+
             result_reg = Registries.ExpressionDivResult.value
 
         return code, result_reg
