@@ -16,6 +16,11 @@ class Registries(Enum):
 
     ExpressionFirstOperand = 'B'   # a in a + b
     ExpressionSecondOperand = 'C'  # b in a + b
+    ExpressionMulFirstOperand = 'B'
+    ExpressionMulSecondOperand = 'C'
 
     ExpressionAddResult = 'B'
     ExpressionSubResult = 'B'
+    ExpressionMulResult = 'D'
+    ExpressionDivResult = 'D'
+    ExpressionModResult = 'F'

@@ -1,0 +1,14 @@
+DECLARE
+    a;
+    b;
+    c;
+IN
+    a := 64;
+    b := 7;
+    WRITE a;
+    WRITE b;
+
+    c := a * b;
+    WRITE c;
+
+END

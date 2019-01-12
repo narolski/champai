@@ -28,7 +28,7 @@ class ChaiParser(Parser):
         """
         if not variable.pidentifier in self.global_variables.keys():
             self.global_variables[variable.pidentifier] = variable
-            self.memory_indexes[self.next_free_memory_index] = variable.pidentifier
+            self.memory_indexes[variable.pidentifier] = self.next_free_memory_index
 
             if isinstance(variable, Int):
                 self.next_free_memory_index += 1
@@ -92,7 +92,7 @@ class ChaiParser(Parser):
 
     # command:
     # Handles command
-    @_('identifier ASSIGN unwrap_expression SEMICOLON')
+    @_('identifier ASSIGN expression SEMICOLON')
     def command(self, p):
         # return ('assign', p[0], p[2])
         return Assign(identifier=p[0], expression=p[2])

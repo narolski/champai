@@ -2,16 +2,16 @@
 
 from chailexer import ChaiLexer
 from chaiparser import ChaiParser
-from chaimaker import ChaiMaker
+from chaistat import ChaiStat
 
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-file = open('tests/dev_tests/program2.imp', 'r').read()
+file = open('tests/test1.imp', 'r').read()
 
 tree = parser.parse(lexer.tokenize(file))
 
-maker = ChaiMaker(parse_tree=tree)
-maker.make()
+manager = ChaiStat(parse_tree=tree, global_variables=parser.global_variables, memory_indexes=parser.memory_indexes)
+manager.manage()
 
 

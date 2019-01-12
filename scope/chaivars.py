@@ -49,6 +49,9 @@ class IntArrayElement(Variable):
         self.updated_after_compilation = True
         super().__init__(array.pidentifier, lineno)
 
+    def get_value_holder(self):
+        return self.value_holder
+
 
 
 

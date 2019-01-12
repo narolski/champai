@@ -1,10 +1,8 @@
 # chaimaker.py
-import logging
-from operator import *
 
 from scope.chaivars import *
 from scope.chaiflow import *
-from scope.chaigen import *
+from chaigen import *
 
 
 class ChaiMaker:
