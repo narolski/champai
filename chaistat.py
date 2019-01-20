@@ -58,6 +58,52 @@ class ChaiStat(ChaiMan):
 
         return code
 
+    def if_statement(self, operation):
+        """
+        Handles the conditional statement (if, if-else)
+        :param operation: control flow operation wrapper
+        :return:
+        """
+        code = []
+        first_operand, oper, second_operand = operation.condition.return_condition()
+        commands = operation.commands
+
+        # Generate condition check
+        cond_code, jump_identifier = self.generator.generate_conditional_statement(first_operand=first_operand,
+                                                              second_operand=second_operand,
+                                                                  oper=oper)
+        code.extend(cond_code)
+
+        # Delegate translation of commands
+        translated_commands = self.translate(commands)
+
+        # If dealing with eq or neq append $commands_cond_{} marker to first line of commands
+        if oper == operator.eq or oper == operator.ne:
+            translated_commands[0] = '$commands_cond_{} '.format(jump_identifier) + translated_commands[0]
+
+        code.extend(translated_commands)
+
+        # Mark also the end of condition for $end_cond_{} marker
+        # TODO: Jump from here to end (of alt commands, if exist)
+
+        code.append('$end_cond_{} # END IF'.format(jump_identifier))
+
+        # If handling if-else statement
+        if isinstance(operation, IfElse):
+            alt_commands = operation.return_alt_commands()
+            code.extend(self.translate(alt_commands))
+            # Add marker for end
+
+        return code
+
+    def read(self, read):
+        """
+        Handles the reading of value from stdin
+        :param read:
+        :return:
+        """
+        return self.generator.generate_read(read.to_variable)
+
     def write(self, write):
         """
         Handles the printing of value to stdout
@@ -81,6 +127,12 @@ class ChaiStat(ChaiMan):
             elif isinstance(command, Write):
                 translated_code = self.write(command)
 
+            elif isinstance(command, Read):
+                translated_code = self.read(command)
+
+            elif isinstance(command, If):
+                translated_code = self.if_statement(command)
+
             self.generator.program_counter += len(translated_code)
             code.extend(translated_code)
 
@@ -95,18 +147,21 @@ class ChaiStat(ChaiMan):
         for i in range(0, len(translated_commands)):
             command = translated_commands[i].split()
 
-            if '$' in command[-1] and ('JZERO' or 'JUMP' in command[0]):
-                # If last element contains a placeholder (it is JZERO or JUMP)
+            # Find placeholder
+            if '$' in command[0]:
+                placeholder = command[0]
 
                 for j in range(0, len(translated_commands)):
-                    placeholder_candidate = translated_commands[j].split()
+                    jump_command_candidate = translated_commands[j].split()
 
-                    if command[-1] in placeholder_candidate[0]:
-                        # Replace the placeholder with absolute jump index
-                        command[-1] = str(j)
-                        translated_commands[i] = ' '.join(command)
-                        placeholder_candidate.pop(0)
-                        translated_commands[j] = ' '.join(placeholder_candidate)
+                    if placeholder in jump_command_candidate[-1]:
+                        # Replace placeholder in JUMP/JODD/JZERO with absolute index
+                        jump_command_candidate[-1] = str(i)
+                        translated_commands[j] = ' '.join(jump_command_candidate)
+
+                # Remove placeholder after all replacements have been performed
+                command.pop(0)
+                translated_commands[i] = ' '.join(command)
 
         return translated_commands
 
@@ -135,7 +190,10 @@ class ChaiStat(ChaiMan):
         output.append('HALT')
 
         output = self.insert_jumps(output)
+        # NOTE: Need to go through twice to eliminate double-jumps in single line.
+        output = self.insert_jumps(output)
+
 
         logging.debug("Chaistat output: {}".format(output))
 
-        outf = open('tests/test1.o', 'w').write('\n'.join(output))
+        outf = open('tests/test2.o', 'w').write('\n'.join(output))

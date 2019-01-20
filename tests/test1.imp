@@ -2,22 +2,29 @@ DECLARE
     a;
     b;
     c;
+    array(5:20);
 IN
-    a := 64;
-    b := 7;
-    WRITE a;
-    WRITE b;
+    READ array(6);
+    READ array(20);
+    WRITE array(6);
+    WRITE array(20);
 
-    c := a + b;
-    WRITE c;
+    array(7) := array(6) + array(20);
+    WRITE array(7);
 
-    c := a - b;
-    WRITE c;
+    array(7) := array(6) - array(20);
+    WRITE array(7);
 
-    c := a * b;
-    WRITE c;
+    array(7) := array(6) * array(20);
+    WRITE array(7);
 
-    c := a / b;
-    WRITE c;
+    array(7) := array(6) / array(20);
+    WRITE array(7);
+
+    array(7) := array(6) % array(20);
+    WRITE array(7);
+
+    array(5) := c;
+    WRITE array(5);
 
 END

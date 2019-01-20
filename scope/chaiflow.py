@@ -7,9 +7,15 @@ class ControlFlow:
     """
     Defines common interface for control flow methods.
     """
-    # def __init__(self):
-    #     self.condition = condition
-    #     self.commands = commands
+    def __init__(self, condition, commands):
+        self.condition = condition
+        self.commands = commands
+
+    def return_condition(self):
+        return self.condition
+
+    def return_commands(self):
+        return self.commands
 
 class ControlOperation:
     """
@@ -45,8 +51,7 @@ class Write(ControlOperation):
 
 class While(ControlFlow):
     def __init__(self, condition, commands):
-        self.condition = condition
-        self.commands = commands
+        super().__init__(condition, commands)
 
     # def __repr__(self):
     #     return str("\n<While {} do>\n{}\n".format(self.condition, self.commands))
@@ -54,8 +59,8 @@ class While(ControlFlow):
 
 class DoWhile(ControlFlow):
     def __init__(self, condition, commands):
-        self.condition = condition
-        self.commands = commands
+        super().__init__(condition, commands)
+
 
     # def __repr__(self):
     #     return str("\n<do>\n{}\n<while {}>\n".format(self.commands, self.condition))
@@ -63,8 +68,7 @@ class DoWhile(ControlFlow):
 
 class If(ControlFlow):
     def __init__(self, condition, commands):
-        self.condition = condition
-        self.commands = commands
+        super().__init__(condition, commands)
 
     # def __repr__(self):
     #     return str("\n<If {} do>\n\t{}\n".format(self.condition, self.commands))
@@ -75,11 +79,14 @@ class IfElse(If):
         super().__init__(condition, commands)
         self.alt_commands = alt_commands
 
+    def return_alt_commands(self):
+        return self.alt_commands
+
     # def __repr__(self):
     #     return str("\n<If {} do>\n\t{}\n<else>\n\t{}\n".format(self.condition, self.commands, self.alt_commands))
 
 
-class For(ControlFlow):
+class For():
     def __init__(self, iterator, from_val, to_val, commands):
         self.pidentifier = iterator
         self.from_val = from_val

@@ -7,7 +7,7 @@ from chaistat import ChaiStat
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-file = open('tests/test1.imp', 'r').read()
+file = open('tests/test2.imp', 'r').read()
 
 tree = parser.parse(lexer.tokenize(file))
 

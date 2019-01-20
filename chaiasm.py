@@ -62,7 +62,37 @@ class ChaiAsm(ChaiMan):
         :param target_registry: registry to store the value
         :return:
         """
-        return self.generate_constant(constant_value=value, target_registry=target_registry)
+        return self.generate_constant(constant_value=value, target_registry=Registries.Value.value)
+
+    def generate_get_value(self, operand, target_registry=Registries.Value.Value):
+        """
+        Stores in target registry value of variable a
+        :param memory_index:
+        :param target_registry:
+        :return:
+        """
+        code = []
+
+        # Store in registries values of variables
+        if isinstance(operand, int):
+            # If a is a concrete integer value
+            code.extend(self.generate_value(value=operand,
+                                            target_registry=target_registry))
+
+        elif isinstance(operand, Int):
+            # If a is a variable from which we have to get the value
+            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(operand),
+                                                            target_registry=target_registry))
+
+        elif isinstance(operand, IntArrayElement):
+            # If a is an array value_holder from which we have to get the value
+            code.extend(self.generate_get_value_of_array_element(array_element=operand,
+                                                                 target_registry=target_registry))
+
+        else:
+            raise Exception("generate_get_value: invalid operand type")
+
+        return code
 
     def generate_get_value_of_variable(self, memory_index, target_registry=Registries.Value.value):
         """
@@ -168,35 +198,11 @@ class ChaiAsm(ChaiMan):
         code = []
 
         # Store in registries values of variables
-        if isinstance(first_operand, int):
-            # If a is a concrete integer value
-            code.extend(self.generate_value(value=first_operand,
-                                                      target_registry=Registries.ExpressionFirstOperand.value))
+        code.extend(self.generate_get_value(operand=first_operand,
+                                            target_registry=Registries.ExpressionFirstOperand.value))
 
-        elif isinstance(first_operand, Int):
-            # If a is a variable from which we have to get the value
-            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(first_operand),
-                                                                      target_registry=Registries.ExpressionFirstOperand.value))
-
-        elif isinstance(first_operand, IntArrayElement):
-            # If a is an array value_holder from which we have to get the value
-            code.extend(self.generate_get_value_of_array_element(array_element=first_operand,
-                                                                 target_registry=Registries.ExpressionFirstOperand.value))
-
-        if isinstance(second_operand, int):
-            # If b is a concrete integer value
-            code.extend(self.generate_value(value=second_operand,
-                                                      target_registry=Registries.ExpressionSecondOperand.value))
-
-        elif isinstance(second_operand, Int):
-            # If b is a variable from which we have to get the value
-            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(second_operand),
-                                                                      target_registry=Registries.ExpressionSecondOperand.value))
-
-        elif isinstance(second_operand, IntArrayElement):
-            # If b is an array value_holder from which we have to get the value
-            code.extend(self.generate_get_value_of_array_element(array_element=second_operand,
-                                                                 target_registry=Registries.ExpressionSecondOperand.value))
+        code.extend(self.generate_get_value(operand=second_operand,
+                                            target_registry=Registries.ExpressionSecondOperand.value))
 
         # Perform operation on registers
         if oper == operator.add:
@@ -275,7 +281,11 @@ class ChaiAsm(ChaiMan):
             # This can be improved, too!
             code.append('$end_{} INC H'.format(identifier))
 
-            result_reg = Registries.ExpressionDivResult.value
+            if oper == operator.floordiv:
+                result_reg = Registries.ExpressionDivResult.value
+            elif oper == operator.mod:
+                code.append('COPY D A')
+                result_reg = Registries.ExpressionModResult.value
 
         return code, result_reg
 
@@ -300,5 +310,82 @@ class ChaiAsm(ChaiMan):
         code.append('PUT {}'.format(Registries.Value.value))
         return code
 
+    def generate_read(self, to_variable):
+        """
+        Handles generation of code responsible for assigning value from stdin to variable.
+        :param to_variable:
+        :return:
+        """
+        code = []
 
+        code.append('GET {}'.format(Registries.Value.value))
+        code.extend(self.generate_set_value_from_registry(to=to_variable))
+
+        return code
+
+    def generate_conditional_statement(self, first_operand, second_operand, oper):
+        """
+        Generates the conditional statement for given operations
+        :param first_operand:
+        :param second_operand:
+        :param oper:
+        :return:
+        """
+        code = []
+
+        # Get values of first operand, second operand to registries
+        code.extend(self.generate_get_value(operand=first_operand,
+                                            target_registry=Registries.ConditionFirstOperand.value))
+        code.extend(self.generate_get_value(operand=second_operand,
+                                            target_registry=Registries.ConditionSecondOperand.value))
+
+        first_reg = Registries.ConditionFirstOperand.value
+        second_reg = Registries.ConditionSecondOperand.value
+        jump_identifier = self.get_jump_identifier()
+
+        if oper == operator.gt or oper == operator.lt:
+            # is a > b -> (is a - b > 0 <-> is a - b < 0)
+            # (because we only work with positive numbers)
+
+            code.append('SUB {} {} # GT/LT CONDITION'.format(first_reg, second_reg))
+            code.append('JZERO {} $end_cond_{}'.format(first_reg, jump_identifier))
+
+            # TODO: Add $end_gtlt_{} after code which has to be executed only when condition evaluates to True
+            # NOTE: You can add it to comment, too - it will work like magic!
+
+        elif oper == operator.ge or oper == operator.le:
+            # is a >= b
+
+            code.append('INC {} # GE/LE COND'.format(first_reg))
+            code.append('SUB {} {}'.format(first_reg, second_reg))
+            code.append('JZERO {} $end_cond_{}'.format(first_reg, jump_identifier))
+
+            # TODO: $end_cond_{} -> jump to end (of commands)
+
+        elif oper == operator.eq:
+            # is a == b
+
+            code.append('INC {} # BEGIN EQ COND'.format(second_reg))
+            code.append('SUB {} {}'.format(second_reg, first_reg))
+            code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
+            code.append('DEC {}'.format(second_reg))
+            code.append('JZERO {} $commands_cond_{}'.format(second_reg, jump_identifier))
+            code.append('JUMP $end_cond_{}'.format(jump_identifier))
+
+            # $commands_cond_{} -> jump to commands
+            # TODO: $end_cond_{}
+
+        elif compareop == operator.ne:
+            # is a != b
+
+            code.append('INC {} # BEGIN NEQ COND'.format(second_reg))
+            code.append('SUB {} {}'.format(second_reg, first_reg))
+            code.append('JZERO {} $commands_cond_{}'.format(second_reg, jump_identifier))
+            code.append('DEC {}'.format(second_reg))
+            code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
+
+            # $commands_cond_{} -> jump to commands
+            # TODO: $end_cond_{} -> jump to end
+
+        return code, jump_identifier
 

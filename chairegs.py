@@ -23,4 +23,7 @@ class Registries(Enum):
     ExpressionSubResult = 'B'
     ExpressionMulResult = 'D'
     ExpressionDivResult = 'D'
-    ExpressionModResult = 'F'
+    ExpressionModResult = 'D'
+
+    ConditionFirstOperand = 'F'
+    ConditionSecondOperand = 'G'

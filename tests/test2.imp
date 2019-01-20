@@ -1,0 +1,26 @@
+DECLARE
+    a;
+    b;
+    array(654:830);
+IN
+    READ a;
+    array(711) := a;
+    WRITE array(711);
+
+    IF array(711) = a THEN
+        a := array(711) * a;
+    ENDIF
+
+    READ b;
+
+    IF array(711) > b THEN
+        [ NOT WORKING! ]
+        b := 1234;
+    ELSE
+        b := 5678;
+    ENDIF
+
+    WRITE a;
+    WRITE b;
+
+END
