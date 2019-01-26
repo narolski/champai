@@ -1,0 +1,11 @@
+DECLARE
+    a;
+    b;
+IN
+    READ a;
+
+    IF 30 <= 20
+    THEN
+        WRITE a;
+    ENDIF
+END

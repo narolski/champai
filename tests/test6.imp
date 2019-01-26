@@ -1,0 +1,11 @@
+DECLARE
+    a;
+    b;
+    c(16:165);
+IN
+    [ c := a * b; ]
+    [ WRITE c; ]
+    READ a;
+    WRITE c(17);
+
+END
