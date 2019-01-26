@@ -1,0 +1,27 @@
+[ a; i(0:100); z; ]
+DECLARE
+    f(0:100); s(0:100); i(0:100); n; k; l; z; a;
+IN
+    a := 1;
+
+    z := 0;
+    i(z) := 1;
+
+    FOR x FROM 0 TO 5 DO
+        i(x) := a;
+        a := a + 1;
+    ENDFOR
+
+    [WRITE i(0);
+    WRITE i(1);
+    WRITE i(2);
+    WRITE i(3);
+    WRITE i(4);
+    WRITE i(5);]
+
+    FOR j FROM 0 TO 5 DO
+        WRITE i(j);
+    ENDFOR
+
+END
+

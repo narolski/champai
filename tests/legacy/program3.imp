@@ -1,0 +1,22 @@
+DECLARE
+    a;
+    b;
+    c;
+    d;
+IN
+    READ a;
+    READ b;
+
+    IF a >= b THEN
+        c := a * b;
+        d := a / b;
+    ELSE
+        c := 10000;
+        d := 696969;
+    ENDIF
+
+    WRITE a;
+    WRITE b;
+    WRITE c;
+    WRITE d;
+END

@@ -1,0 +1,17 @@
+DECLARE
+    a;
+    sito(2:5);
+    b;
+    c;
+IN
+    a := 5;
+    sito(2) := 5;
+    b := 1;
+    c := 2;
+
+    FOR i FROM sito(2) DOWNTO a
+    DO
+        WRITE i;
+    ENDFOR
+
+END
