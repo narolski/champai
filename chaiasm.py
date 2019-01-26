@@ -146,12 +146,9 @@ class ChaiAsm(ChaiMan):
                                                             target_registry=target_registry))
 
         elif isinstance(element_index_value_holder, Int):
-            # If we have to get the index of array element from the variable's value
+            # Add element index to registry
             code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
                 element_index_value_holder), target_registry=Registries.MemoryIndex.value))
-
-            # Add 1
-            code.append('INC {}'.format(Registries.MemoryIndex.value))
 
             # Subtract array's from_val
             code.extend(self.generate_value(value=array.from_val, target_registry=Registries.G.value))
@@ -160,6 +157,9 @@ class ChaiAsm(ChaiMan):
             # Add memory location of array
             code.extend(self.generate_append_constant(constant_value=self.get_object_memory_location(array),
                                                       target_registry=Registries.MemoryIndex.value))
+
+            # Add 1
+            code.append('INC {}'.format(Registries.MemoryIndex.value))
 
             # Load variable from memory to target_registry
             code.append('LOAD {}'.format(target_registry))
@@ -213,11 +213,9 @@ class ChaiAsm(ChaiMan):
                 logging.debug("Value holder mem index: {}, offset should be: {}".format(self.get_object_memory_location(
                     value_holder), element_memory_offset))
 
+                # Add element index to registry
                 code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
                     value_holder), target_registry=Registries.MemoryIndex.value))
-
-                # Add 1
-                code.append('INC {}'.format(Registries.MemoryIndex.value))
 
                 # Subtract array's from_val
                 code.extend(self.generate_value(value=array.from_val, target_registry=Registries.G.value))
@@ -226,6 +224,9 @@ class ChaiAsm(ChaiMan):
                 # Add memory location of array
                 code.extend(self.generate_append_constant(constant_value=self.get_object_memory_location(array),
                                                           target_registry=Registries.MemoryIndex.value))
+
+                # Add 1
+                code.append('INC {}'.format(Registries.MemoryIndex.value))
 
                 # Load variable from memory to target_registry
                 code.append('STORE {}'.format(from_registry))
