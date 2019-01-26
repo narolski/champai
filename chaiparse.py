@@ -13,7 +13,7 @@ class ChaiParse(Parser):
     """
     # scope = ChaiScope()
     tokens = ChaiLex.tokens
-    debugfile = 'parser.out'
+    # debugfile = 'parser.out'
 
     def __init__(self):
         self.global_variables = {}

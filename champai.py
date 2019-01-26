@@ -14,14 +14,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Champai GLang Compiler')
 
     parser.add_argument(
-        'filepath',
+        'input_file',
         help='.imp file containing code in GLang'
         )
 
     parser.add_argument(
         '--out',
         default="a.o",
-        help='output file containing compiled code'
+        help='output the result of compilation to file'
     )
 
     return parser.parse_args()
@@ -50,6 +50,10 @@ def perform_compilation(input_file, output_file):
 
     with open(output_file, 'w') as file:
             file.write(assembly_code)
+
+def main():
+    arguments = parse_arguments()
+    perform_compilation(arguments.input_file, arguments.out)
 
 
 if __name__ == "__main__":

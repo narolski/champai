@@ -336,7 +336,7 @@ class ChaiStat(ChaiMan):
         Runs the code
         :return:
         """
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.FATAL)
 
         # Divide the program into header (declarations) and code
         header = self.parse_tree[0]
