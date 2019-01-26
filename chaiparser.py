@@ -122,6 +122,8 @@ class ChaiParser(Parser):
         # pidentifier = ('int', p[1], p.lineno)
         # return ('for', pidentifier, p[3], p[5], p[7])
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
+        iterator.set_as_iterator()
+
         self.declare_global_variable(iterator)
 
         return For(iterator=iterator, from_val=p[3], to_val=p[5], commands=p[7])
@@ -129,6 +131,8 @@ class ChaiParser(Parser):
     @_('FOR PIDENTIFIER FROM value DOWNTO value DO commands ENDFOR')
     def command(self, p):
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
+        iterator.set_as_iterator()
+
         self.declare_global_variable(iterator)
 
         return ForDownTo(iterator=iterator, from_val=p[3], to_val=p[5], commands=p[7])
@@ -187,12 +191,15 @@ class ChaiParser(Parser):
     @_('PIDENTIFIER')
     def identifier(self, p):
         # return ('int', p[0], p.lineno)
-        return self.get_global_variable(pidentifier=p[0])
+        # return self.get_global_variable(pidentifier=p[0])
+        return Int(pidentifier=p[0], lineno=p.lineno)
 
     @_('PIDENTIFIER LPAREN PIDENTIFIER RPAREN')
     def identifier(self, p):
         # i = ('int', p[2], p.lineno)
-        i = self.get_global_variable(pidentifier=p[2])
+        # i = self.get_global_variable(pidentifier=p[2])
+        i = Int(pidentifier=p[2], lineno=p.lineno)
+
         return IntArrayElement(array=self.get_global_variable(pidentifier=p[0]), value_holder=i, lineno=p.lineno)
 
     @_('PIDENTIFIER LPAREN NUMBER RPAREN')

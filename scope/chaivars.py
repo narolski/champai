@@ -8,13 +8,21 @@ class Variable:
     def __init__(self, pidentifier, lineno):
         self.pidentifier = pidentifier
         self.lineno = lineno
-        self.value = None
-        self.updated_after_compilation = True
-        super().__init__()
+        self.value_has_been_set = False
 
-    def set_updated_after_compilation(self):
-        self.updated_after_compilation = True
-        self.value = None
+        # self.value = None
+        # self.updated_after_compilation = True
+        # super().__init__()
+
+    # def set_updated_after_compilation(self):
+    #     self.updated_after_compilation = True
+    #     self.value = None
+
+    def set_value_has_been_set(self):
+        self.value_has_been_set = True
+
+    def get_value_has_been_set_status(self):
+        return self.value_has_been_set
 
 
 class Int(Variable):
@@ -27,6 +35,12 @@ class Int(Variable):
 
     def __repr__(self):
         return str("[Integer {}, line {}]".format(self.pidentifier, self.lineno))
+
+    def set_as_iterator(self):
+        self.is_iterator = True
+
+    def is_iterator(self):
+        return self.is_iterator
 
 
 class IntArray(Variable):

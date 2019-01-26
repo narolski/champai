@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test3.imp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test4.imp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test5.imp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test6.imp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaiasm.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiasm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaiman.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiman.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaiparser.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiparser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaistat.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaistat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/champai.py" beforeDir="false" afterPath="$PROJECT_DIR$/champai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test2.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test2.imp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scope/chaiflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaiflow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scope/chaivars.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaivars.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test3.imp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test3.imp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,7 +22,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/champai$Run_chaimaker.coverage" NAME="Run chaimaker Coverage Results" MODIFIED="1548493693735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/champai$Run_chaimaker.coverage" NAME="Run chaimaker Coverage Results" MODIFIED="1548514270713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/champai$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1546634238658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
@@ -36,39 +42,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-              <folding>
-                <marker date="1548493298766" expanded="true" signature="384:456" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="487:726" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="755:760" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="982:1163" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="1188:1193" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="1769:1780" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="2114:2125" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="2615:2743" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="2759:2764" ph="..." />
-                <marker date="1548493298766" expanded="true" signature="3445:3450" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chaiman.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
-              <folding>
-                <marker date="1547308454787" expanded="true" signature="29:35" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/champai.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="189">
@@ -81,93 +54,91 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chaiasm.py">
+        <entry file="file://$PROJECT_DIR$/chaiparser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="386" column="38" selection-start-line="386" selection-start-column="38" selection-end-line="386" selection-end-column="38" />
+            <state relative-caret-position="-992">
+              <caret line="123" column="34" selection-start-line="123" selection-start-column="24" selection-end-line="123" selection-end-column="34" />
               <folding>
-                <marker date="1548491564344" expanded="true" signature="130:148" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="171:176" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="478:572" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="1914:1920" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="1992:3666" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="5889:6226" ph="..." />
-                <marker date="1548491564344" expanded="true" signature="6311:8049" ph="..." />
+                <element signature="e#16#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chaiman.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="365">
+              <caret line="70" column="11" lean-forward="true" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
+              <folding>
+                <marker date="1548514130937" expanded="true" signature="58:64" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="443">
+              <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+              <folding>
+                <marker date="1548513994709" expanded="true" signature="1095:1098" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1883">
+              <caret line="109" column="41" selection-start-line="109" selection-start-column="8" selection-end-line="109" selection-end-column="41" />
+              <folding>
+                <marker date="1548512614961" expanded="true" signature="384:456" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="487:726" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="755:760" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="982:1163" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="1188:1193" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="1769:1780" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="2114:2125" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="2715:3021" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="3037:3042" ph="..." />
+                <marker date="1548512614961" expanded="true" signature="3723:3728" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chaistat.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="411">
+              <caret line="262" column="62" selection-start-line="262" selection-start-column="62" selection-end-line="262" selection-end-column="62" />
+              <folding>
+                <element signature="e#14#28#0" expanded="true" />
+                <marker date="1548514130934" expanded="true" signature="99:104" ph="..." />
+                <marker date="1548514130934" expanded="true" signature="561:1807" ph="..." />
+                <marker date="1548514130934" expanded="true" signature="10475:10852" ph="..." />
+                <marker date="1548514130934" expanded="true" signature="13127:13131" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chaistat.py">
+        <entry file="file://$PROJECT_DIR$/chaiasm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
+            <state relative-caret-position="420">
+              <caret line="96" column="119" selection-start-line="96" selection-start-column="119" selection-end-line="96" selection-end-column="119" />
               <folding>
-                <element signature="e#14#28#0" expanded="true" />
-                <marker date="1548493771781" expanded="true" signature="99:104" ph="..." />
-                <marker date="1548493771781" expanded="true" signature="513:1632" ph="..." />
-                <marker date="1548493771781" expanded="true" signature="6721:6904" ph="..." />
-                <marker date="1548493771781" expanded="true" signature="8929:8933" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chailexer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="80" column="34" lean-forward="true" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-              <folding>
-                <marker date="1546933907492" expanded="true" signature="62:67" ph="..." />
-                <marker date="1546933907492" expanded="true" signature="62:132" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test3.imp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test3.o">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chaimaker.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-424">
-              <caret line="799" column="54" lean-forward="true" selection-start-line="799" selection-start-column="54" selection-end-line="799" selection-end-column="54" />
-              <folding>
-                <element signature="e#16#44#0" expanded="true" />
-                <marker date="1547306200882" expanded="true" signature="114:119" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="279:288" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="534:540" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="2200:2543" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="3601:3887" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="3881:3887" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="6617:6618" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="19840:19845" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="19840:20271" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="32526:32535" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="37744:37750" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="46369:54100" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="54141:55511" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="55507:55511" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="55550:56905" ph="..." />
-                <marker date="1547306200882" expanded="true" signature="56920:56929" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="130:149" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="172:177" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="528:622" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="1964:1970" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="2042:3856" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="6139:6476" ph="..." />
+                <marker date="1548514206797" expanded="true" signature="6561:8297" ph="..." />
               </folding>
             </state>
           </provider>
@@ -176,8 +147,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chairegs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+            <state relative-caret-position="504">
+              <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -193,36 +164,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.program_counter</find>
-      <find>self.translate_commands</find>
-      <find># const</find>
-      <find>gen_arr_index_from_var</find>
-      <find>operation</find>
-      <find>def command</find>
-      <find>Value(</find>
-      <find>intArray</find>
-      <find>Array</find>
-      <find>assign</find>
-      <find>Int</find>
       <find>IntArray</find>
       <find>operatio</find>
       <find>unwrap_expression</find>
       <find>unwrap_ex</find>
-      <find>generate_value</find>
       <find>generator</find>
       <find>Registries.A</find>
-      <find>Registries.</find>
       <find>STORE</find>
       <find>handle_write</find>
-      <find>Registries.Value</find>
       <find>end_</find>
       <find>$end_</find>
       <find>SUB B C</find>
       <find>program_counter</find>
       <find>generate_set_value_from</find>
-      <find>generate_get_value</find>
       <find>generate_calculate</find>
       <find>append</find>
+      <find>generate_calculat</find>
+      <find>generate_set_value</find>
+      <find>generate_set_value_from_registry</find>
+      <find>generate_append_constant</find>
+      <find>Registries.H</find>
+      <find>Registries.Value</find>
+      <find>Registries.</find>
+      <find>.</find>
+      <find>Value</find>
+      <find>generat</find>
+      <find>generate_value</find>
+      <find>ubound</find>
+      <find>generate_get_value</find>
+      <find>generate_get_value_of</find>
+      <find>identifier</find>
     </findStrings>
     <replaceStrings>
       <replace>info</replace>
@@ -296,26 +267,30 @@
         <option value="$PROJECT_DIR$/tests/2-fib.imp" />
         <option value="$PROJECT_DIR$/tests/10-lab.imp" />
         <option value="$PROJECT_DIR$/scope/chaigen.py" />
-        <option value="$PROJECT_DIR$/scope/chaivars.py" />
         <option value="$PROJECT_DIR$/scope/chaiman.py" />
         <option value="$PROJECT_DIR$/scope/chaiasm.py" />
         <option value="$PROJECT_DIR$/scope/chaistat.py" />
-        <option value="$PROJECT_DIR$/chaiparser.py" />
-        <option value="$PROJECT_DIR$/chaiman.py" />
         <option value="$PROJECT_DIR$/tests/test1.o" />
         <option value="$PROJECT_DIR$/tests/test1.imp" />
         <option value="$PROJECT_DIR$/chairegs.py" />
         <option value="$PROJECT_DIR$/tests/test2.imp" />
-        <option value="$PROJECT_DIR$/chaiasm.py" />
-        <option value="$PROJECT_DIR$/champai.py" />
-        <option value="$PROJECT_DIR$/scope/chaiflow.py" />
         <option value="$PROJECT_DIR$/tests/test3.imp" />
+        <option value="$PROJECT_DIR$/chaiparser.py" />
+        <option value="$PROJECT_DIR$/tests/test4.imp" />
+        <option value="$PROJECT_DIR$/scope/chaiflow.py" />
+        <option value="$PROJECT_DIR$/tests/test5.o" />
+        <option value="$PROJECT_DIR$/tests/test5.imp" />
+        <option value="$PROJECT_DIR$/champai.py" />
+        <option value="$PROJECT_DIR$/tests/test6.imp" />
+        <option value="$PROJECT_DIR$/scope/chaivars.py" />
+        <option value="$PROJECT_DIR$/chaiman.py" />
         <option value="$PROJECT_DIR$/chaistat.py" />
+        <option value="$PROJECT_DIR$/chaiasm.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="width" value="714" />
     <option name="height" value="900" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -498,7 +473,7 @@
       <workItem from="1548002334949" duration="10791000" />
       <workItem from="1548081805749" duration="200000" />
       <workItem from="1548488526785" duration="14000" />
-      <workItem from="1548488552948" duration="5190000" />
+      <workItem from="1548488552948" duration="20109000" />
     </task>
     <task id="LOCAL-00001" summary="Added support for if/if-else/while control flow statements">
       <created>1546884298264</created>
@@ -563,11 +538,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548019704153</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fixed invalid registry load value in chaiasm's get_value. Finished if, if-else, while, do-while statements handling in chaistat.">
+      <created>1548493832052</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1548493832053</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17375000" />
+    <option name="totallyTimeSpent" value="32294000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -579,15 +561,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19170243" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17238913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26535627" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2972973" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3992629" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -596,7 +578,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32923833" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.25429976" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.26904178" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" weight="0.23218673" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32923833" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
@@ -605,30 +587,6 @@
       <window_info anchor="right" id="SciView" order="4" weight="0.3297568" />
       <window_info anchor="right" id="Database" order="5" weight="0.3297568" />
     </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15665236" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26412776" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3992629" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32923833" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32923833" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.25429976" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.23218673" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32923833" />
-      <window_info anchor="right" id="Coverage" order="0" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="4" weight="0.3297568" />
-      <window_info anchor="right" id="Database" order="5" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -642,22 +600,10 @@
     <MESSAGE value="Assignment with addition, subtraction, multiplication working. New version of jump indexes calculator" />
     <MESSAGE value="Working division with new jump indexes calculation" />
     <MESSAGE value="Added conditional statements, new jump indexes resolver and if/ifelse statement resolver" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added conditional statements, new jump indexes resolver and if/ifelse statement resolver" />
+    <MESSAGE value="Fixed invalid registry load value in chaiasm's get_value. Finished if, if-else, while, do-while statements handling in chaistat." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed invalid registry load value in chaiasm's get_value. Finished if, if-else, while, do-while statements handling in chaistat." />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scope/chaiscope.py" />
-    <entry file="file://$PROJECT_DIR$/scope/chaicode.py" />
-    <entry file="file://$PROJECT_DIR$/tests/out.pie" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/dev_tests/program1.out">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="10479" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -840,32 +786,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scope/chaiman.py" />
-    <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <marker date="1547293428770" expanded="true" signature="755:758" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/dev_tests/program1.imp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chaiparser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="30" column="83" selection-start-line="30" selection-start-column="83" selection-end-line="30" selection-end-column="83" />
-          <folding>
-            <element signature="e#16#38#0" expanded="true" />
-            <marker date="1547306542765" expanded="true" signature="1223:1279" ph="..." />
-            <marker date="1547306542765" expanded="true" signature="5438:5470" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -905,10 +829,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test2.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test3.o">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chaimaker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-424">
-          <caret line="799" column="54" lean-forward="true" selection-start-line="799" selection-start-column="54" selection-end-line="799" selection-end-column="54" />
+        <state relative-caret-position="387">
+          <caret line="96" column="39" lean-forward="true" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
           <folding>
             <element signature="e#16#44#0" expanded="true" />
             <marker date="1547306200882" expanded="true" signature="114:119" ph="..." />
@@ -931,87 +869,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chaiman.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
-          <folding>
-            <marker date="1547308454787" expanded="true" signature="29:35" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chairegs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test2.imp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test3.o">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chailexer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="80" column="34" lean-forward="true" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-          <folding>
-            <marker date="1546933907492" expanded="true" signature="62:67" ph="..." />
-            <marker date="1546933907492" expanded="true" signature="62:132" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-          <folding>
-            <marker date="1548493298766" expanded="true" signature="384:456" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="487:726" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="755:760" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="982:1163" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="1188:1193" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="1769:1780" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="2114:2125" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="2615:2743" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="2759:2764" ph="..." />
-            <marker date="1548493298766" expanded="true" signature="3445:3450" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test3.imp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        <state relative-caret-position="231">
+          <caret line="11" lean-forward="true" selection-end-line="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chaiasm.py">
+    <entry file="file://$PROJECT_DIR$/tests/test4.o">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="386" column="38" selection-start-line="386" selection-start-column="38" selection-end-line="386" selection-end-column="38" />
-          <folding>
-            <marker date="1548491564344" expanded="true" signature="130:148" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="171:176" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="478:572" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="1914:1920" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="1992:3666" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="5889:6226" ph="..." />
-            <marker date="1548491564344" expanded="true" signature="6311:8049" ph="..." />
-          </folding>
+        <state relative-caret-position="378">
+          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test4.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="10" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test5.o">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test5.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="3" lean-forward="true" selection-end-line="15" />
         </state>
       </provider>
     </entry>
@@ -1025,16 +914,106 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test6.imp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chailexer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <marker date="1546933907492" expanded="true" signature="62:67" ph="..." />
+            <marker date="1546933907492" expanded="true" signature="62:132" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chairegs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaiparser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-992">
+          <caret line="123" column="34" selection-start-line="123" selection-start-column="24" selection-end-line="123" selection-end-column="34" />
+          <folding>
+            <element signature="e#16#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaiman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="70" column="11" lean-forward="true" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
+          <folding>
+            <marker date="1548514130937" expanded="true" signature="58:64" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+          <folding>
+            <marker date="1548513994709" expanded="true" signature="1095:1098" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaiflow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1883">
+          <caret line="109" column="41" selection-start-line="109" selection-start-column="8" selection-end-line="109" selection-end-column="41" />
+          <folding>
+            <marker date="1548512614961" expanded="true" signature="384:456" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="487:726" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="755:760" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="982:1163" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="1188:1193" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="1769:1780" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="2114:2125" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="2715:3021" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="3037:3042" ph="..." />
+            <marker date="1548512614961" expanded="true" signature="3723:3728" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chaistat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
+        <state relative-caret-position="411">
+          <caret line="262" column="62" selection-start-line="262" selection-start-column="62" selection-end-line="262" selection-end-column="62" />
           <folding>
             <element signature="e#14#28#0" expanded="true" />
-            <marker date="1548493771781" expanded="true" signature="99:104" ph="..." />
-            <marker date="1548493771781" expanded="true" signature="513:1632" ph="..." />
-            <marker date="1548493771781" expanded="true" signature="6721:6904" ph="..." />
-            <marker date="1548493771781" expanded="true" signature="8929:8933" ph="..." />
+            <marker date="1548514130934" expanded="true" signature="99:104" ph="..." />
+            <marker date="1548514130934" expanded="true" signature="561:1807" ph="..." />
+            <marker date="1548514130934" expanded="true" signature="10475:10852" ph="..." />
+            <marker date="1548514130934" expanded="true" signature="13127:13131" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaiasm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="96" column="119" selection-start-line="96" selection-start-column="119" selection-end-line="96" selection-end-column="119" />
+          <folding>
+            <marker date="1548514206797" expanded="true" signature="130:149" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="172:177" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="528:622" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="1964:1970" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="2042:3856" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="6139:6476" ph="..." />
+            <marker date="1548514206797" expanded="true" signature="6561:8297" ph="..." />
           </folding>
         </state>
       </provider>

@@ -1,0 +1,10 @@
+DECLARE
+    a;
+    b;
+    c;
+IN
+    [ c := a * b; ]
+    [ WRITE c; ]
+
+
+END

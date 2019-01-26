@@ -93,13 +93,22 @@ class For():
         self.to_val = to_val
         self.commands = commands
 
+    def return_for_loop_conditions(self):
+        return self.pidentifier, self.from_val, self.to_val
+
     # def __repr__(self):
     #     return str("\n<For {} from {} to {} do>\n{}\n".format(self.pidentifier, self.from_val, self.to_val, self.commands))
 
 
-class ForDownTo(For):
+class ForDownTo():
     def __init__(self, iterator, from_val, to_val, commands):
-        super().__init__(iterator, from_val, to_val, commands)
+        self.pidentifier = iterator
+        self.from_val = from_val
+        self.to_val = to_val
+        self.commands = commands
+
+    def return_for_downto_loop_conditions(self):
+        return self.pidentifier, self.from_val, self.to_val
 
 
 class Condition:

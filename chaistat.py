@@ -9,14 +9,14 @@ class ChaiStat(ChaiMan):
     Performs static analysis of code
     """
 
-    def __init__(self, parse_tree, global_variables, memory_indexes):
+    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index):
         self.parse_tree = parse_tree
 
         self.global_variables = global_variables
         self.memory_indexes = memory_indexes
 
         self.assembly_code = []
-        self.generator = ChaiAsm(parse_tree, global_variables, memory_indexes)
+        self.generator = ChaiAsm(parse_tree, global_variables, memory_indexes, next_free_memory_index)
 
     def unwrap_expression(self, expression):
         """
@@ -35,14 +35,16 @@ class ChaiStat(ChaiMan):
             # If we're given the value of unwrap_expression
             value_holder = expression.return_value()
 
-            if isinstance(value_holder, int):
-                # If we have concrete integer value at this point
-                return self.generator.generate_value(value=value_holder), Registries.Value.value
+            return self.generator.generate_get_value(operand=value_holder), Registries.Value.value
 
-            elif isinstance(value_holder, Int):
-                # If we're given variable from which we have to get
-                return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                    value_holder)), Registries.Value.value
+            # if isinstance(value_holder, int):
+            #     # If we have concrete integer value at this point
+            #     return self.generator.generate_value(value=value_holder), Registries.Value.value
+            #
+            # elif isinstance(value_holder, Int):
+            #     # If we're given variable from which we have to get
+            #     return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+            #         value_holder)), Registries.Value.value
 
     def assign(self, assignment):
         """
@@ -56,9 +58,11 @@ class ChaiStat(ChaiMan):
         code.extend(expression_code)
         code.extend(self.generator.generate_set_value_from_registry(to=to, from_registry=result_reg))
 
+        self.set_variable_assigned_to_value(variable=to)
+
         return code
 
-    def if_statement(self, operation):
+    def if_control_flow(self, operation):
         """
         Handles the conditional statement (if, if-else)
         :param operation: control flow operation wrapper
@@ -70,8 +74,8 @@ class ChaiStat(ChaiMan):
 
         # Generate condition check
         cond_code, jump_identifier = self.generator.generate_conditional_statement(first_operand=first_operand,
-                                                              second_operand=second_operand,
-                                                                  oper=oper)
+                                                                                   second_operand=second_operand,
+                                                                                   oper=oper)
         code.extend(cond_code)
 
         # Delegate translation of commands
@@ -98,9 +102,9 @@ class ChaiStat(ChaiMan):
 
         return code
 
-    def while_statement(self, operation):
+    def while_control_flow(self, operation):
         """
-        Handles the while statement control flow operation
+        Handles the while loop control flow operation
         :param operation: control flow operation wrapper
         :return: assembly code
         """
@@ -133,11 +137,11 @@ class ChaiStat(ChaiMan):
 
         return code
 
-    def do_while_statement(self, operation):
+    def do_while_control_flow(self, operation):
         """
-        Handles do-while statement control flow operation
-        :param operation:
-        :return:
+        Handles do-while loop control flow operation
+        :param operation: control flow operation wrapper
+        :return: assembly code
         """
         code = []
         first_operand, oper, second_operand = operation.condition.return_condition()
@@ -165,12 +169,88 @@ class ChaiStat(ChaiMan):
 
         return code
 
+    def for_loop_control_flow(self, operation):
+        """
+        Handles for loop control flow operation
+        :param operation: control flow operation wrapper
+        :return: assembly code
+        """
+        code = []
+        iterator, lower_bound, upper_bound = operation.return_for_loop_conditions()
+        commands = operation.commands
+
+        # Generate initial preparations and condition check
+        init_code, init_jump = self.generator.generate_for_preparations(loop_iterator=iterator,
+                                                                            loop_lower_bound=lower_bound,
+                                                                            loop_upper_bound=upper_bound)
+
+        # Translate code for execution in loop
+        translated_commands = self.translate(commands)
+
+        # Translate for_loop condition check
+        cond_check, jump_identifier = self.generator.generate_for_comparison(loop_iterator=iterator)
+
+        # Mark where to jump to execute commands
+        translated_commands[0] = '$commands_cond_{} $commands_cond_{} '.format(jump_identifier, init_jump
+                                                                               ) + translated_commands[0]
+
+        code.extend(init_code)
+        code.extend(translated_commands)
+        code.extend(cond_check)
+
+        # Add jump to code execution if condition check passes
+        code.append('JUMP $commands_cond_{}'.format(jump_identifier))
+
+        # Mark end of for loop
+        code.append('$end_cond_{} $end_cond_{} INC A'.format(jump_identifier, init_jump))
+
+        return code
+
+    def for_loop_downto_control_flow(self, operation):
+        """
+        Handles for loop control flow operation
+        :param operation: control flow operation wrapper
+        :return: assembly code
+        """
+        code = []
+        iterator, upper_bound, lower_bound = operation.return_for_downto_loop_conditions()
+        commands = operation.commands
+
+        logging.debug("For downto lower_bound: {}, upper_bound: {}".format(lower_bound, upper_bound))
+
+        # Generate initial preparations and condition check
+        init_code, init_jump = self.generator.generate_for_downto_preparations(loop_iterator=iterator,
+                                                                                   loop_lower_bound=lower_bound,
+                                                                                   loop_upper_bound=upper_bound)
+        # Translate code for execution in loop
+        translated_commands = self.translate(commands)
+
+        # Translate for_loop condition check
+        cond_check, jump_identifier = self.generator.generate_for_downto_comparison(loop_iterator=iterator)
+
+        # Mark where to jump to execute commands
+        translated_commands[0] = '$commands_cond_{} $commands_cond_{} '.format(jump_identifier, init_jump
+                                                                               ) + translated_commands[0]
+
+        code.extend(init_code)
+        code.extend(translated_commands)
+        code.extend(cond_check)
+
+        # Add jump to code execution if condition check passes
+        code.append('JUMP $commands_cond_{}'.format(jump_identifier))
+
+        # Mark end of for loop
+        code.append('$end_cond_{} $end_cond_{} INC A'.format(jump_identifier, init_jump))
+
+        return code
+
     def read(self, read):
         """
         Handles the reading of value from stdin
         :param read:
         :return:
         """
+        self.set_variable_assigned_to_value(variable=read.to_variable)
         return self.generator.generate_read(read.to_variable)
 
     def write(self, write):
@@ -179,7 +259,10 @@ class ChaiStat(ChaiMan):
         :param write:
         :return:
         """
-        return self.generator.generate_write(write.from_variable)
+        if self.get_variable_assigned_to_value(write.from_variable):
+            return self.generator.generate_write(write.from_variable)
+        else:
+            raise Exception("write: variable '{}' referenced before assignment.")
 
     def translate(self, commands):
         """
@@ -200,13 +283,19 @@ class ChaiStat(ChaiMan):
                 translated_code = self.read(command)
 
             elif isinstance(command, If):
-                translated_code = self.if_statement(command)
+                translated_code = self.if_control_flow(command)
 
             elif isinstance(command, While):
-                translated_code = self.while_statement(command)
+                translated_code = self.while_control_flow(command)
 
             elif isinstance(command, DoWhile):
-                translated_code = self.do_while_statement(command)
+                translated_code = self.do_while_control_flow(command)
+
+            elif isinstance(command, For):
+                translated_code = self.for_loop_control_flow(command)
+
+            elif isinstance(command, ForDownTo):
+                translated_code = self.for_loop_downto_control_flow(command)
 
             self.generator.program_counter += len(translated_code)
             code.extend(translated_code)
@@ -256,7 +345,6 @@ class ChaiStat(ChaiMan):
         logging.debug("Code header: {}".format(header))
         logging.debug("Code body: {}".format(body))
 
-
         # self.alloc_global_vars(header)
         logging.debug("Global variables: {}".format(self.global_variables))
         logging.debug("Assigned indexes: {}".format(self.memory_indexes))
@@ -268,7 +356,6 @@ class ChaiStat(ChaiMan):
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)
 
-
         logging.debug("Chaistat output: {}".format(output))
 
-        outf = open('tests/test3.o', 'w').write('\n'.join(output))
+        outf = open('tests/test6.o', 'w').write('\n'.join(output))

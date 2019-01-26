@@ -6,12 +6,14 @@ from scope.chaiflow import *
 
 import logging
 
+
 class ChaiAsm(ChaiMan):
     """
     Handles the translation into assembly code.
     """
-    def __init__(self, parse_tree, global_variables, memory_indexes):
-        super().__init__(parse_tree, global_variables, memory_indexes)
+
+    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index):
+        super().__init__(parse_tree, global_variables, memory_indexes, next_free_memory_index)
         self.program_counter = 0
         self.jump_identifier = 0
 
@@ -65,7 +67,7 @@ class ChaiAsm(ChaiMan):
         """
         return self.generate_constant(constant_value=value, target_registry=target_registry)
 
-    def generate_get_value(self, operand, target_registry=Registries.Value.Value):
+    def generate_get_value(self, operand, target_registry=Registries.Value.value):
         """
         Stores in target registry value of variable a
         :param memory_index:
@@ -74,26 +76,25 @@ class ChaiAsm(ChaiMan):
         """
         code = []
 
-        logging.debug("Target registry for generate_get_value: {}".format(target_registry))
+        # Check if variable has been referenced before assignment
+        if self.get_variable_assigned_to_value(variable=operand):
+            # Store in registries values of variables
+            if isinstance(operand, int):
+                # If a is a concrete integer value
+                code.extend(self.generate_value(value=operand,
+                                                target_registry=target_registry))
 
-        # Store in registries values of variables
-        if isinstance(operand, int):
-            # If a is a concrete integer value
-            code.extend(self.generate_value(value=operand,
-                                            target_registry=target_registry))
+            elif isinstance(operand, Int):
+                # If a is a variable from which we have to get the value
+                code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(operand),
+                                                                target_registry=target_registry))
 
-        elif isinstance(operand, Int):
-            # If a is a variable from which we have to get the value
-            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(operand),
-                                                            target_registry=target_registry))
-
-        elif isinstance(operand, IntArrayElement):
-            # If a is an array value_holder from which we have to get the value
-            code.extend(self.generate_get_value_of_array_element(array_element=operand,
-                                                                 target_registry=target_registry))
-
+            elif isinstance(operand, IntArrayElement):
+                # If a is an array value_holder from which we have to get the value
+                code.extend(self.generate_get_value_of_array_element(array_element=operand,
+                                                                     target_registry=target_registry))
         else:
-            raise Exception("generate_get_value: invalid operand type")
+            raise Exception("generate_get_value: variable '{}' referenced before assignment".format(operand.pidentifier))
 
         return code
 
@@ -126,7 +127,8 @@ class ChaiAsm(ChaiMan):
             element_memory_location = element_index_value_holder - array.from_val + 1 + self.get_object_memory_location(
                 array)
 
-            code.extend(self.generate_get_value_of_variable(memory_index=element_memory_location, target_registry=target_registry))
+            code.extend(self.generate_get_value_of_variable(memory_index=element_memory_location,
+                                                            target_registry=target_registry))
 
         elif isinstance(element_index_value_holder, Int):
             # If we have to get the index of array element from the variable's value
@@ -184,9 +186,9 @@ class ChaiAsm(ChaiMan):
                 element_memory_offset = 1 - array.from_val + self.get_object_memory_location(array)
 
                 code.append(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                            value_holder), target_registry=Registries.MemoryIndex.value))
+                    value_holder), target_registry=Registries.MemoryIndex.value))
                 code.append(self.generate_append_constant(constant_value=element_memory_offset,
-                                                          target_registry=Registries.MemoryIndex))
+                                                          target_registry=Registries.MemoryIndex.value))
 
                 return code
 
@@ -222,7 +224,7 @@ class ChaiAsm(ChaiMan):
             # TODO: Improve
             identifier = self.get_jump_identifier()
 
-            code.append('SUB D D'.format(identifier)) # 1 - Clean B for use later
+            code.append('SUB D D'.format(identifier))  # 1 - Clean B for use later
 
             code.append('$mulzerocheck_{} $nextmuliter_{} JZERO C $end_{}'.format(identifier, identifier, identifier))
             # 2 -
@@ -331,7 +333,7 @@ class ChaiAsm(ChaiMan):
         Generates the conditional statement for given operations
         :param first_operand:
         :param second_operand:
-        :param oper:
+        :param oper: comparison operator
         :return:
         """
         code = []
@@ -342,52 +344,197 @@ class ChaiAsm(ChaiMan):
         code.extend(self.generate_get_value(operand=second_operand,
                                             target_registry=Registries.ConditionSecondOperand.value))
 
+        comp_code, jump_id = self.generate_comparison(oper=oper)
+        code.extend(comp_code)
+
+        return code, jump_id
+
+    def generate_comparison(self, oper):
+        """
+        Generates code responsible of performing comparisons between given operands
+        :param oper: comparison operator
+        :return: assembly code
+        """
+        code = []
+
         first_reg = Registries.ConditionFirstOperand.value
         second_reg = Registries.ConditionSecondOperand.value
         jump_identifier = self.get_jump_identifier()
 
-        if oper == operator.gt or oper == operator.lt:
+        if oper == operator.gt:
             # is a > b -> (is a - b > 0 <-> is a - b < 0)
             # (because we only work with positive numbers)
-
             code.append('SUB {} {} # GT/LT CONDITION'.format(first_reg, second_reg))
             code.append('JZERO {} $end_cond_{}'.format(first_reg, jump_identifier))
+            # Afterwards $end_cond_{} -> jump to end (of commands
 
-            # TODO: Add $end_gtlt_{} after code which has to be executed only when condition evaluates to True
-            # NOTE: You can add it to comment, too - it will work like magic!
+        elif oper == operator.lt:
+            code.append('SUB {} {} # GT/LT CONDITION'.format(second_reg, first_reg))
+            code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
+            # Afterwards $end_cond_{} -> jump to end (of commands
 
-        elif oper == operator.ge or oper == operator.le:
+        elif oper == operator.ge:
             # is a >= b
-
             code.append('INC {} # GE/LE COND'.format(first_reg))
             code.append('SUB {} {}'.format(first_reg, second_reg))
             code.append('JZERO {} $end_cond_{}'.format(first_reg, jump_identifier))
+            # Afterwards $end_cond_{} -> jump to end (of commands)
 
-            # TODO: $end_cond_{} -> jump to end (of commands)
+        elif oper == operator.le:
+            code.append('INC {} # GE/LE COND'.format(second_reg))
+            code.append('SUB {} {}'.format(second_reg, first_reg))
+            code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
 
         elif oper == operator.eq:
             # is a == b
-
             code.append('INC {} # BEGIN EQ COND'.format(second_reg))
             code.append('SUB {} {}'.format(second_reg, first_reg))
             code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
             code.append('DEC {}'.format(second_reg))
             code.append('JZERO {} $commands_cond_{}'.format(second_reg, jump_identifier))
             code.append('JUMP $end_cond_{}'.format(jump_identifier))
-
-            # $commands_cond_{} -> jump to commands
-            # TODO: $end_cond_{}
+            # $end_cond_{} -> jump to commands
 
         elif oper == operator.ne:
             # is a != b
-
             code.append('INC {} # BEGIN NEQ COND'.format(second_reg))
             code.append('SUB {} {}'.format(second_reg, first_reg))
             code.append('JZERO {} $commands_cond_{}'.format(second_reg, jump_identifier))
             code.append('DEC {}'.format(second_reg))
             code.append('JZERO {} $end_cond_{}'.format(second_reg, jump_identifier))
-
-            # $commands_cond_{} -> jump to commands
-            # TODO: $end_cond_{} -> jump to end
+            # $end_cond_{} -> jump to end
 
         return code, jump_identifier
+
+    def generate_for_preparations(self, loop_iterator, loop_lower_bound, loop_upper_bound):
+        """
+        Generates the code preparing the for loop execution
+        :param loop_iterator: variable
+        :param loop_lower_bound: value
+        :param loop_upper_bound: value
+        :return:
+        """
+        code = []
+
+        # Set the initial value of iterator
+        code.extend(self.generate_get_value(operand=loop_lower_bound,
+                                            target_registry=Registries.ConditionFirstOperand.value))
+        code.extend(self.generate_set_value_from_registry(from_registry=Registries.ConditionFirstOperand.value,
+                                                          to=loop_iterator))
+
+        # Store upper bound value in second comparison registry
+        code.extend(self.generate_get_value(operand=loop_upper_bound,
+                                            target_registry=Registries.ConditionSecondOperand.value))
+
+        # Create variable upper_bound
+        ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        self.declare_global_variable(variable=ubound)
+
+        # Store value of upper_bound in variable
+        code.extend(self.generate_set_value_from_registry(to=ubound,
+                                                          from_registry=Registries.ConditionSecondOperand.value))
+
+        # Generate the comparison code
+        comp_code, jump_id = self.generate_comparison(oper=operator.le)
+        code.extend(comp_code)
+
+        return code, jump_id
+
+    def generate_for_comparison(self, loop_iterator):
+        """
+        Generates the for loop condition comparison (performed after initial preparations)
+        :param loop_iterator:
+        :return:
+        """
+        code = []
+
+        # Get value of loop iterator to registry and increment it by one (i++)
+        code.extend(self.generate_get_value(operand=loop_iterator,
+                                            target_registry=Registries.ConditionFirstOperand.value))
+        code.extend(self.generate_append_constant(constant_value=1,
+                                                  target_registry=Registries.ConditionFirstOperand.value))
+
+        # Store updated value of loop iterator
+        code.extend(self.generate_set_value_from_registry(to=loop_iterator,
+                                                          from_registry=Registries.ConditionFirstOperand.value))
+
+        # Get value of loop_upper_bound to second registry
+        ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
+
+        logging.debug("Ubound got from mem: {}, mem: {}, globs: {}".format(ubound, self.memory_indexes,
+                                                                           self.global_variables))
+
+        code.extend(self.generate_get_value(operand=ubound,
+                                            target_registry=Registries.ConditionSecondOperand.value))
+
+        # Generate comparison code with <= operator
+        comp_code, jump_id = self.generate_comparison(oper=operator.le)
+        code.extend(comp_code)
+
+        return code, jump_id
+
+    def generate_for_downto_preparations(self, loop_iterator, loop_lower_bound, loop_upper_bound):
+        """
+        Generates the code preparing the for loop execution
+        :param loop_iterator: variable
+        :param loop_lower_bound: value
+        :param loop_upper_bound: value
+        :return:
+        """
+        code = []
+
+        # Set the initial value of iterator
+        code.extend(self.generate_get_value(operand=loop_upper_bound,
+                                            target_registry=Registries.ConditionFirstOperand.value))
+        code.extend(self.generate_set_value_from_registry(from_registry=Registries.ConditionFirstOperand.value,
+                                                          to=loop_iterator))
+
+        # Store upper bound value in second comparison registry
+        code.extend(self.generate_get_value(operand=loop_lower_bound,
+                                            target_registry=Registries.ConditionSecondOperand.value))
+
+        # Create variable upper_bound
+        lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        self.declare_global_variable(variable=lbound)
+
+        # Store value of upper_bound in variable
+        code.extend(self.generate_set_value_from_registry(to=lbound,
+                                                          from_registry=Registries.ConditionSecondOperand.value))
+
+        # Generate the comparison code
+        comp_code, jump_id = self.generate_comparison(oper=operator.ge)
+        code.extend(comp_code)
+
+        return code, jump_id
+
+    def generate_for_downto_comparison(self, loop_iterator):
+        """
+        Generates the for loop condition comparison (performed after initial preparations)
+        :param loop_iterator:
+        :return:
+        """
+        code = []
+
+        # Get value of loop iterator to registry and decrement it by one (i++)
+        code.extend(self.generate_get_value(operand=loop_iterator,
+                                            target_registry=Registries.ConditionFirstOperand.value))
+        code.append('DEC {}'.format(Registries.ConditionFirstOperand.value))
+
+        # Store updated value of loop iterator
+        code.extend(self.generate_set_value_from_registry(to=loop_iterator,
+                                                          from_registry=Registries.ConditionFirstOperand.value))
+
+        # Get value of loop_upper_bound to second registry
+        lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
+
+        logging.debug("Lbound got from mem: {}, mem: {}, globs: {}".format(lbound, self.memory_indexes,
+                                                                           self.global_variables))
+
+        code.extend(self.generate_get_value(operand=lbound,
+                                            target_registry=Registries.ConditionSecondOperand.value))
+
+        # Generate comparison code with <= operator
+        comp_code, jump_id = self.generate_comparison(oper=operator.ge)
+        code.extend(comp_code)
+
+        return code, jump_id

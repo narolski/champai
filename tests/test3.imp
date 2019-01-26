@@ -4,9 +4,8 @@ DECLARE
 IN
     READ a;
 
-    DO
-        a := a - 1;
+    IF 30 <= 20
+    THEN
         WRITE a;
-    WHILE a = 10
-    ENDDO
+    ENDIF
 END

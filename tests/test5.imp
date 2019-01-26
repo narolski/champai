@@ -1,0 +1,15 @@
+DECLARE
+    a;
+    b;
+IN
+    READ a;
+
+    FOR i FROM a DOWNTO 1
+    DO
+        FOR j FROM i DOWNTO 1
+        DO
+            b := i * j;
+            WRITE b;
+        ENDFOR
+    ENDFOR
+END
