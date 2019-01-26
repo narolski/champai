@@ -508,9 +508,6 @@ class ChaiAsm(ChaiMan):
         # Get value of loop_upper_bound to second registry
         ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
 
-        logging.debug("Ubound got from mem: {}, mem: {}, globs: {}".format(ubound, self.memory_indexes,
-                                                                           self.global_variables))
-
         code.extend(self.generate_get_value(operand=ubound,
                                             target_registry=Registries.ConditionSecondOperand.value))
 
@@ -573,8 +570,7 @@ class ChaiAsm(ChaiMan):
                                             target_registry=Registries.ConditionFirstOperand.value))
 
         # Check if value is already zero
-        # code.append('JZERO {} $end_cond_{}'.format(Registries.ConditionFirstOperand.value, self.jump_identifier))
-        # self.jump_identifier += 1
+        code.append('JZERO {} $end_cond_{}'.format(Registries.ConditionFirstOperand.value, self.jump_identifier))
 
         code.append('DEC {}'.format(Registries.ConditionFirstOperand.value))
 
@@ -584,9 +580,6 @@ class ChaiAsm(ChaiMan):
 
         # Get value of loop_upper_bound to second registry
         lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
-
-        logging.debug("Lbound got from mem: {}, mem: {}, globs: {}".format(lbound, self.memory_indexes,
-                                                                           self.global_variables))
 
         code.extend(self.generate_get_value(operand=lbound,
                                             target_registry=Registries.ConditionSecondOperand.value))
