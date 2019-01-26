@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/mr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program1.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program1.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program2.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program2.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program3.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program3.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program4.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/dev_tests/program4.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test1.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test2.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test3.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test4.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test5.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test6.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test7.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/to_fix/mr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/to_fix/program0.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/to_fix/program0a.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/to_fix/program1.imp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/to_fix/program2.imp" beforeDir="false" />
-    </list>
+    <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="Added readme and" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/champai.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="38" column="26" lean-forward="true" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+            <state relative-caret-position="378">
+              <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
               <folding>
                 <element signature="e#13#19#0" expanded="true" />
               </folding>
@@ -65,10 +41,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/requirements.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        <entry file="file://$PROJECT_DIR$/Readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="399">
+                <caret line="19" column="117" selection-start-line="19" selection-start-column="117" selection-end-line="19" selection-end-column="117" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -207,7 +186,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tests/out.pie" />
         <option value="$PROJECT_DIR$/chaiscope.py" />
         <option value="$PROJECT_DIR$/scope/chaiscope.py" />
         <option value="$PROJECT_DIR$/scope/chaimachine.py" />
@@ -258,6 +236,7 @@
         <option value="$PROJECT_DIR$/chaistat.py" />
         <option value="$PROJECT_DIR$/chaiparse.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/Readme.md" />
       </list>
     </option>
   </component>
@@ -440,7 +419,7 @@
       <workItem from="1548002334949" duration="10791000" />
       <workItem from="1548081805749" duration="200000" />
       <workItem from="1548488526785" duration="14000" />
-      <workItem from="1548488552948" duration="36519000" />
+      <workItem from="1548488552948" duration="36721000" />
     </task>
     <task id="LOCAL-00001" summary="Added support for if/if-else/while control flow statements">
       <created>1546884298264</created>
@@ -568,11 +547,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548536096243</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Added readme">
+      <created>1548536705868</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1548536705868</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48704000" />
+    <option name="totallyTimeSpent" value="48906000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -587,7 +573,7 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17238913" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17238913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -601,7 +587,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32923833" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.25429976" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.47297296" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" weight="0.47297296" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32923833" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
@@ -632,16 +618,10 @@
     <MESSAGE value="All tests passed" />
     <MESSAGE value="Added argparse" />
     <MESSAGE value="Beta before major optimizations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Beta before major optimizations" />
+    <MESSAGE value="Added readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added readme" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/test2.o">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="150" column="5" lean-forward="true" selection-start-line="150" selection-start-column="5" selection-end-line="150" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test2.imp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="347">
@@ -977,20 +957,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="8" lean-forward="true" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/champai.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="38" column="26" lean-forward="true" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+        <state relative-caret-position="378">
+          <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
           <folding>
             <element signature="e#13#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+    <entry file="file://$PROJECT_DIR$/Readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="399">
+            <caret line="19" column="117" selection-start-line="19" selection-start-column="117" selection-end-line="19" selection-end-column="117" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
