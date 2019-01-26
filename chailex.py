@@ -1,8 +1,8 @@
-# chailexer.py
+# chailex.py
 from sly import Lexer
 
 
-class ChaiLexer(Lexer):
+class ChaiLex(Lexer):
     """
     Defines the lexer for the Champai compiler.
     """

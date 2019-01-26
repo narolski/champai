@@ -1,20 +1,56 @@
 # champai.py
+import argparse
 
-from chailexer import ChaiLexer
-from chaiparser import ChaiParser
+from chailex import ChaiLex
+from chaiparse import ChaiParse
 from chaistat import ChaiStat
 
-lexer = ChaiLexer()
-parser = ChaiParser()
 
-filename = '9-sort'
+def parse_arguments():
+    """
+    Parses the arguments given by the user.
+    :return: parsed arguments from stdin
+    """
+    parser = argparse.ArgumentParser(description='Champai GLang Compiler')
 
-file = open('tests/gebala/{}.imp'.format(filename), 'r').read()
+    parser.add_argument(
+        'filepath',
+        help='.imp file containing code in GLang'
+        )
 
-tree = parser.parse(lexer.tokenize(file))
+    parser.add_argument(
+        '--out',
+        default="a.o",
+        help='output file containing compiled code'
+    )
 
-manager = ChaiStat(parse_tree=tree, global_variables=parser.global_variables, memory_indexes=parser.memory_indexes,
-                   next_free_memory_index=parser.next_free_memory_index, filename=filename)
-manager.manage()
+    return parser.parse_args()
 
 
+def perform_compilation(input_file, output_file):
+    """
+    Performs the compilation of given input file.
+    :return:
+    """
+    lexer = ChaiLex()
+    parser = ChaiParse()
+
+    with open(input_file, 'r') as file:
+        code = file.read()
+
+    try:
+        tree = parser.parse(lexer.tokenize(code))
+        manager = ChaiStat(parse_tree=tree, global_variables=parser.global_variables, memory_indexes=parser.memory_indexes,
+                       next_free_memory_index=parser.next_free_memory_index)
+
+        assembly_code = manager.compile()
+    except Exception as e:
+        print(e)
+        exit(1)
+
+    with open(output_file, 'w') as file:
+            file.write(assembly_code)
+
+
+if __name__ == "__main__":
+    main()

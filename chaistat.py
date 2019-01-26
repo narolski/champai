@@ -9,7 +9,7 @@ class ChaiStat(ChaiMan):
     Performs static analysis of code
     """
 
-    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index, filename):
+    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index):
         self.parse_tree = parse_tree
 
         self.global_variables = global_variables
@@ -17,8 +17,6 @@ class ChaiStat(ChaiMan):
 
         self.assembly_code = []
         self.generator = ChaiAsm(parse_tree, global_variables, memory_indexes, next_free_memory_index)
-
-        self.filename = filename
 
     def unwrap_expression(self, expression):
         """
@@ -333,13 +331,11 @@ class ChaiStat(ChaiMan):
 
         return translated_commands
 
-    def manage(self):
+    def compile(self):
         """
         Runs the code
         :return:
         """
-        # print("Code tree: {}".format(self.tree))
-
         logging.basicConfig(level=logging.DEBUG)
 
         # Divide the program into header (declarations) and code
@@ -358,9 +354,9 @@ class ChaiStat(ChaiMan):
 
         logging.debug("Chaistat output: {}".format(output))
 
-        output = self.insert_jumps(output)
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)
         output = self.insert_jumps(output)
+        output = self.insert_jumps(output)
 
-        outf = open('tests/gebala/{}.o'.format(self.filename), 'w').write('\n'.join(output))
+        return '\n'.join(output)

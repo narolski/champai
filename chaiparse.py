@@ -1,18 +1,18 @@
-# chaiparser.py
+# chaiparse.py
 from sly import Parser
-from chailexer import ChaiLexer
+from chailex import ChaiLex
 from scope.chaivars import *
 from scope.chaiflow import *
 
 import logging
 
 
-class ChaiParser(Parser):
+class ChaiParse(Parser):
     """
     Defines grammar's rules and actions
     """
     # scope = ChaiScope()
-    tokens = ChaiLexer.tokens
+    tokens = ChaiLex.tokens
     debugfile = 'parser.out'
 
     def __init__(self):
