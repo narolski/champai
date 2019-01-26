@@ -7,12 +7,14 @@ from chaistat import ChaiStat
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-file = open('tests/gebala/3-fib-factorial.imp', 'r').read()
+filename = '5-tab'
+
+file = open('tests/gebala/{}.imp'.format(filename), 'r').read()
 
 tree = parser.parse(lexer.tokenize(file))
 
 manager = ChaiStat(parse_tree=tree, global_variables=parser.global_variables, memory_indexes=parser.memory_indexes,
-                   next_free_memory_index=parser.next_free_memory_index)
+                   next_free_memory_index=parser.next_free_memory_index, filename=filename)
 manager.manage()
 
 

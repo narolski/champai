@@ -4,12 +4,14 @@ DECLARE
 IN
     READ a;
 
-    FOR i FROM a DOWNTO 1
+    FOR i FROM a DOWNTO 0
     DO
-        FOR j FROM i DOWNTO 1
+        WRITE i;
+
+        [FOR j FROM i DOWNTO 1
         DO
             b := i * j;
             WRITE b;
-        ENDFOR
+        ENDFOR]
     ENDFOR
 END

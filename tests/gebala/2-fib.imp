@@ -34,7 +34,6 @@ IN
   y:=x+w;
   z:=y+x;
   a:=10000*z;
-  WRITE a;
   tab(a):=z;
   WRITE tab(a);
 END

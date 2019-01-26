@@ -469,9 +469,13 @@ class ChaiAsm(ChaiMan):
 
         # Create variable upper_bound
         ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
-        ubound.set_as_iterator()
-        ubound.set_value_has_been_set()
-        self.declare_global_variable(variable=ubound)
+
+        if ubound.pidentifier not in self.global_variables.keys():
+            ubound.set_as_iterator()
+            ubound.set_value_has_been_set()
+            self.declare_global_variable(variable=ubound)
+        else:
+            ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=ubound,
@@ -538,9 +542,13 @@ class ChaiAsm(ChaiMan):
 
         # Create variable upper_bound
         lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
-        lbound.set_value_has_been_set()
-        lbound.set_as_iterator()
-        self.declare_global_variable(variable=lbound)
+
+        if lbound.pidentifier not in self.global_variables.keys():
+            lbound.set_value_has_been_set()
+            lbound.set_as_iterator()
+            self.declare_global_variable(variable=lbound)
+        else:
+            lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=lbound,
@@ -563,6 +571,11 @@ class ChaiAsm(ChaiMan):
         # Get value of loop iterator to registry and decrement it by one (i++)
         code.extend(self.generate_get_value(operand=loop_iterator,
                                             target_registry=Registries.ConditionFirstOperand.value))
+
+        # Check if value is already zero
+        # code.append('JZERO {} $end_cond_{}'.format(Registries.ConditionFirstOperand.value, self.jump_identifier))
+        # self.jump_identifier += 1
+
         code.append('DEC {}'.format(Registries.ConditionFirstOperand.value))
 
         # Store updated value of loop iterator

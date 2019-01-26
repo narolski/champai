@@ -9,7 +9,7 @@ class ChaiStat(ChaiMan):
     Performs static analysis of code
     """
 
-    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index):
+    def __init__(self, parse_tree, global_variables, memory_indexes, next_free_memory_index, filename):
         self.parse_tree = parse_tree
 
         self.global_variables = global_variables
@@ -17,6 +17,8 @@ class ChaiStat(ChaiMan):
 
         self.assembly_code = []
         self.generator = ChaiAsm(parse_tree, global_variables, memory_indexes, next_free_memory_index)
+
+        self.filename = filename
 
     def unwrap_expression(self, expression):
         """
@@ -53,6 +55,9 @@ class ChaiStat(ChaiMan):
         """
         code = []
         to = assignment.identifier
+        # logging.debug("Assignment details: to: {}".format(to))
+        # logging.debug("Unwrap expression: {}".format(assignment.expression.return_value().pidentifier))
+
         expression_code, result_reg = self.unwrap_expression(assignment.expression)
 
         code.extend(expression_code)
@@ -240,7 +245,7 @@ class ChaiStat(ChaiMan):
         code.append('JUMP $commands_cond_{}'.format(jump_identifier))
 
         # Mark end of for loop
-        code.append('$end_cond_{} $end_cond_{} INC A'.format(jump_identifier, init_jump))
+        code.append('$end_cond_{} $end_cond_{} $end_cond_{} INC A'.format(jump_identifier, jump_identifier, init_jump))
 
         return code
 
@@ -354,5 +359,6 @@ class ChaiStat(ChaiMan):
         output = self.insert_jumps(output)
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)
+        output = self.insert_jumps(output)
 
-        outf = open('tests/gebala/3-fib-factorial.o', 'w').write('\n'.join(output))
+        outf = open('tests/gebala/{}.o'.format(self.filename), 'w').write('\n'.join(output))

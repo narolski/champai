@@ -19,6 +19,7 @@ class ChaiParser(Parser):
         self.global_variables = {}
         self.memory_indexes = {}
         self.next_free_memory_index = 0
+        self.iterator_num = 0
 
     def declare_global_variable(self, variable):
         """
@@ -39,6 +40,11 @@ class ChaiParser(Parser):
 
     def get_global_variable(self, pidentifier):
         return self.global_variables[pidentifier]
+
+    def solve_iterator_collision(self):
+        num = self.iterator_num
+        self.iterator_num += 1
+        return num
 
     # Declares precedence
     precedence = (
@@ -121,21 +127,30 @@ class ChaiParser(Parser):
     def command(self, p):
         # pidentifier = ('int', p[1], p.lineno)
         # return ('for', pidentifier, p[3], p[5], p[7])
+        # if p[1] in self.global_variables.keys():
+        #     p[1] = p[1] + '_{}'.format(self.solve_iterator_collision())
+
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
         iterator.set_value_has_been_set()
 
-        self.declare_global_variable(iterator)
+        if iterator.pidentifier not in self.global_variables.keys():
+            self.declare_global_variable(iterator)
 
         return For(iterator=iterator, from_val=p[3], to_val=p[5], commands=p[7])
 
     @_('FOR PIDENTIFIER FROM value DOWNTO value DO commands ENDFOR')
     def command(self, p):
+
+        # if p[1] in self.global_variables.keys():
+        #     p[1] = p[1] + '_{}'.format(self.solve_iterator_collision())
+
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
         iterator.set_value_has_been_set()
 
-        self.declare_global_variable(iterator)
+        if iterator.pidentifier not in self.global_variables.keys():
+            self.declare_global_variable(iterator)
 
         return ForDownTo(iterator=iterator, from_val=p[3], to_val=p[5], commands=p[7])
 
