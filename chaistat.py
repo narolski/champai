@@ -37,16 +37,18 @@ class ChaiStat(ChaiMan):
             # If we're given the value of unwrap_expression
             value_holder = expression.return_value()
 
-            # return self.generator.generate_get_value(operand=value_holder), Registries.Value.value
+            logging.debug("Expression value holder: {}".format(value_holder))
 
-            if isinstance(value_holder, int):
-                # If we have concrete integer value at this point
-                return self.generator.generate_value(value=value_holder), Registries.Value.value
+            return self.generator.generate_get_value(operand=value_holder), Registries.Value.value
 
-            elif isinstance(value_holder, Int):
-                # If we're given variable from which we have to get
-                return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                    value_holder)), Registries.Value.value
+            # if isinstance(value_holder, int):
+            #     # If we have concrete integer value at this point
+            #     return self.generator.generate_value(value=value_holder), Registries.Value.value
+            #
+            # elif isinstance(value_holder, Int):
+            #     # If we're given variable from which we have to get
+            #     return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+            #         value_holder)), Registries.Value.value
 
     def assign(self, assignment):
         """

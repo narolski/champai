@@ -7,7 +7,7 @@ from chaistat import ChaiStat
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-filename = '5-tab'
+filename = '9-sort'
 
 file = open('tests/gebala/{}.imp'.format(filename), 'r').read()
 
