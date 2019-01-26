@@ -35,16 +35,16 @@ class ChaiStat(ChaiMan):
             # If we're given the value of unwrap_expression
             value_holder = expression.return_value()
 
-            return self.generator.generate_get_value(operand=value_holder), Registries.Value.value
+            # return self.generator.generate_get_value(operand=value_holder), Registries.Value.value
 
-            # if isinstance(value_holder, int):
-            #     # If we have concrete integer value at this point
-            #     return self.generator.generate_value(value=value_holder), Registries.Value.value
-            #
-            # elif isinstance(value_holder, Int):
-            #     # If we're given variable from which we have to get
-            #     return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-            #         value_holder)), Registries.Value.value
+            if isinstance(value_holder, int):
+                # If we have concrete integer value at this point
+                return self.generator.generate_value(value=value_holder), Registries.Value.value
+
+            elif isinstance(value_holder, Int):
+                # If we're given variable from which we have to get
+                return self.generator.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+                    value_holder)), Registries.Value.value
 
     def assign(self, assignment):
         """
@@ -259,10 +259,7 @@ class ChaiStat(ChaiMan):
         :param write:
         :return:
         """
-        if self.get_variable_assigned_to_value(write.from_variable):
-            return self.generator.generate_write(write.from_variable)
-        else:
-            raise Exception("write: variable '{}' referenced before assignment.")
+        return self.generator.generate_write(write.from_variable)
 
     def translate(self, commands):
         """
@@ -352,10 +349,10 @@ class ChaiStat(ChaiMan):
         output = self.translate(body)
         output.append('HALT')
 
+        logging.debug("Chaistat output: {}".format(output))
+
         output = self.insert_jumps(output)
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)
 
-        logging.debug("Chaistat output: {}".format(output))
-
-        outf = open('tests/test6.o', 'w').write('\n'.join(output))
+        outf = open('tests/gebala/3-fib-factorial.o', 'w').write('\n'.join(output))

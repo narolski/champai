@@ -123,6 +123,7 @@ class ChaiParser(Parser):
         # return ('for', pidentifier, p[3], p[5], p[7])
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
+        iterator.set_value_has_been_set()
 
         self.declare_global_variable(iterator)
 
@@ -132,6 +133,7 @@ class ChaiParser(Parser):
     def command(self, p):
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
+        iterator.set_value_has_been_set()
 
         self.declare_global_variable(iterator)
 

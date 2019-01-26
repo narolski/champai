@@ -7,7 +7,7 @@ from chaistat import ChaiStat
 lexer = ChaiLexer()
 parser = ChaiParser()
 
-file = open('tests/test6.imp', 'r').read()
+file = open('tests/gebala/3-fib-factorial.imp', 'r').read()
 
 tree = parser.parse(lexer.tokenize(file))
 

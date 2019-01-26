@@ -33,7 +33,8 @@ IN
   x:=w+v;
   y:=x+w;
   z:=y+x;
-  a:=100000*a;
+  a:=10000*z;
+  WRITE a;
   tab(a):=z;
   WRITE tab(a);
 END

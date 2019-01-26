@@ -30,7 +30,7 @@ class Int(Variable):
     Defines integer representation in Champai.
     """
     def __init__(self, pidentifier, lineno):
-        self.is_iterator = True
+        self.is_iterator = False
         super().__init__(pidentifier=pidentifier, lineno=lineno)
 
     def __repr__(self):
@@ -47,6 +47,7 @@ class IntArray(Variable):
     def __init__(self, pidentifier, lineno, from_val, to_val):
         self.from_val = int(from_val)
         self.to_val = int(to_val)
+        self.value_has_been_set = True
 
         if self.to_val >= self.from_val:
             self.offset = self.from_val
@@ -55,12 +56,15 @@ class IntArray(Variable):
             raise Exception("Invalid array bounds: declared IntArray[{}:{}]".format(self.from_val, self.to_val))
         super().__init__(pidentifier, lineno)
 
+    def __repr__(self):
+        return self.pidentifier
+
 
 class IntArrayElement(Variable):
     def __init__(self, array, value_holder, lineno):
         self.array = array
         self.value_holder = value_holder # int or variable
-        self.updated_after_compilation = True
+        self.value_has_been_set = True
         super().__init__(array.pidentifier, lineno)
 
     def get_value_holder(self):

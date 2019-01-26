@@ -76,15 +76,17 @@ class ChaiAsm(ChaiMan):
         """
         code = []
 
-        # Check if variable has been referenced before assignment
-        if self.get_variable_assigned_to_value(variable=operand):
-            # Store in registries values of variables
-            if isinstance(operand, int):
-                # If a is a concrete integer value
-                code.extend(self.generate_value(value=operand,
-                                                target_registry=target_registry))
+        # Store in registries values of variables
 
-            elif isinstance(operand, Int):
+        if isinstance(operand, int):
+            # If a is a concrete integer value
+            code.extend(self.generate_value(value=operand,
+                                            target_registry=target_registry))
+
+        # Check if variable has been referenced before assignment
+        elif self.get_variable_assigned_to_value(variable=operand):
+
+            if isinstance(operand, Int):
                 # If a is a variable from which we have to get the value
                 code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(operand),
                                                                 target_registry=target_registry))
@@ -94,7 +96,8 @@ class ChaiAsm(ChaiMan):
                 code.extend(self.generate_get_value_of_array_element(array_element=operand,
                                                                      target_registry=target_registry))
         else:
-            raise Exception("generate_get_value: variable '{}' referenced before assignment".format(operand.pidentifier))
+            raise Exception(
+                "generate_get_value: variable '{}' referenced before assignment".format(operand.pidentifier))
 
         return code
 
@@ -106,9 +109,18 @@ class ChaiAsm(ChaiMan):
         :return: code
         """
         code = []
+
+        # if self.get_variable_assigned_to_value(self.get_object_from_memory(
+        #         pidentifier=self.get_pidentifier_assigned_to_mem_index(
+        #         index=memory_index))):
+
         code.extend(self.generate_constant(constant_value=memory_index, target_registry=Registries.Constant.value))
         code.append('LOAD {}'.format(target_registry))
         return code
+
+        # else:
+        #     raise Exception("get_value_of_variable: variable at memory index '{}' referenced before "
+        #                     "assignment".format(memory_index))
 
     def generate_get_value_of_array_element(self, array_element, target_registry=Registries.Value.value):
         """
@@ -127,20 +139,33 @@ class ChaiAsm(ChaiMan):
             element_memory_location = element_index_value_holder - array.from_val + 1 + self.get_object_memory_location(
                 array)
 
+            # logging.debug("get_value_of_array_element: getting value from array '{}' at index '{}".format(array,
+            #                                                                                               element_index_value_holder))
+
             code.extend(self.generate_get_value_of_variable(memory_index=element_memory_location,
                                                             target_registry=target_registry))
 
         elif isinstance(element_index_value_holder, Int):
             # If we have to get the index of array element from the variable's value
             code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                element_index_value_holder), target_registry=target_registry))
+                element_index_value_holder), target_registry=Registries.MemoryIndex.value))
+
+            # Add 1
+            code.append('INC {}'.format(Registries.MemoryIndex.value))
+
+            # Subtract array's from_val
+            code.extend(self.generate_value(value=array.from_val, target_registry=Registries.G.value))
+            code.append('SUB {} {}'.format(Registries.MemoryIndex.value, Registries.G.value))
+
+            # Add memory location of array
+            code.extend(self.generate_append_constant(constant_value=self.get_object_memory_location(array),
+                                                      target_registry=Registries.MemoryIndex.value))
+
+            # Load variable from memory to target_registry
+            code.append('LOAD {}'.format(target_registry))
 
             # Calculate the array offset
-            element_memory_offset = 1 - array.from_val + self.get_object_memory_location(array)
-
-            if element_memory_offset > 0:
-                code.extend(self.generate_append_constant(constant_value=element_memory_offset,
-                                                          target_registry=target_registry))
+            # element_memory_offset = 1 - array.from_val + self.get_object_memory_location(array)
 
         # NOTE: Grammar does not allow to use value of array as index
         return code
@@ -185,10 +210,25 @@ class ChaiAsm(ChaiMan):
                 code = []
                 element_memory_offset = 1 - array.from_val + self.get_object_memory_location(array)
 
-                code.append(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+                logging.debug("Value holder mem index: {}, offset should be: {}".format(self.get_object_memory_location(
+                    value_holder), element_memory_offset))
+
+                code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
                     value_holder), target_registry=Registries.MemoryIndex.value))
-                code.append(self.generate_append_constant(constant_value=element_memory_offset,
+
+                # Add 1
+                code.append('INC {}'.format(Registries.MemoryIndex.value))
+
+                # Subtract array's from_val
+                code.extend(self.generate_value(value=array.from_val, target_registry=Registries.G.value))
+                code.append('SUB {} {}'.format(Registries.MemoryIndex.value, Registries.G.value))
+
+                # Add memory location of array
+                code.extend(self.generate_append_constant(constant_value=self.get_object_memory_location(array),
                                                           target_registry=Registries.MemoryIndex.value))
+
+                # Load variable from memory to target_registry
+                code.append('STORE {}'.format(from_registry))
 
                 return code
 
@@ -428,6 +468,8 @@ class ChaiAsm(ChaiMan):
 
         # Create variable upper_bound
         ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        ubound.set_as_iterator()
+        ubound.set_value_has_been_set()
         self.declare_global_variable(variable=ubound)
 
         # Store value of upper_bound in variable
@@ -495,6 +537,8 @@ class ChaiAsm(ChaiMan):
 
         # Create variable upper_bound
         lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        lbound.set_value_has_been_set()
+        lbound.set_as_iterator()
         self.declare_global_variable(variable=lbound)
 
         # Store value of upper_bound in variable

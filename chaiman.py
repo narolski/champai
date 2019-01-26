@@ -18,13 +18,26 @@ class ChaiMan:
         """
         return self.memory_indexes[pidentifier]
 
+    def get_pidentifier_assigned_to_mem_index(self, index):
+        """
+        Returns the object assigned to given memory index
+        :param index: memory index
+        :return:
+        """
+        for var, mem_index in self.memory_indexes.items():
+            if mem_index == index:
+                return var
+
     def get_object_memory_location(self, object):
         """
         Returns the location in memory of given object
         :param object: object
         :return: memory index
         """
+        # if self.get_variable_assigned_to_value(variable=object):
         return self.memory_indexes[object.pidentifier]
+        # else:
+        #     raise Exception("get_object_memory_location: object '{}' referenced before assignment".format(object))
 
     def get_object_from_memory(self, pidentifier):
         """
