@@ -1,0 +1,12 @@
+DECLARE
+    a;
+    b;
+IN
+    READ a;
+
+    DO
+        a := a - 1;
+        WRITE a;
+    WHILE a = 10
+    ENDDO
+END

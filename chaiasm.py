@@ -4,6 +4,7 @@ from chaiman import ChaiMan
 from scope.chaivars import *
 from scope.chaiflow import *
 
+import logging
 
 class ChaiAsm(ChaiMan):
     """
@@ -62,7 +63,7 @@ class ChaiAsm(ChaiMan):
         :param target_registry: registry to store the value
         :return:
         """
-        return self.generate_constant(constant_value=value, target_registry=Registries.Value.value)
+        return self.generate_constant(constant_value=value, target_registry=target_registry)
 
     def generate_get_value(self, operand, target_registry=Registries.Value.Value):
         """
@@ -72,6 +73,8 @@ class ChaiAsm(ChaiMan):
         :return:
         """
         code = []
+
+        logging.debug("Target registry for generate_get_value: {}".format(target_registry))
 
         # Store in registries values of variables
         if isinstance(operand, int):
@@ -375,7 +378,7 @@ class ChaiAsm(ChaiMan):
             # $commands_cond_{} -> jump to commands
             # TODO: $end_cond_{}
 
-        elif compareop == operator.ne:
+        elif oper == operator.ne:
             # is a != b
 
             code.append('INC {} # BEGIN NEQ COND'.format(second_reg))
@@ -388,4 +391,3 @@ class ChaiAsm(ChaiMan):
             # TODO: $end_cond_{} -> jump to end
 
         return code, jump_identifier
-

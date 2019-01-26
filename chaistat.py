@@ -62,7 +62,7 @@ class ChaiStat(ChaiMan):
         """
         Handles the conditional statement (if, if-else)
         :param operation: control flow operation wrapper
-        :return:
+        :return: assembly code
         """
         code = []
         first_operand, oper, second_operand = operation.condition.return_condition()
@@ -77,22 +77,91 @@ class ChaiStat(ChaiMan):
         # Delegate translation of commands
         translated_commands = self.translate(commands)
 
-        # If dealing with eq or neq append $commands_cond_{} marker to first line of commands
         if oper == operator.eq or oper == operator.ne:
+            # If dealing with eq or neq append $commands_cond_{} marker to first line of commands
             translated_commands[0] = '$commands_cond_{} '.format(jump_identifier) + translated_commands[0]
 
+        if isinstance(operation, IfElse):
+            # If handling if-else, jump through if commands upon execution
+            translated_commands.append('JUMP $end_jumpthrough_else_{}'.format(jump_identifier))
+
         code.extend(translated_commands)
-
-        # Mark also the end of condition for $end_cond_{} marker
-        # TODO: Jump from here to end (of alt commands, if exist)
-
-        code.append('$end_cond_{} # END IF'.format(jump_identifier))
+        code.append('$end_cond_{} INC A'.format(jump_identifier))
 
         # If handling if-else statement
         if isinstance(operation, IfElse):
             alt_commands = operation.return_alt_commands()
             code.extend(self.translate(alt_commands))
+
             # Add marker for end
+            code.append("$end_jumpthrough_else_{} INC A".format(jump_identifier))
+
+        return code
+
+    def while_statement(self, operation):
+        """
+        Handles the while statement control flow operation
+        :param operation: control flow operation wrapper
+        :return: assembly code
+        """
+        code = []
+        first_operand, oper, second_operand = operation.condition.return_condition()
+        commands = operation.commands
+
+        # Generate condition check
+        cond_code, jump_identifier = self.generator.generate_conditional_statement(first_operand=first_operand,
+                                                                                   second_operand=second_operand,
+                                                                                   oper=oper)
+
+        cond_code[0] = '$while_cond_check_{} '.format(jump_identifier) + cond_code[0]
+        code.extend(cond_code)
+
+        # Delegate translation of commands
+        translated_commands = self.translate(commands)
+
+        if oper == operator.eq or oper == operator.ne:
+            # If dealing with eq or neq append $commands_cond_{} marker to first line of commands
+            translated_commands[0] = '$commands_cond_{} '.format(jump_identifier) + translated_commands[0]
+
+        code.extend(translated_commands)
+
+        # Return to condition check after command execution
+        code.append('JUMP $while_cond_check_{}'.format(jump_identifier))
+
+        # Mark end of loop
+        code.append('$end_cond_{} INC A'.format(jump_identifier))
+
+        return code
+
+    def do_while_statement(self, operation):
+        """
+        Handles do-while statement control flow operation
+        :param operation:
+        :return:
+        """
+        code = []
+        first_operand, oper, second_operand = operation.condition.return_condition()
+        commands = operation.commands
+
+        # Generate condition check
+        cond_code, jump_identifier = self.generator.generate_conditional_statement(first_operand=first_operand,
+                                                                                   second_operand=second_operand,
+                                                                                   oper=oper)
+
+        # Delegate translation of commands
+        translated_commands = self.translate(commands)
+
+        # Mark where to jump to perform do part of statement
+        translated_commands[0] = '$commands_cond_{} '.format(jump_identifier) + translated_commands[0]
+
+        code.extend(translated_commands)
+        code.extend(cond_code)
+
+        # This time after condition jump to the commands
+        code.append('JUMP $commands_cond_{}'.format(jump_identifier))
+
+        # Mark end of loop
+        code.append('$end_cond_{} INC A'.format(jump_identifier))
 
         return code
 
@@ -132,6 +201,12 @@ class ChaiStat(ChaiMan):
 
             elif isinstance(command, If):
                 translated_code = self.if_statement(command)
+
+            elif isinstance(command, While):
+                translated_code = self.while_statement(command)
+
+            elif isinstance(command, DoWhile):
+                translated_code = self.do_while_statement(command)
 
             self.generator.program_counter += len(translated_code)
             code.extend(translated_code)
@@ -196,4 +271,4 @@ class ChaiStat(ChaiMan):
 
         logging.debug("Chaistat output: {}".format(output))
 
-        outf = open('tests/test2.o', 'w').write('\n'.join(output))
+        outf = open('tests/test3.o', 'w').write('\n'.join(output))
