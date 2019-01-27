@@ -84,7 +84,8 @@ class ChaiAsm(ChaiMan):
                                             target_registry=target_registry))
 
         # Check if variable has been referenced before assignment
-        elif self.get_variable_assigned_to_value(variable=operand):
+        elif self.get_variable_assigned_to_value(variable=operand) or self.get_object_from_memory(
+                pidentifier=operand.pidentifier).get_is_iterator():
 
             if isinstance(operand, Int):
                 # If a is a variable from which we have to get the value
@@ -347,7 +348,8 @@ class ChaiAsm(ChaiMan):
         if isinstance(from_variable, int):
             code.extend(self.generate_value(value=from_variable))
 
-        elif self.get_variable_assigned_to_value(variable=from_variable):
+        elif self.get_variable_assigned_to_value(variable=from_variable) or self.get_object_from_memory(
+                pidentifier=from_variable.pidentifier).get_is_iterator():
 
             if isinstance(from_variable, Int):
                 code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(

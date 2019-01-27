@@ -202,6 +202,9 @@ class ChaiStat(ChaiMan):
         iterator, lower_bound, upper_bound = operation.return_for_loop_conditions()
         commands = operation.commands
 
+        # Mark using iterator
+        self.global_variables[iterator.pidentifier].is_iterator = True
+
         # Generate initial preparations and condition check
         init_code, init_jump = self.generator.generate_for_preparations(loop_iterator=iterator,
                                                                             loop_lower_bound=lower_bound,
@@ -227,6 +230,9 @@ class ChaiStat(ChaiMan):
         # Mark end of for loop
         code.append('$end_cond_{} $end_cond_{} INC A'.format(jump_identifier, init_jump))
 
+        # Set that it is not iterator anymore
+        self.global_variables[iterator.pidentifier].is_iterator = False
+
         return code
 
     def for_loop_downto_control_flow(self, operation):
@@ -238,6 +244,9 @@ class ChaiStat(ChaiMan):
         code = []
         iterator, upper_bound, lower_bound = operation.return_for_downto_loop_conditions()
         commands = operation.commands
+
+        # Mark using iterator
+        self.global_variables[iterator.pidentifier].is_iterator = True
 
         logging.debug("For downto lower_bound: {}, upper_bound: {}".format(lower_bound, upper_bound))
 
@@ -264,6 +273,9 @@ class ChaiStat(ChaiMan):
 
         # Mark end of for loop
         code.append('$end_cond_{} $end_cond_{} $end_cond_{} INC A'.format(jump_identifier, jump_identifier, init_jump))
+
+        # Set that it is not iterator anymore
+        self.global_variables[iterator.pidentifier].is_iterator = False
 
         return code
 

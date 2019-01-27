@@ -81,22 +81,22 @@ class ChaiSpeed:
             elif isinstance(operation, (While, DoWhile, If, IfElse)):
 
                 if isinstance(operation.condition.p, Int):
-                    occurences[operation.condition.p.pidentifier] += 1
+                    occurences[operation.condition.p.pidentifier] += 20
 
                 elif isinstance(operation.condition.p, IntArrayElement):
-                    occurences[operation.condition.p.array.pidentifier] += 1
+                    occurences[operation.condition.p.array.pidentifier] += 20
 
                     if isinstance(operation.condition.p.value_holder, Int):
-                        occurences[operation.condition.p.value_holder.pidentifier] += 1
+                        occurences[operation.condition.p.value_holder.pidentifier] += 20
 
                 if isinstance(operation.condition.q, Int):
-                    occurences[operation.condition.q.pidentifier] += 1
+                    occurences[operation.condition.q.pidentifier] += 20
 
                 elif isinstance(operation.condition.q, IntArrayElement):
-                    occurences[operation.condition.q.array.pidentifier] += 1
+                    occurences[operation.condition.q.array.pidentifier] += 20
 
                     if isinstance(operation.condition.q.value_holder, Int):
-                        occurences[operation.condition.q.value_holder.pidentifier] += 1
+                        occurences[operation.condition.q.value_holder.pidentifier] += 20
 
                 internal_occurences = self.count_occurences(parse_tree=operation.commands)
 
@@ -116,25 +116,25 @@ class ChaiSpeed:
             elif isinstance(operation, (For, ForDownTo)):
 
                 # Iterator has the highest possible priority
-                occurences[operation.pidentifier.pidentifier] += 1 * 2 * 50 + 1
+                occurences[operation.pidentifier.pidentifier] += 20
 
                 if isinstance(operation.from_val, Int):
-                    occurences[operation.from_val.pidentifier] += 1 * 20
+                    occurences[operation.from_val.pidentifier] += 20
 
                 elif isinstance(operation.from_val, IntArrayElement):
-                    occurences[operation.from_val.array.pidentifier] += 1 * 20
+                    occurences[operation.from_val.array.pidentifier] += 20
 
                     if isinstance(operation.from_val.value_holder, Int):
-                        occurences[operation.from_val.value_holder.pidentifier] += 1 * 20
+                        occurences[operation.from_val.value_holder.pidentifier] += 20
 
                 if isinstance(operation.to_val, Int):
-                    occurences[operation.to_val.pidentifier] += 1 * 20
+                    occurences[operation.to_val.pidentifier] += 20
 
                 elif isinstance(operation.to_val, IntArrayElement):
-                    occurences[operation.to_val.array.pidentifier] += 1 * 20
+                    occurences[operation.to_val.array.pidentifier] += 20
 
                     if isinstance(operation.to_val.value_holder, Int):
-                        occurences[operation.to_val.value_holder.pidentifier] += 1 * 20
+                        occurences[operation.to_val.value_holder.pidentifier] += 20
 
                 internal_occurences = self.count_occurences(parse_tree=operation.commands)
 
@@ -153,7 +153,7 @@ class ChaiSpeed:
         current_globs = self.global_variables.copy()
         current_mems = self.memory_indexes.copy()
 
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.CRITICAL)
         logging.debug("Current globs: {}, current mems: {}".format(current_globs, current_mems))
         logging.debug("Passed occurences: {}".format(occurences))
 
