@@ -6,6 +6,8 @@ Champai jest kompilatorem prostego języka imperatywnego `glang` do kodu maszyny
 
 Champai został napisany w języku `Python` w oparciu o `SLY` - nowoczesną implementację narzędzi `lex` i `yacc` powszechnie wykorzystywanych do tworzenia parserów i kompilatorów. Tworzony z myślą o rozszerzalności i prostocie utrzymania, Champai charakteryzuje nieskomplikowana budowa i dobrze udokumentowany kod źródłowy.
 
+Autorem kompilatora Champai jest Paweł Narolski (<pawel.narolski@gmail.com>, <236685@student.pwr.edu.pl>). 
+
 ## Wymagania systemowe
 
 W celu uruchomienia kompilatora koniecznie jest zainstalowanie w systemie `Pythona` w wersji `3.6` lub nowszej oraz biblioteki `SLY`. W tym celu można skorzystać z przygotowanego skryptu `install.sh` lub ręcznie wywołać następujące polecenia: 
@@ -14,7 +16,7 @@ W celu uruchomienia kompilatora koniecznie jest zainstalowanie w systemie `Pytho
 $ sudo apt update
 $ sudo apt install python3 -y
 $ sudo apt install python3-pip -y
-$ pip install sly=0.3.0
+$ pip3 install sly==0.3.0
 ```
 
 ## Kompilowanie przy użyciu Champai
