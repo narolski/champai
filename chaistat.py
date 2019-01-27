@@ -55,8 +55,26 @@ class ChaiStat(ChaiMan):
         """
         code = []
         to = assignment.identifier
-        # logging.debug("Assignment details: to: {}".format(to))
         # logging.debug("Unwrap expression: {}".format(assignment.expression.return_value().pidentifier))
+
+        # Error handling
+        if not isinstance(to, (Int, IntArrayElement)):
+            raise Exception("chaistat assign: invalid assignment occured for '{}' in line {}".format(to, to.lineno))
+
+        elif isinstance(self.get_object_from_memory(pidentifier=to.pidentifier), IntArray):
+            if isinstance(to, Int):
+                raise Exception("chaistat assign: invalid assignment occured to array '{}' instead of array "
+                            "element, line {}".format(to.pidentifier, to.lineno))
+
+        elif isinstance(to, IntArrayElement):
+            if not isinstance(self.get_object_from_memory(pidentifier=to.pidentifier), IntArray):
+                raise Exception("chaistat assign: invalid assignment occured to variable '{}' which is not an element of array in line {}".format(to.pidentifier, to.lineno))
+
+        elif isinstance(to, Int):
+            obj = self.get_object_from_memory(pidentifier=to.pidentifier)
+            if obj.get_is_iterator():
+                raise Exception("chaistat assign: invalid assignment of value to loop iterator '{}' in line {}".format(
+                    to.pidentifier, to.lineno))
 
         expression_code, result_reg = self.unwrap_expression(assignment.expression)
 
@@ -184,6 +202,9 @@ class ChaiStat(ChaiMan):
         iterator, lower_bound, upper_bound = operation.return_for_loop_conditions()
         commands = operation.commands
 
+        # Mark using iterator
+        self.global_variables[iterator.pidentifier].is_iterator = True
+
         # Generate initial preparations and condition check
         init_code, init_jump = self.generator.generate_for_preparations(loop_iterator=iterator,
                                                                             loop_lower_bound=lower_bound,
@@ -209,6 +230,9 @@ class ChaiStat(ChaiMan):
         # Mark end of for loop
         code.append('$end_cond_{} $end_cond_{} INC A'.format(jump_identifier, init_jump))
 
+        # Set that it is not iterator anymore
+        self.global_variables[iterator.pidentifier].is_iterator = False
+
         return code
 
     def for_loop_downto_control_flow(self, operation):
@@ -220,6 +244,9 @@ class ChaiStat(ChaiMan):
         code = []
         iterator, upper_bound, lower_bound = operation.return_for_downto_loop_conditions()
         commands = operation.commands
+
+        # Mark using iterator
+        self.global_variables[iterator.pidentifier].is_iterator = True
 
         logging.debug("For downto lower_bound: {}, upper_bound: {}".format(lower_bound, upper_bound))
 
@@ -246,6 +273,9 @@ class ChaiStat(ChaiMan):
 
         # Mark end of for loop
         code.append('$end_cond_{} $end_cond_{} $end_cond_{} INC A'.format(jump_identifier, jump_identifier, init_jump))
+
+        # Set that it is not iterator anymore
+        self.global_variables[iterator.pidentifier].is_iterator = False
 
         return code
 
@@ -320,7 +350,7 @@ class ChaiStat(ChaiMan):
                 for j in range(0, len(translated_commands)):
                     jump_command_candidate = translated_commands[j].split()
 
-                    if placeholder in jump_command_candidate[-1]:
+                    if placeholder == jump_command_candidate[-1]:
                         # Replace placeholder in JUMP/JODD/JZERO with absolute index
                         jump_command_candidate[-1] = str(i)
                         translated_commands[j] = ' '.join(jump_command_candidate)
@@ -336,7 +366,7 @@ class ChaiStat(ChaiMan):
         Runs the code
         :return:
         """
-        logging.basicConfig(level=logging.FATAL)
+        logging.basicConfig(level=logging.DEBUG)
 
         # Divide the program into header (declarations) and code
         header = self.parse_tree[0]
@@ -349,10 +379,13 @@ class ChaiStat(ChaiMan):
         logging.debug("Global variables: {}".format(self.global_variables))
         logging.debug("Assigned indexes: {}".format(self.memory_indexes))
 
+        # logging.debug("Occurences: {}".format(self.count_occurences(parse_tree=body)))
+
+        logging.debug("Global variables: {}".format(self.global_variables))
+        logging.debug("Assigned indexes: {}".format(self.memory_indexes))
+
         output = self.translate(body)
         output.append('HALT')
-
-        logging.debug("Chaistat output: {}".format(output))
 
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)

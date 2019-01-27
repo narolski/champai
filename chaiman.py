@@ -1,5 +1,8 @@
 # chaiman.py
+import logging
+
 from scope.chaivars import *
+from scope.chaiflow import *
 
 
 class ChaiMan:
@@ -53,7 +56,7 @@ class ChaiMan:
         :param variable:
         :return:
         """
-        if not variable.pidentifier in self.global_variables.keys():
+        if variable.pidentifier not in self.global_variables.keys():
             self.global_variables[variable.pidentifier] = variable
             self.memory_indexes[variable.pidentifier] = self.next_free_memory_index
 
@@ -74,7 +77,8 @@ class ChaiMan:
         if variable.pidentifier in self.global_variables.keys():
             self.global_variables[variable.pidentifier].set_value_has_been_set()
         else:
-            raise Exception("Assigning value to undeclared variable '{}'".format(variable.pidentifier))
+            raise Exception("chaiman set_variable_assigned_to_value: trying to set value to undeclared variable"
+                            " '{}', line {}".format(variable.pidentifier, variable.lineno))
 
     def get_variable_assigned_to_value(self, variable):
         """
@@ -83,3 +87,5 @@ class ChaiMan:
         :return:
         """
         return self.global_variables[variable.pidentifier].get_value_has_been_set_status()
+
+

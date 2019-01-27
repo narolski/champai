@@ -27,7 +27,7 @@ class ChaiParse(Parser):
         :param variable:
         :return:
         """
-        if not variable.pidentifier in self.global_variables.keys():
+        if variable.pidentifier not in self.global_variables.keys():
             self.global_variables[variable.pidentifier] = variable
             self.memory_indexes[variable.pidentifier] = self.next_free_memory_index
 
@@ -36,7 +36,8 @@ class ChaiParse(Parser):
             elif isinstance(variable, IntArray):
                 self.next_free_memory_index += variable.length
         else:
-            raise Exception("Variable with pidentifier {} was already declared".format(variable.pidentifier))
+            raise Exception("chaiparse declare_global_variable: variable with pidentifier {} was already "
+                            "declared, line {}".format(variable.pidentifier, variable.lineno))
 
     def get_global_variable(self, pidentifier):
         return self.global_variables[pidentifier]
@@ -57,7 +58,6 @@ class ChaiParse(Parser):
     @_('DECLARE declarations IN commands END')
     def program(self, p):
         return [p[1], p[3]]
-        # return (Header(declared_vars=p[1]), p[3])
 
     # declarations:
     # Handles the variable declarations
@@ -67,14 +67,13 @@ class ChaiParse(Parser):
 
         integer = Int(pidentifier=p[1], lineno=p.lineno)
         self.declare_global_variable(integer)
-
         p[0].append(integer)
         return p[0]
 
     @_('declarations PIDENTIFIER LPAREN NUMBER COLON NUMBER RPAREN SEMICOLON')
     def declarations(self, p):
         p[0] = list(p[0]) if p[0] else []
-        # p[0].append(('int[]', p[1], p[3], p[5], p.lineno))
+
         array = IntArray(pidentifier=p[1], lineno=p.lineno, from_val=p[3], to_val=p[5])
         self.declare_global_variable(array)
 
@@ -100,7 +99,6 @@ class ChaiParse(Parser):
     # Handles command
     @_('identifier ASSIGN expression SEMICOLON')
     def command(self, p):
-        # return ('assign', p[0], p[2])
         return Assign(identifier=p[0], expression=p[2])
 
     @_('IF condition THEN commands ENDIF')
@@ -132,7 +130,7 @@ class ChaiParse(Parser):
 
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
-        iterator.set_value_has_been_set()
+        # iterator.set_value_has_been_set()
 
         if iterator.pidentifier not in self.global_variables.keys():
             self.declare_global_variable(iterator)
@@ -147,7 +145,7 @@ class ChaiParse(Parser):
 
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
-        iterator.set_value_has_been_set()
+        # iterator.set_value_has_been_set()
 
         if iterator.pidentifier not in self.global_variables.keys():
             self.declare_global_variable(iterator)
@@ -207,21 +205,16 @@ class ChaiParse(Parser):
     # Handles identifier statements
     @_('PIDENTIFIER')
     def identifier(self, p):
-        # return ('int', p[0], p.lineno)
-        # return self.get_global_variable(pidentifier=p[0])
         return Int(pidentifier=p[0], lineno=p.lineno)
 
     @_('PIDENTIFIER LPAREN PIDENTIFIER RPAREN')
     def identifier(self, p):
-        # i = ('int', p[2], p.lineno)
-        # i = self.get_global_variable(pidentifier=p[2])
         i = Int(pidentifier=p[2], lineno=p.lineno)
 
         return IntArrayElement(array=self.get_global_variable(pidentifier=p[0]), value_holder=i, lineno=p.lineno)
 
     @_('PIDENTIFIER LPAREN NUMBER RPAREN')
     def identifier(self, p):
-        # return ('int[]', p[0], p[2], p.lineno)
         return IntArrayElement(array=self.get_global_variable(pidentifier=p[0]), value_holder=int(p[2]),
                                lineno=p.lineno)
 
@@ -231,8 +224,7 @@ class ChaiParse(Parser):
 
     # Error handling
     def error(self, p):
-        # logging.error("Line {}, unknown input {}".format(p.lineno, p.value))
-        raise Exception("Unknown input '{}' in line {}".format(p.value, p.lineno))
+        raise Exception("chaiparse: unknown input '{}' in line {}".format(p.value, p.lineno))
 
 
 

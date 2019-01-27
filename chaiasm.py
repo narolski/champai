@@ -84,7 +84,8 @@ class ChaiAsm(ChaiMan):
                                             target_registry=target_registry))
 
         # Check if variable has been referenced before assignment
-        elif self.get_variable_assigned_to_value(variable=operand):
+        elif self.get_variable_assigned_to_value(variable=operand) or self.get_object_from_memory(
+                pidentifier=operand.pidentifier).get_is_iterator():
 
             if isinstance(operand, Int):
                 # If a is a variable from which we have to get the value
@@ -97,7 +98,8 @@ class ChaiAsm(ChaiMan):
                                                                      target_registry=target_registry))
         else:
             raise Exception(
-                "generate_get_value: variable '{}' referenced before assignment".format(operand.pidentifier))
+                "generate_get_value: variable '{}' referenced before assignment, line {}".format(operand.pidentifier,
+                                                                                              operand.lineno))
 
         return code
 
@@ -346,12 +348,19 @@ class ChaiAsm(ChaiMan):
         if isinstance(from_variable, int):
             code.extend(self.generate_value(value=from_variable))
 
-        elif isinstance(from_variable, Int):
-            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                from_variable)))
+        elif self.get_variable_assigned_to_value(variable=from_variable) or self.get_object_from_memory(
+                pidentifier=from_variable.pidentifier).get_is_iterator():
 
-        elif isinstance(from_variable, IntArrayElement):
-            code.extend(self.generate_get_value_of_array_element(array_element=from_variable))
+            if isinstance(from_variable, Int):
+                code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+                    from_variable)))
+
+            elif isinstance(from_variable, IntArrayElement):
+                code.extend(self.generate_get_value_of_array_element(array_element=from_variable))
+
+        else:
+            raise Exception("generate_write: variable '{}' referenced before assignment, line {}".format(
+                from_variable.pidentifier, from_variable.lineno))
 
         code.append('PUT {}'.format(Registries.Value.value))
         return code
@@ -468,14 +477,14 @@ class ChaiAsm(ChaiMan):
                                             target_registry=Registries.ConditionSecondOperand.value))
 
         # Create variable upper_bound
-        ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        # ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
 
-        if ubound.pidentifier not in self.global_variables.keys():
-            ubound.set_as_iterator()
-            ubound.set_value_has_been_set()
-            self.declare_global_variable(variable=ubound)
-        else:
-            ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
+        # if ubound.pidentifier not in self.global_variables.keys():
+        #     ubound.set_as_iterator()
+        #     ubound.set_value_has_been_set()
+        #     self.declare_global_variable(variable=ubound)
+        # else:
+        ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=ubound,
@@ -538,14 +547,14 @@ class ChaiAsm(ChaiMan):
                                             target_registry=Registries.ConditionSecondOperand.value))
 
         # Create variable upper_bound
-        lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        # lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
 
-        if lbound.pidentifier not in self.global_variables.keys():
-            lbound.set_value_has_been_set()
-            lbound.set_as_iterator()
-            self.declare_global_variable(variable=lbound)
-        else:
-            lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
+        # if lbound.pidentifier not in self.global_variables.keys():
+        #     lbound.set_value_has_been_set()
+        #     lbound.set_as_iterator()
+        #     self.declare_global_variable(variable=lbound)
+        # else:
+        lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=lbound,
