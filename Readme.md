@@ -1,20 +1,40 @@
 # Champai
 
-Champai is a simple GLang compiler written in Python using SLY.
+Champai jest kompilatorem prostego języka imperatywnego `glang` do kodu maszyny rejestrowej `GVM` powstałym na potrzeby kursu *Języki Formalne i Techniki Translacji* realizowanego w ramach studiów informatyki na *Wydziale Podstawowych Problemów Techniki* Politechniki Wrocławskiej.
 
-## Requirements
+### O kompilatorze
 
-Champai requires at least Python 3.6 installed on your system as well as its' depedencies. You can easily install the depedencies using:
+Champai został napisany w języku `Python` w oparciu o `SLY` - nowoczesną implementację narzędzi `lex` i `yacc` powszechnie wykorzystywanych do tworzenia parserów i kompilatorów. Tworzony z myślą o rozszerzalności i prostocie utrzymania, Champai charakteryzuje nieskomplikowana budowa i dobrze udokumentowany kod źródłowy.
+
+Autorem kompilatora Champai jest Paweł Narolski (<pawel.narolski@gmail.com>, <236685@student.pwr.edu.pl>). 
+
+## Wymagania systemowe
+
+W celu uruchomienia kompilatora koniecznie jest zainstalowanie w systemie `Pythona` w wersji `3.6` lub nowszej oraz biblioteki `SLY`. W tym celu można skorzystać z przygotowanego skryptu `install.sh` lub ręcznie wywołać następujące polecenia: 
 
 ```sh
-$ pip3 install -r requirements.txt
+$ sudo apt update
+$ sudo apt install python3 -y
+$ sudo apt install python3-pip -y
+$ pip3 install sly==0.3.0
 ```
 
-In order to compile the code written in GLang just enter:
+## Kompilowanie przy użyciu Champai
+
+Aby skompilować kod źródłowy programu napisanego w prostym języku imperatywnym `glang` do kodu maszynyy rejestrowej `GVM` przy użyciu kompilatora Champai należy w katalogu zawierającym plik `champai.py` użyć polecenia:
 
 ```sh
 $ python3 champai.py [input_file] --out [output_file]
 ```
 
-## Note
-All of this is subject to change until Sunday, January 27th 23:45! Version shown here passes all of the tests shared.
+gdzie `input_file` oznacza nazwę lub ścieżkę do pliku źródłowego, a `output_file` - nazwę lub ścieżkę do pliku wynikowego.
+
+Szczegółowe informacje dostępne są po wykonaniu komendy:
+```sh
+$ python3 champai.py -h
+```
+
+## Geneza nazwy
+Nazwa Champai bierze się najprawdopodniej z języka fińskiego i powiązana jest z popularnym wśród tamtejszych górali zwrotem `jano, jano, jano!`[^1]. 
+
+[^1]: Na podstawie wypowiedzi znawcy kultur ugrofińskich, dr *in spe* Macieja Kabały.
