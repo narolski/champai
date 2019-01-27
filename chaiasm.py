@@ -468,14 +468,14 @@ class ChaiAsm(ChaiMan):
                                             target_registry=Registries.ConditionSecondOperand.value))
 
         # Create variable upper_bound
-        ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        # ubound = Int(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
 
-        if ubound.pidentifier not in self.global_variables.keys():
-            ubound.set_as_iterator()
-            ubound.set_value_has_been_set()
-            self.declare_global_variable(variable=ubound)
-        else:
-            ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
+        # if ubound.pidentifier not in self.global_variables.keys():
+        #     ubound.set_as_iterator()
+        #     ubound.set_value_has_been_set()
+        #     self.declare_global_variable(variable=ubound)
+        # else:
+        ubound = self.get_object_from_memory(pidentifier='for_ubound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=ubound,
@@ -538,14 +538,14 @@ class ChaiAsm(ChaiMan):
                                             target_registry=Registries.ConditionSecondOperand.value))
 
         # Create variable upper_bound
-        lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
+        # lbound = Int(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier), lineno=loop_iterator.lineno)
 
-        if lbound.pidentifier not in self.global_variables.keys():
-            lbound.set_value_has_been_set()
-            lbound.set_as_iterator()
-            self.declare_global_variable(variable=lbound)
-        else:
-            lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
+        # if lbound.pidentifier not in self.global_variables.keys():
+        #     lbound.set_value_has_been_set()
+        #     lbound.set_as_iterator()
+        #     self.declare_global_variable(variable=lbound)
+        # else:
+        lbound = self.get_object_from_memory(pidentifier='for_lbound_{}'.format(loop_iterator.pidentifier))
 
         # Store value of upper_bound in variable
         code.extend(self.generate_set_value_from_registry(to=lbound,

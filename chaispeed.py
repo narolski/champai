@@ -1,6 +1,6 @@
 # chaispeed.py
-from collections import defaultdict
 import logging
+from collections import defaultdict
 
 from scope.chaivars import *
 from scope.chaiflow import *
@@ -107,8 +107,8 @@ class ChaiSpeed:
 
             elif isinstance(operation, (For, ForDownTo)):
 
-                # Iterator has the highest priority possible
-                occurences[operation.pidentifier.pidentifier] += 1 * 2 * 20 + 1
+                # Iterator has the highest possible priority
+                occurences[operation.pidentifier.pidentifier] += 1 * 2 * 50 + 1
 
                 if isinstance(operation.from_val, Int):
                     occurences[operation.from_val.pidentifier] += 1 * 20
@@ -157,6 +157,28 @@ class ChaiSpeed:
                 mem_indexes[pidentifier] = next_free_mem_index
 
                 if isinstance(object, Int):
+
+                    if object.get_is_iterator():
+                        # Declare iterator helpers here!
+                        lbound = Int(pidentifier='for_lbound_{}'.format(object.pidentifier),
+                                     lineno=object.lineno)
+                        lbound.set_value_has_been_set()
+                        lbound.set_as_iterator()
+
+                        ubound = Int(pidentifier='for_ubound_{}'.format(object.pidentifier),
+                                     lineno=object.lineno)
+                        ubound.set_value_has_been_set()
+                        ubound.set_as_iterator()
+
+                        # Declare ubound, lbound
+                        global_vars[lbound.pidentifier] = lbound
+                        global_vars[ubound.pidentifier] = ubound
+
+                        mem_indexes[lbound.pidentifier] = next_free_mem_index + 1
+                        mem_indexes[ubound.pidentifier] = next_free_mem_index + 2
+
+                        next_free_mem_index += 2
+
                     next_free_mem_index += 1
 
                 elif isinstance(object, IntArray):

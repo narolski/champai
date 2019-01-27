@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e149ee0-a1f5-48f8-98f7-a7f26b29dcf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/chaispeed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaiman.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaiparse.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiparse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chaistat.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaistat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaiasm.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaiasm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaispeed.py" beforeDir="false" afterPath="$PROJECT_DIR$/chaispeed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/champai.py" beforeDir="false" afterPath="$PROJECT_DIR$/champai.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scope/chaivars.py" beforeDir="false" afterPath="$PROJECT_DIR$/scope/chaivars.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gebala/3-fib-factorial.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gebala/arkusz.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gebala/test7.o" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,10 +59,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="68" column="46" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
+            <state relative-caret-position="382">
+              <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
               <folding>
-                <marker date="1548579549735" expanded="true" signature="1096:1099" ph="..." />
+                <marker date="1548585320674" expanded="true" signature="1100:1103" ph="..." />
               </folding>
             </state>
           </provider>
@@ -75,8 +71,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chaiparse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
+            <state relative-caret-position="354">
               <caret line="22" selection-start-line="22" selection-end-line="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chaiasm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="543" column="30" selection-start-line="543" selection-start-column="30" selection-end-line="543" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -97,17 +102,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/gebala/3-fib-factorial.imp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
+            <state relative-caret-position="231">
               <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/champai.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="47" column="60" selection-start-line="47" selection-start-column="60" selection-end-line="47" selection-end-column="60" />
+            <state relative-caret-position="296">
+              <caret line="59" column="38" lean-forward="true" selection-start-line="59" selection-start-column="38" selection-end-line="59" selection-end-column="38" />
               <folding>
                 <element signature="e#13#28#0" expanded="true" />
               </folding>
@@ -118,7 +123,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chaistat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
+            <state relative-caret-position="7392">
               <caret line="352" lean-forward="true" selection-start-line="352" selection-end-line="352" />
               <folding>
                 <element signature="e#14#28#0" expanded="true" />
@@ -131,13 +136,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chaispeed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+            <state relative-caret-position="378">
+              <caret line="182" lean-forward="true" selection-start-line="182" selection-end-line="182" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#15#29#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -271,16 +276,16 @@
         <option value="$PROJECT_DIR$/tests/gebala/9-sort.imp" />
         <option value="$PROJECT_DIR$/tests/gebala/program1.imp" />
         <option value="$PROJECT_DIR$/chaiparser.py" />
-        <option value="$PROJECT_DIR$/chaiasm.py" />
         <option value="$PROJECT_DIR$/chailex.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Readme.md" />
         <option value="$PROJECT_DIR$/chaiparse.py" />
-        <option value="$PROJECT_DIR$/scope/chaivars.py" />
         <option value="$PROJECT_DIR$/tests/gebala/3-fib-factorial.imp" />
         <option value="$PROJECT_DIR$/chaistat.py" />
         <option value="$PROJECT_DIR$/chaiman.py" />
         <option value="$PROJECT_DIR$/champai.py" />
+        <option value="$PROJECT_DIR$/chaiasm.py" />
+        <option value="$PROJECT_DIR$/scope/chaivars.py" />
         <option value="$PROJECT_DIR$/chaispeed.py" />
       </list>
     </option>
@@ -475,7 +480,7 @@
       <workItem from="1548002334949" duration="10791000" />
       <workItem from="1548081805749" duration="200000" />
       <workItem from="1548488526785" duration="14000" />
-      <workItem from="1548488552948" duration="44294000" />
+      <workItem from="1548488552948" duration="45479000" />
     </task>
     <task id="LOCAL-00001" summary="Added support for if/if-else/while control flow statements">
       <created>1546884298264</created>
@@ -624,11 +629,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548536917403</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Added ChaiSpeed memory optimization (yet to be tested!!!)">
+      <created>1548584288697</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1548584288697</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56479000" />
+    <option name="totallyTimeSpent" value="57664000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -643,7 +655,7 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17238913" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17238913" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -657,7 +669,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32923833" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5007153" side_tool="true" weight="0.25429976" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.32678133" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49928468" visible="true" weight="0.32678133" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32923833" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
@@ -714,7 +726,8 @@
     <MESSAGE value="Beta before major optimizations" />
     <MESSAGE value="Added readme" />
     <MESSAGE value="Added Readme.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Readme.md" />
+    <MESSAGE value="Added ChaiSpeed memory optimization (yet to be tested!!!)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ChaiSpeed memory optimization (yet to be tested!!!)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/test3.o">
@@ -930,13 +943,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chaiasm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="514" column="36" selection-start-line="514" selection-start-column="36" selection-end-line="514" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/slowik/test1b.imp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -988,23 +994,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="68" column="46" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
-          <folding>
-            <marker date="1548579549735" expanded="true" signature="1096:1099" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chaiparse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/gebala/3-fib-factorial.o">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
@@ -1014,7 +1003,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/gebala/3-fib-factorial.imp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
+        <state relative-caret-position="231">
           <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
         </state>
       </provider>
@@ -1038,17 +1027,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chaistat.py">
+    <entry file="file://$PROJECT_DIR$/chaiparse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="352" lean-forward="true" selection-start-line="352" selection-end-line="352" />
-          <folding>
-            <element signature="e#14#28#0" expanded="true" />
-            <marker date="1548583858916" expanded="true" signature="99:104" ph="..." />
-            <marker date="1548583858916" expanded="true" signature="561:1886" ph="..." />
-            <marker date="1548583858916" expanded="true" signature="10756:10939" ph="..." />
-            <marker date="1548583858916" expanded="true" signature="13214:13218" ph="..." />
-          </folding>
+        <state relative-caret-position="354">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
@@ -1063,22 +1045,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chaispeed.py">
+    <entry file="file://$PROJECT_DIR$/chaistat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+        <state relative-caret-position="7392">
+          <caret line="352" lean-forward="true" selection-start-line="352" selection-end-line="352" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#14#28#0" expanded="true" />
+            <marker date="1548583858916" expanded="true" signature="99:104" ph="..." />
+            <marker date="1548583858916" expanded="true" signature="561:1886" ph="..." />
+            <marker date="1548583858916" expanded="true" signature="10756:10939" ph="..." />
+            <marker date="1548583858916" expanded="true" signature="13214:13218" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/champai.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="47" column="60" selection-start-line="47" selection-start-column="60" selection-end-line="47" selection-end-column="60" />
+        <state relative-caret-position="296">
+          <caret line="59" column="38" lean-forward="true" selection-start-line="59" selection-start-column="38" selection-end-line="59" selection-end-column="38" />
           <folding>
             <element signature="e#13#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaiasm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="543" column="30" selection-start-line="543" selection-start-column="30" selection-end-line="543" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scope/chaivars.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+          <folding>
+            <marker date="1548585320674" expanded="true" signature="1100:1103" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chaispeed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="182" lean-forward="true" selection-start-line="182" selection-end-line="182" />
+          <folding>
+            <element signature="e#15#29#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -39,7 +39,7 @@ class Int(Variable):
     def set_as_iterator(self):
         self.is_iterator = True
 
-    def is_iterator(self):
+    def get_is_iterator(self):
         return self.is_iterator
 
 
