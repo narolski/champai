@@ -80,23 +80,28 @@ class ChaiSpeed:
 
             elif isinstance(operation, (While, DoWhile, If, IfElse)):
 
+                bounty = 1
+
+                if isinstance(operation, (While, DoWhile)):
+                    bounty = 500
+
                 if isinstance(operation.condition.p, Int):
-                    occurences[operation.condition.p.pidentifier] += 20
+                    occurences[operation.condition.p.pidentifier] += bounty
 
                 elif isinstance(operation.condition.p, IntArrayElement):
-                    occurences[operation.condition.p.array.pidentifier] += 20
+                    occurences[operation.condition.p.array.pidentifier] += bounty
 
                     if isinstance(operation.condition.p.value_holder, Int):
-                        occurences[operation.condition.p.value_holder.pidentifier] += 20
+                        occurences[operation.condition.p.value_holder.pidentifier] += bounty
 
                 if isinstance(operation.condition.q, Int):
-                    occurences[operation.condition.q.pidentifier] += 20
+                    occurences[operation.condition.q.pidentifier] += bounty
 
                 elif isinstance(operation.condition.q, IntArrayElement):
-                    occurences[operation.condition.q.array.pidentifier] += 20
+                    occurences[operation.condition.q.array.pidentifier] += bounty
 
                     if isinstance(operation.condition.q.value_holder, Int):
-                        occurences[operation.condition.q.value_holder.pidentifier] += 20
+                        occurences[operation.condition.q.value_holder.pidentifier] += bounty
 
                 internal_occurences = self.count_occurences(parse_tree=operation.commands)
 
@@ -116,7 +121,7 @@ class ChaiSpeed:
             elif isinstance(operation, (For, ForDownTo)):
 
                 # Iterator has the highest possible priority
-                occurences[operation.pidentifier.pidentifier] += 20
+                occurences[operation.pidentifier.pidentifier] += 500
 
                 if isinstance(operation.from_val, Int):
                     occurences[operation.from_val.pidentifier] += 20
