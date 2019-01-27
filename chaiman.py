@@ -56,7 +56,7 @@ class ChaiMan:
         :param variable:
         :return:
         """
-        if not variable.pidentifier in self.global_variables.keys():
+        if variable.pidentifier not in self.global_variables.keys():
             self.global_variables[variable.pidentifier] = variable
             self.memory_indexes[variable.pidentifier] = self.next_free_memory_index
 

@@ -39,26 +39,28 @@ def perform_compilation(input_file, output_file):
     with open(input_file, 'r') as file:
         code = file.read()
 
-    try:
-        tree = parser.parse(lexer.tokenize(code))
+    # try:
+    tree = parser.parse(lexer.tokenize(code))
 
-        optimizer = ChaiSpeed(global_variables=parser.global_variables,
-                              memory_indexes=parser.memory_indexes, next_free_memory_index=parser.next_free_memory_index)
+    optimizer = ChaiSpeed(global_variables=parser.global_variables,
+                          memory_indexes=parser.memory_indexes, next_free_memory_index=parser.next_free_memory_index)
 
-        optimizer.optimize_memory_allocations(parse_tree=tree[1])
+    optimizer.optimize_memory_allocations(parse_tree=tree[1])
 
-        manager = ChaiStat(parse_tree=tree, global_variables=optimizer.global_variables,
-                           memory_indexes=optimizer.memory_indexes,
-                           next_free_memory_index=optimizer.next_free_memory_index)
+    manager = ChaiStat(parse_tree=tree, global_variables=optimizer.global_variables,
+                       memory_indexes=optimizer.memory_indexes,
+                       next_free_memory_index=optimizer.next_free_memory_index)
 
-        assembly_code = manager.compile()
+    assembly_code = manager.compile()
 
-        with open(output_file, 'w') as file:
-            file.write(assembly_code)
+    with open(output_file, 'w') as file:
+        file.write(assembly_code)
 
-    except Exception as e:
-        print("Chaierr: {}".format(e))
-        exit(1)
+    print("Compilation succeeded.")
+
+    # except Exception as e:
+    #     print("Chaierr: {}".format(e))
+    #     exit(1)
 
 def main():
     arguments = parse_arguments()

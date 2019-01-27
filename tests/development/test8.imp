@@ -1,0 +1,9 @@
+DECLARE
+    a; b; c; d;
+    n; m; reszta; potega; dzielnik;
+IN
+    READ n;
+
+    WHILE n > 20 DO
+        j 
+END

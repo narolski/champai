@@ -320,7 +320,7 @@ class ChaiStat(ChaiMan):
                 for j in range(0, len(translated_commands)):
                     jump_command_candidate = translated_commands[j].split()
 
-                    if placeholder in jump_command_candidate[-1]:
+                    if placeholder == jump_command_candidate[-1]:
                         # Replace placeholder in JUMP/JODD/JZERO with absolute index
                         jump_command_candidate[-1] = str(i)
                         translated_commands[j] = ' '.join(jump_command_candidate)

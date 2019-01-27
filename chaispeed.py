@@ -34,7 +34,15 @@ class ChaiSpeed:
                 occurences[operation.to_variable.pidentifier] += 1
 
             elif isinstance(operation, Write):
-                occurences[operation.from_variable.pidentifier] += 1
+
+                if isinstance(operation.from_variable, Int):
+                    occurences[operation.from_variable.pidentifier] += 1
+
+                elif isinstance(operation.from_variable, IntArrayElement):
+                    occurences[operation.from_variable.array.pidentifier] += 1
+
+                    if isinstance(operation.from_variable.value_holder, Int):
+                        occurences[operation.from_variable.value_holder.pidentifier] += 1
 
             elif isinstance(operation, Assign):
                 occurences[operation.identifier.pidentifier] += 1
@@ -142,14 +150,20 @@ class ChaiSpeed:
         :param self:
         :return:
         """
-        current_globs = self.global_variables
-        current_mems = self.memory_indexes
+        current_globs = self.global_variables.copy()
+        current_mems = self.memory_indexes.copy()
+
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("Current globs: {}, current mems: {}".format(current_globs, current_mems))
+        logging.debug("Passed occurences: {}".format(occurences))
 
         global_vars = {}
         mem_indexes = {}
         next_free_mem_index = 0
 
         for pidentifier, value in sorted(occurences.items(), key=operator.itemgetter(1), reverse=True):
+
+            logging.debug("Pidentifier, value: ({}, {})".format(pidentifier, value))
 
             if pidentifier in self.global_variables.keys() and pidentifier in self.memory_indexes.keys():
                 object = self.get_object_from_memory(pidentifier=pidentifier)
@@ -188,19 +202,21 @@ class ChaiSpeed:
                 del self.memory_indexes[pidentifier]
                 del self.global_variables[pidentifier]
 
-        if len(self.global_variables) > 0 or len(self.memory_indexes) > 0:
-            # Panic mode
-            logging.debug("Panic mode for rearranging vars. Globs contents: {}, indexes: {}".format(
-                self.global_variables, self.memory_indexes))
-            self.global_variables = current_globs
-            self.memory_indexes = current_mems
+        # if len(self.global_variables) > 0 or len(self.memory_indexes) > 0:
+        #     # Panic mode
+        #     logging.debug("Panic mode for rearranging vars. Globs contents: {}, indexes: {}".format(
+        #         self.global_variables, self.memory_indexes))
+        #     self.global_variables = current_globs
+        #     self.memory_indexes = current_mems
 
-        else:
+        # else:
             # All is fine, so make the change!
-            logging.debug("Making change to memory!")
-            self.global_variables = global_vars
-            self.memory_indexes = mem_indexes
-            self.next_free_memory_index
+            # logging.debug("Making change to memory!")
+        logging.debug("Global vars: {}, mem_indexes: {} after all of that fun".format(global_vars, mem_indexes))
+
+        self.global_variables = global_vars
+        self.memory_indexes = mem_indexes
+        self.next_free_memory_index
 
     def optimize_memory_allocations(self, parse_tree):
         """
