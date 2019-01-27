@@ -336,7 +336,7 @@ class ChaiStat(ChaiMan):
         Runs the code
         :return:
         """
-        logging.basicConfig(level=logging.FATAL)
+        logging.basicConfig(level=logging.DEBUG)
 
         # Divide the program into header (declarations) and code
         header = self.parse_tree[0]
@@ -349,10 +349,13 @@ class ChaiStat(ChaiMan):
         logging.debug("Global variables: {}".format(self.global_variables))
         logging.debug("Assigned indexes: {}".format(self.memory_indexes))
 
+        # logging.debug("Occurences: {}".format(self.count_occurences(parse_tree=body)))
+
+        logging.debug("Global variables: {}".format(self.global_variables))
+        logging.debug("Assigned indexes: {}".format(self.memory_indexes))
+
         output = self.translate(body)
         output.append('HALT')
-
-        logging.debug("Chaistat output: {}".format(output))
 
         # NOTE: Need to go through twice to eliminate double-jumps in single line.
         output = self.insert_jumps(output)

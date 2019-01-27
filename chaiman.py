@@ -1,5 +1,8 @@
 # chaiman.py
+import logging
+
 from scope.chaivars import *
+from scope.chaiflow import *
 
 
 class ChaiMan:
@@ -83,3 +86,5 @@ class ChaiMan:
         :return:
         """
         return self.global_variables[variable.pidentifier].get_value_has_been_set_status()
+
+

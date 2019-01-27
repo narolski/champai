@@ -54,6 +54,7 @@ class IntArray(Variable):
             self.length = self.to_val - self.from_val + 1 + 1 # because of storing offset
         else:
             raise Exception("Invalid array bounds: declared IntArray[{}:{}]".format(self.from_val, self.to_val))
+
         super().__init__(pidentifier, lineno)
 
     def __repr__(self):

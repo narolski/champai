@@ -4,6 +4,7 @@ import argparse
 from chailex import ChaiLex
 from chaiparse import ChaiParse
 from chaistat import ChaiStat
+from chaispeed import ChaiSpeed
 
 
 def parse_arguments():
@@ -16,7 +17,7 @@ def parse_arguments():
     parser.add_argument(
         'input_file',
         help='.imp file containing code in GLang'
-        )
+    )
 
     parser.add_argument(
         '--out',
@@ -38,23 +39,29 @@ def perform_compilation(input_file, output_file):
     with open(input_file, 'r') as file:
         code = file.read()
 
-    try:
-        tree = parser.parse(lexer.tokenize(code))
-        manager = ChaiStat(parse_tree=tree, global_variables=parser.global_variables, memory_indexes=parser.memory_indexes,
-                       next_free_memory_index=parser.next_free_memory_index)
+    # try:
+    tree = parser.parse(lexer.tokenize(code))
 
-        assembly_code = manager.compile()
-    except Exception as e:
-        print(e)
-        exit(1)
+    optimizer = ChaiSpeed(global_variables=parser.global_variables,
+                          memory_indexes=parser.memory_indexes, next_free_memory_index=parser.next_free_memory_index)
+
+    optimizer.optimize_memory_allocations(parse_tree=tree[1])
+
+    manager = ChaiStat(parse_tree=tree, global_variables=optimizer.global_variables,
+                       memory_indexes=optimizer.memory_indexes,
+                       next_free_memory_index=optimizer.next_free_memory_index)
+
+    assembly_code = manager.compile()
 
     with open(output_file, 'w') as file:
-            file.write(assembly_code)
+        file.write(assembly_code)
+    # except Exception as e:
+    #     print(e)
+    #     exit(1)
 
 def main():
     arguments = parse_arguments()
     perform_compilation(arguments.input_file, arguments.out)
-
 
 if __name__ == "__main__":
     main()
