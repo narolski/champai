@@ -53,7 +53,8 @@ class IntArray(Variable):
             self.offset = self.from_val
             self.length = self.to_val - self.from_val + 1 + 1 # because of storing offset
         else:
-            raise Exception("Invalid array bounds: declared IntArray[{}:{}]".format(self.from_val, self.to_val))
+            raise Exception("chaivars IntArray: invalid array bounds for declared IntArray[{}:{}], line {}".format(
+                self.from_val, self.to_val, lineno))
 
         super().__init__(pidentifier, lineno)
 

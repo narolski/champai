@@ -77,7 +77,8 @@ class ChaiMan:
         if variable.pidentifier in self.global_variables.keys():
             self.global_variables[variable.pidentifier].set_value_has_been_set()
         else:
-            raise Exception("Assigning value to undeclared variable '{}'".format(variable.pidentifier))
+            raise Exception("chaiman set_variable_assigned_to_value: trying to set value to undeclared variable"
+                            " '{}', line {}".format(variable.pidentifier, variable.lineno))
 
     def get_variable_assigned_to_value(self, variable):
         """

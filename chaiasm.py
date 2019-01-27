@@ -97,7 +97,8 @@ class ChaiAsm(ChaiMan):
                                                                      target_registry=target_registry))
         else:
             raise Exception(
-                "generate_get_value: variable '{}' referenced before assignment".format(operand.pidentifier))
+                "generate_get_value: variable '{}' referenced before assignment, line {}".format(operand.pidentifier,
+                                                                                              operand.lineno))
 
         return code
 
@@ -346,12 +347,18 @@ class ChaiAsm(ChaiMan):
         if isinstance(from_variable, int):
             code.extend(self.generate_value(value=from_variable))
 
-        elif isinstance(from_variable, Int):
-            code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
-                from_variable)))
+        elif self.get_variable_assigned_to_value(variable=from_variable):
 
-        elif isinstance(from_variable, IntArrayElement):
-            code.extend(self.generate_get_value_of_array_element(array_element=from_variable))
+            if isinstance(from_variable, Int):
+                code.extend(self.generate_get_value_of_variable(memory_index=self.get_object_memory_location(
+                    from_variable)))
+
+            elif isinstance(from_variable, IntArrayElement):
+                code.extend(self.generate_get_value_of_array_element(array_element=from_variable))
+
+        else:
+            raise Exception("generate_write: variable '{}' referenced before assignment, line {}".format(
+                from_variable.pidentifier, from_variable.lineno))
 
         code.append('PUT {}'.format(Registries.Value.value))
         return code

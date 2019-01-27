@@ -173,6 +173,8 @@ class ChaiSpeed:
                 if isinstance(object, Int):
 
                     if object.get_is_iterator():
+                        global_vars[pidentifier].set_as_iterator()
+
                         # Declare iterator helpers here!
                         lbound = Int(pidentifier='for_lbound_{}'.format(object.pidentifier),
                                      lineno=object.lineno)

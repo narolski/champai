@@ -55,8 +55,26 @@ class ChaiStat(ChaiMan):
         """
         code = []
         to = assignment.identifier
-        # logging.debug("Assignment details: to: {}".format(to))
         # logging.debug("Unwrap expression: {}".format(assignment.expression.return_value().pidentifier))
+
+        # Error handling
+        if not isinstance(to, (Int, IntArrayElement)):
+            raise Exception("chaistat assign: invalid assignment occured for '{}' in line {}".format(to, to.lineno))
+
+        elif isinstance(self.get_object_from_memory(pidentifier=to.pidentifier), IntArray):
+            if isinstance(to, Int):
+                raise Exception("chaistat assign: invalid assignment occured to array '{}' instead of array "
+                            "element, line {}".format(to.pidentifier, to.lineno))
+
+        elif isinstance(to, IntArrayElement):
+            if not isinstance(self.get_object_from_memory(pidentifier=to.pidentifier), IntArray):
+                raise Exception("chaistat assign: invalid assignment occured to variable '{}' which is not an element of array in line {}".format(to.pidentifier, to.lineno))
+
+        elif isinstance(to, Int):
+            obj = self.get_object_from_memory(pidentifier=to.pidentifier)
+            if obj.get_is_iterator():
+                raise Exception("chaistat assign: invalid assignment of value to loop iterator '{}' in line {}".format(
+                    to.pidentifier, to.lineno))
 
         expression_code, result_reg = self.unwrap_expression(assignment.expression)
 

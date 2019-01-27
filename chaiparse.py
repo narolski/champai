@@ -36,7 +36,8 @@ class ChaiParse(Parser):
             elif isinstance(variable, IntArray):
                 self.next_free_memory_index += variable.length
         else:
-            raise Exception("chaiparse: variable with pidentifier {} was already declared".format(variable.pidentifier))
+            raise Exception("chaiparse declare_global_variable: variable with pidentifier {} was already "
+                            "declared, line {}".format(variable.pidentifier, variable.lineno))
 
     def get_global_variable(self, pidentifier):
         return self.global_variables[pidentifier]
@@ -129,7 +130,7 @@ class ChaiParse(Parser):
 
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
-        iterator.set_value_has_been_set()
+        # iterator.set_value_has_been_set()
 
         if iterator.pidentifier not in self.global_variables.keys():
             self.declare_global_variable(iterator)
@@ -144,7 +145,7 @@ class ChaiParse(Parser):
 
         iterator = Int(pidentifier=p[1], lineno=p.lineno)
         iterator.set_as_iterator()
-        iterator.set_value_has_been_set()
+        # iterator.set_value_has_been_set()
 
         if iterator.pidentifier not in self.global_variables.keys():
             self.declare_global_variable(iterator)
@@ -223,8 +224,7 @@ class ChaiParse(Parser):
 
     # Error handling
     def error(self, p):
-        # logging.error("Line {}, unknown input {}".format(p.lineno, p.value))
-        raise Exception("Unknown input '{}' in line {}".format(p.value, p.lineno))
+        raise Exception("chaiparse: unknown input '{}' in line {}".format(p.value, p.lineno))
 
 
 
