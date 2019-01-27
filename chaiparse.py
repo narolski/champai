@@ -40,7 +40,10 @@ class ChaiParse(Parser):
                             "declared, line {}".format(variable.pidentifier, variable.lineno))
 
     def get_global_variable(self, pidentifier):
-        return self.global_variables[pidentifier]
+        if pidentifier in self.global_variables.keys():
+            return self.global_variables[pidentifier]
+        else:
+            raise Exception("chaiparse get_global_variable: invalid access to variable '{}'".format(pidentifier))
 
     def solve_iterator_collision(self):
         num = self.iterator_num

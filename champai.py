@@ -56,10 +56,10 @@ def perform_compilation(input_file, output_file):
         with open(output_file, 'w') as file:
             file.write(assembly_code)
 
-        print("Compilation succeeded!")
+        print("champai: compilation succeeded!")
 
     except Exception as e:
-        print("An error has occured during the compilation\n{}".format(e))
+        print("An error has occured during the compilation of '{}'\n{}".format(input_file, e))
         exit(1)
 
 def main():

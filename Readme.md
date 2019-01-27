@@ -2,6 +2,8 @@
 
 Champai jest kompilatorem prostego języka imperatywnego `glang` do kodu maszyny rejestrowej `GVM` powstałym na potrzeby kursu *Języki Formalne i Techniki Translacji* realizowanego w ramach studiów informatyki na *Wydziale Podstawowych Problemów Techniki* Politechniki Wrocławskiej.
 
+### O kompilatorze
+
 Champai został napisany w języku `Python` w oparciu o `SLY` - nowoczesną implementację narzędzi `lex` i `yacc` powszechnie wykorzystywanych do tworzenia parserów i kompilatorów. Tworzony z myślą o rozszerzalności i prostocie utrzymania, Champai charakteryzuje nieskomplikowana budowa i dobrze udokumentowany kod źródłowy.
 
 ## Wymagania systemowe
@@ -31,4 +33,6 @@ $ python3 champai.py -h
 ```
 
 ## Geneza nazwy
-Nazwa Champai bierze się najprawdopodniej z języka fińskiego i powiązana jest z popularnym wśród tamtejszych górali zwrotem `jano, jano, jano!`. Po więcej szczegółów w tej sprawie odsyłam do Macieja Kabały.
+Nazwa Champai bierze się najprawdopodniej z języka fińskiego i powiązana jest z popularnym wśród tamtejszych górali zwrotem `jano, jano, jano!`[^1]. 
+
+[^1]: Na podstawie wypowiedzi znawcy kultur ugrofińskich, dr *in spe* Macieja Kabały.

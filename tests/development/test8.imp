@@ -4,6 +4,10 @@ DECLARE
 IN
     READ n;
 
-    WHILE n > 20 DO
-        j 
+    FOR i FROM 0 TO n DO
+        n := 20;
+        WRITE i;
+    ENDFOR
+
+    WRITE n;
 END
